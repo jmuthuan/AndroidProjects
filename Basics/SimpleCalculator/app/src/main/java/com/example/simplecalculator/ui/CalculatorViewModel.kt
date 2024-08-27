@@ -78,7 +78,7 @@ class CalculatorViewModel: ViewModel() {
 
     fun backspace() {
         if(_uiState.value.currentOperation.last() == '(') {
-//            val aux = mapParenthesis.keys
+
             mapParenthesis.remove(
                 mapParenthesis.filter { element ->
                     element.key[0] == parenthesisCount - 1
@@ -130,12 +130,11 @@ class CalculatorViewModel: ViewModel() {
                 parenthesisCount--
             }
         }
-
-        _uiState.update { currentState ->
-            currentState.copy(
-                currentOperation = _uiState.value.currentOperation + append
-            )
-        }
+            _uiState.update { currentState ->
+                currentState.copy(
+                    currentOperation = _uiState.value.currentOperation + append
+                )
+            }
     }
 
     private fun resolveCalculation(): String {
@@ -145,7 +144,6 @@ class CalculatorViewModel: ViewModel() {
 
         solveParenthesis()
         return calculateSubResult(auxOperation).toString()
-
     }
 
     private fun calculateSubResult(operation: String): Double {
@@ -200,7 +198,7 @@ class CalculatorViewModel: ViewModel() {
             ) {
 
             val i = sub2.indexOfFirst { it in "+-" }
-//            val auxOperator = sub2[i]
+
             when(operator) {
                 'x' -> {
                     sub1 =
@@ -246,16 +244,16 @@ class CalculatorViewModel: ViewModel() {
             parenthesisCount = 0
         }
 
-        var auxMap = mapParenthesis
+        var auxMap = mapParenthesis.toMutableMap()
 
         while (auxMap.isNotEmpty()) {
             val offset = auxOperation.length
             val aux = auxMap.maxBy { it.key[0] }
-            var startIndex = 0
-            var endIndex = auxOperation.length
+//            var startIndex = 0
+//            var endIndex = auxOperation.length
 
-            startIndex = aux.key[1] + 1
-            endIndex = aux.value
+            val startIndex = aux.key[1] + 1
+            val endIndex = aux.value
 
             auxOperation = auxOperation.replaceRange(
                 startIndex = startIndex - 1,

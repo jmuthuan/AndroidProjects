@@ -1,6 +1,6 @@
 package com.example.simplecalculator.ui
 
 data class CalculatorUiState(
-    val currentOperation: String = "",
+    var currentOperation: String = "",
     val result: String = ""
 )
