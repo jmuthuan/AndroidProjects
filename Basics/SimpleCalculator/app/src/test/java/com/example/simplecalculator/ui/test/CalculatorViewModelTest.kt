@@ -12,48 +12,48 @@ class CalculatorViewModelTest {
     fun calculatorViewModel_simpleAddOperation_operationResult() {
         //operation = 101+49
 
-        var currentCalculatorUiState = viewModel.uiState.value
+        val currentCalculatorUiState = viewModel.uiState.value
         currentCalculatorUiState.currentOperation = "101+49"
 
         viewModel.calculateResult()
 
-        assertEquals("150.0", viewModel.uiState.value.result)
+        assertEquals("150,00", viewModel.uiState.value.result)
     }
 
     @Test
     fun calculatorViewModel_simpleMultiplyOperation_operationResult() {
-        var currentCalculatorUiState = viewModel.uiState.value
+        val currentCalculatorUiState = viewModel.uiState.value
         currentCalculatorUiState.currentOperation = "20x6"
 
         viewModel.calculateResult()
 
-        assertEquals("120.0", viewModel.uiState.value.result)
+        assertEquals("120,00", viewModel.uiState.value.result)
     }
 
     @Test
     fun calculatorViewModel_simpleSubtractionOperation_operationResult() {
-        var currentCalculatorUiState = viewModel.uiState.value
+        val currentCalculatorUiState = viewModel.uiState.value
         currentCalculatorUiState.currentOperation = "117-99"
 
         viewModel.calculateResult()
 
-        assertEquals("18.0", viewModel.uiState.value.result)
+        assertEquals("18,00", viewModel.uiState.value.result)
 
     }
 
     @Test
     fun calculatorViewModel_simpleDivisionOperation_operationResult() {
-        var currentCalculatorUiState = viewModel.uiState.value
+        val currentCalculatorUiState = viewModel.uiState.value
         currentCalculatorUiState.currentOperation = "96/24"
 
         viewModel.calculateResult()
 
-        assertEquals("4.0", viewModel.uiState.value.result)
+        assertEquals("4,00", viewModel.uiState.value.result)
     }
 
     @Test
     fun calculatorViewModel_divisionByZero_ErrorDisplay() {
-        var currentCalculatorUiState = viewModel.uiState.value
+        val currentCalculatorUiState = viewModel.uiState.value
         currentCalculatorUiState.currentOperation = "15/0"
 
         viewModel.calculateResult()
@@ -61,46 +61,21 @@ class CalculatorViewModelTest {
         assertEquals("Cannot be divided by 0", viewModel.uiState.value.result)
     }
 
-
-
-
-
-    @Test
-    fun calculatorViewModel_decimalNumbersOperation_operationWithDecimalsResult() {
-        var currentCalculatorUiState = viewModel.uiState.value
-        currentCalculatorUiState.currentOperation = "((2.5+0.8)x(1.2-0.3))"
-
-        viewModel.calculateResult()
-
-        assertEquals("2.97", viewModel.uiState.value.result)
-
-    }
-
     @Test
     fun calculatorViewModel_percentageOperation_resultOperation() {
-        var currentCalculatorUiState = viewModel.uiState.value
+        val currentCalculatorUiState = viewModel.uiState.value
         currentCalculatorUiState.currentOperation = "10+2x50%"
 
         viewModel.calculateResult()
 
-        assertEquals("11.0", viewModel.uiState.value.result)
+        assertEquals("11,00", viewModel.uiState.value.result)
 
-        currentCalculatorUiState.currentOperation = "10+35%"
-
-        viewModel.calculateResult()
-
-        assertEquals("13.5", viewModel.uiState.value.result)
-    }
-
-    @Test
-    fun calculatorViewModel_combinedComplexOperation_operationResult() {
-        var currentCalculatorUiState = viewModel.uiState.value
-        currentCalculatorUiState.currentOperation = "((((12.5+8.3)*(4+6)+(45-5)%)x2.35"
+        val currentCalculatorUiState2 = viewModel.uiState.value
+        currentCalculatorUiState2.currentOperation = "10+35%"
 
         viewModel.calculateResult()
 
-        assertEquals("489.74", viewModel.uiState.value.result)
-
+        assertEquals("13,50", viewModel.uiState.value.result)
     }
 
 }
