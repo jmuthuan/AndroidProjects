@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.math.round
 
 class CalculatorViewModel: ViewModel() {
     //Calculator UI state
@@ -13,7 +12,6 @@ class CalculatorViewModel: ViewModel() {
     private val _uiState = MutableStateFlow(CalculatorUiState())
     val uiState: StateFlow<CalculatorUiState> = _uiState.asStateFlow()
 
-    private var openParenthesis = true
     private var parenthesisCount = 0
     private var mapParenthesis = mutableMapOf<Array<Int>, Int>()
 
@@ -21,8 +19,9 @@ class CalculatorViewModel: ViewModel() {
 
     fun clearDisplay() {
         _uiState.value = CalculatorUiState()
-        openParenthesis = true
         parenthesisCount = 0
+        mapParenthesis.clear()
+        auxOperation = ""
     }
 
     init {
@@ -45,23 +44,34 @@ class CalculatorViewModel: ViewModel() {
     private fun checkOperation(appendOperation: Char) {
         //get last operation character
         val lastChar = _uiState.value.currentOperation.lastOrNull()
+        var auxAppend = ""
 
         //check operation append
         if(lastChar == null) {
-            _uiState.update { currentState ->
-                currentState.copy(
-                    currentOperation = "0$appendOperation"
-                )
+            auxAppend = "0$appendOperation"
+        }
+        else if(appendOperation == '%') {
+            if(isNumber(lastChar) && lastChar != '.' || lastChar == ')') {
+                auxAppend = "%"
             }
-        } else {
+        }
+        else if(appendOperation == '.') {
+            val flag = _uiState.value.currentOperation.contains(Regex("[0-9]+\\.[0-9]+\\Z"))
+            if (isNumber(lastChar) && lastChar != '.' && !flag) {
+                auxAppend = "."
+            }
+        }
+        else {
             if(lastChar !in ")%" && !isNumber(lastChar) && !isNumber(appendOperation)) {
                 backspace()
             }
-            _uiState.update { currentState ->
-                currentState.copy(
-                    currentOperation = _uiState.value.currentOperation + appendOperation
-                )
-            }
+            auxAppend = appendOperation.toString()
+        }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentOperation = _uiState.value.currentOperation + auxAppend
+            )
         }
     }
 
@@ -70,16 +80,19 @@ class CalculatorViewModel: ViewModel() {
     }
 
     fun calculateResult() {
+        val result = resolveCalculation()
+
         _uiState.update { currentState ->
             currentState.copy(
-                result =  resolveCalculation()
+                result =  result
             )
         }
     }
 
     fun backspace() {
-        if(_uiState.value.currentOperation.last() == '(') {
+        val lastChar = _uiState.value.currentOperation.lastOrNull()
 
+        if(lastChar == '(') {
             mapParenthesis.remove(
                 mapParenthesis.filter { element ->
                     element.key[0] == parenthesisCount - 1
@@ -88,7 +101,7 @@ class CalculatorViewModel: ViewModel() {
                 }.keys.first()
             )
             parenthesisCount--
-        } else if(_uiState.value.currentOperation.last() == ')') {
+        } else if(lastChar == ')') {
             val aux = mapParenthesis.filter {
                     element -> element.value == _uiState.value.currentOperation.length - 1
             }
@@ -96,10 +109,12 @@ class CalculatorViewModel: ViewModel() {
             mapParenthesis[aux.keys.first()] = -1
         }
 
-        _uiState.update { currentState ->
-            currentState.copy(
-                currentOperation = _uiState.value.currentOperation.dropLast(1)
-            )
+        if (lastChar != null) {
+            _uiState.update { currentState ->
+                currentState.copy(
+                    currentOperation = _uiState.value.currentOperation.dropLast(1)
+                )
+            }
         }
     }
 
@@ -143,14 +158,17 @@ class CalculatorViewModel: ViewModel() {
         //step 2: solve multiplication & division
         //step 3: solve addition and subtraction
 
-        solveParenthesis()
-//        solvePercentages()
-        val subResult =  calculateSubResult(auxOperation)
+        try {
+            solveParenthesis()
+            val subResult =  calculateSubResult(auxOperation)
 
-        if (auxOperation.contains("Cannot be divided by 0")) {
-            return auxOperation
+            if (auxOperation.contains("Cannot be divided by 0")) {
+                return auxOperation
+            }
+            return "%.2f".format(subResult.replace(',', '.').toDouble())
+        } catch (e: Exception) {
+            return "Syntax error"
         }
-        return "%.2f".format(subResult.toDouble())
     }
 
     private fun calculateSubResult(operation: String): String {
@@ -164,34 +182,33 @@ class CalculatorViewModel: ViewModel() {
         }
 
         val result = when(temp.firstOrNull { !isNumber(it) }) {
-            'x' -> { multiply(temp).toString() }
-            '/' -> { divide(temp)}
-            '+' -> { add(temp).toString() }
-            '-' -> { subtract(temp).toString() }
-//            '%' -> { percentage(operation).toString() }
+            'x' -> { multiply(temp) }
+            '/' -> { divide(temp) }
+            '+' -> { add(temp) }
+            '-' -> { subtract(temp) }
             else -> { temp }
         }
 
         return result
     }
 
-    private fun subtract(operation: String): Double {
+    private fun subtract(operation: String): String {
         val result = simplify(operation, '-')
 
-        return result[0] - result[1]
+        return "%.4f".format(result[0] - result[1])
     }
 
-    private fun add(operation: String): Double {
+    private fun add(operation: String): String {
         val result = simplify(operation, '+')
 
-        return result[0] + result[1]
+        return "%.4f".format(result[0] + result[1])
     }
 
     private fun divide(operation: String): String {
         val result = simplify(operation, '/')
 
         return if( result[1] != 0.0) {
-            (result[0] / result[1]).toString()
+            "%.4f".format(result[0] / result[1])
         } else {
             auxOperation = "Cannot be divided by 0"
             "0.0"
@@ -199,23 +216,53 @@ class CalculatorViewModel: ViewModel() {
     }
 
 
-    private fun multiply(operation: String): Double {
+    private fun multiply(operation: String): String {
         val result = simplify(operation, 'x')
 
-        return result[0] * result[1]
+        return "%.4f".format(result[0] * result[1])
     }
 
     private fun solvePercentages(operation: String): String {
-        //case 1: percentage after sum or subt: 15+30%
+        //case 1: percentage after sum or sub: 15+30%
         //case 2: percentage after multiply/divide: 10x50%
         //case 3: percentage after parenthesis: (4+6)50%
         //case 4: multiple % operations: 50%%%
-//        auxOperation = _uiState.value.currentOperation
+
         auxOperation = operation
         while(auxOperation.contains('%')) {
             when(true) {
-                auxOperation.contains(Regex("[+-]?[0-9]+[+-][0-9]+%[+-]?")) -> {
-                    val found = Regex("[+-]?[0-9]+[+-][0-9]+%[+-]?").find(auxOperation)
+                auxOperation.contains(Regex("[0.0-9]+[x/][0.0-9]+%"))  -> {
+                    val found = Regex("[0.0-9]+[x/][0.0-9]+%").find(auxOperation)//check
+                    auxOperation = auxOperation.replaceRange(
+                        found!!.range, found.value.replace("%", "/100")
+                    )
+                    //offset mapParenthesis
+                    val indexOfPercentage = found.value.indexOf('%') + found.range.first
+                    val offset = 3
+
+                    offsetParenthesis(offset, indexOfPercentage)
+                }
+
+                auxOperation.contains(Regex("[0.0-9]+%[x/][0.0-9]+")) -> {
+                    val found = Regex("[0.0-9]+%[x/][0.0-9]+").find(auxOperation)
+
+                    val index = found!!.value.indexOf('%')
+                    val sub1 = found.value.substring(0, index )
+                    val sub2 = found.value.substring(index+1)
+
+                    val newValue = calculateSubResult("${sub1}/100")
+                    auxOperation = auxOperation.replaceRange(
+                        found.range, "${newValue}${sub2}"
+                    )
+                    //offset mapParenthesis
+                    val indexOfPercentage = found.value.indexOf('%') + found.range.first
+                    val offset = (newValue.length + sub2.length) - found.value.length
+
+                    offsetParenthesis(offset, indexOfPercentage)
+                }
+
+                auxOperation.contains(Regex("[+-]?[0.0-9]+[+-][0.0-9]+%[+-]?")) -> {
+                    val found = Regex("[+-]?[0.0-9]+[+-][0.0-9]+%[+-]?").find(auxOperation)
 
                     var foundValue = found?.value
 
@@ -227,25 +274,21 @@ class CalculatorViewModel: ViewModel() {
                     val sub1 = foundValue.substring(0, operatorIndex)
 
                     auxOperation = auxOperation.replaceRange(
-                            found!!.range, found.value.replace("%", "x${sub1}/100")
+                        found!!.range, found.value.replace("%", "x${sub1}/100")
                     )
                     //offset mapParenthesis
                     val indexOfPercentage = found.value.indexOf('%') + found.range.first
                     val offset = sub1.length + 4
 
                     offsetParenthesis(offset, indexOfPercentage)
-
                 }
 
                 else -> {
-                    val found = Regex("[0-9]+[x/][0-9]+%").find(auxOperation)
+                    //replace % by /100
+                    val indexOfPercentage = auxOperation.indexOfFirst { it == '%' }
                     auxOperation = auxOperation.replaceRange(
-                        found!!.range, found.value.replace("%", "/100")
-                    )
-                    //offset mapParenthesis
-                    val indexOfPercentage = found.value.indexOf('%') + found.range.first
+                        indexOfPercentage, indexOfPercentage + 1, "/100")
                     val offset = 3
-
                     offsetParenthesis(offset, indexOfPercentage)
                 }
             }
@@ -285,26 +328,20 @@ class CalculatorViewModel: ViewModel() {
 
             val i = sub2.indexOfFirst { it in "+-%" }
             if(sub2[i] == '%') {
-                sub1 = multiply("${sub1}x${sub2.substring(0, i)}/100").toString()//6.0
+                sub1 = multiply("${sub1}x${sub2.substring(0, i)}/100")
                 val j = sub2.indexOfFirst { it in "+-" }
                 sub2 = if (j != -1) sub2.substring(j) else sub2
 
                 sub1 = calculateSubResult("${sub1}${sub2}")
 
-                return arrayOf(sub1.toDouble(), 1.0)
+                return arrayOf(sub1.replace(',', '.').toDouble(), 1.0)
             }
             when(operator) {
-                'x' -> {
-                    sub1 =
-                        multiply("${sub1}x${sub2.substring(0, i)}")
-                            .toString()
-                }
-                '/' -> {
-                    sub1 = divide("${sub1}/${sub2.substring(0, i)}")
-                }
+                'x' -> { sub1 = multiply("${sub1}x${sub2.substring(0, i)}") }
+                '/' -> { sub1 = divide("${sub1}/${sub2.substring(0, i)}") }
             }
             sub1 = calculateSubResult("${sub1}${sub2.substring(i)}")
-            return arrayOf(sub1.toDouble(), 1.0)
+            return arrayOf(sub1.replace(',', '.').toDouble(), 1.0)
         }
 
         if ( !sub2.all { isNumber(it) }) {
@@ -316,8 +353,8 @@ class CalculatorViewModel: ViewModel() {
             sub2 = calculateSubResult(sub2)
         }
 
-        val num1 = sub1.toDouble()
-        val num2 = sub2.toDouble()
+        val num1 = sub1.replace(',', '.').toDouble()
+        val num2 = sub2.replace(',', '.').toDouble()
 
         return arrayOf(num1, num2)
     }

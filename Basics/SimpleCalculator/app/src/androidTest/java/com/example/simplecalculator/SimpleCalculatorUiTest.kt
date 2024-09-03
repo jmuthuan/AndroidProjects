@@ -14,7 +14,7 @@ class SimpleCalculatorUiTest {
     val composeTestRule = createComposeRule()
 
     @Test
-    fun calculatorViewModel_parenthesisSolving_operationWithParenthesisResult() {
+    fun calculatorUi_parenthesisSolving_operationWithParenthesisResult() {
         composeTestRule.setContent {
             SimpleCalculatorTheme {
                 CalculatorScreen()
@@ -45,12 +45,12 @@ class SimpleCalculatorUiTest {
         composeTestRule.onNodeWithText("=").performClick()
 
 
-        composeTestRule.onNodeWithText("240.0").assertExists("No node with this result")
+        composeTestRule.onNodeWithText("240.00").assertExists("No node with this result")
     }
 
 
     @Test
-    fun calculatorViewModel_parenthesisLeftOpenSolving_operationWithOpenParenthesisResult() {
+    fun calculatorUi_parenthesisLeftOpenSolving_operationWithOpenParenthesisResult() {
         composeTestRule.setContent {
             SimpleCalculatorTheme {
                 CalculatorScreen()
@@ -79,7 +79,91 @@ class SimpleCalculatorUiTest {
 
         composeTestRule.onNodeWithText("=").performClick()
 
-       composeTestRule.onNodeWithText("240.0").assertExists("No node with this result")
+       composeTestRule.onNodeWithText("240.00").assertExists("No node with this result")
+
+    }
+
+
+    @Test
+    fun calculatorUi_decimalNumbersOperation_operationWithDecimalsResult() {
+        //operation: "((2.5+0.8)x(1.2-0.3))"
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("2").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("5").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("0").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("8").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("x").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("1").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("2").performClick()
+        composeTestRule.onNodeWithText("-").performClick()
+        composeTestRule.onNodeWithText("0").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("3").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+
+        composeTestRule.onNodeWithText("=").performClick()
+
+        composeTestRule.onNodeWithText("2.97").assertExists("No node with this result")
+    }
+
+
+    @Test
+    fun calculatorUi_combinedComplexOperation_operationResult() {
+        //operation: "((((12.5+8.3)*(4+6)+(45-5)%)x2.35" = 208.94
+
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        repeat(4) { composeTestRule.onNodeWithText("()").performClick() }
+        composeTestRule.onNodeWithText("1").performClick()
+        composeTestRule.onNodeWithText("2").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("5").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("8").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("3").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("x").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("4").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("6").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("4").performClick()
+        composeTestRule.onNodeWithText("5").performClick()
+        composeTestRule.onNodeWithText("-").performClick()
+        composeTestRule.onNodeWithText("5").performClick()
+        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("%").performClick()
+        composeTestRule.onNodeWithText("x").performClick()
+        composeTestRule.onNodeWithText("2").performClick()
+        composeTestRule.onNodeWithText(".").performClick()
+        composeTestRule.onNodeWithText("3").performClick()
+        composeTestRule.onNodeWithText("5").performClick()
+
+        composeTestRule.onNodeWithText("=").performClick()
+
+        composeTestRule.onNodeWithText("208.94").assertExists("No node with this result")
 
     }
 }
