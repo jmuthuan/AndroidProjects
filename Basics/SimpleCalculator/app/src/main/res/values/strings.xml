@@ -18,6 +18,6 @@
     <string name="dot">.</string>
     <string name="equal">=</string>
     <string name="erase"></string>
-    <string name="parenthesis">()</string>
+    <string name="parenthesis">( )</string>
     <string name="clear">AC</string>
 </resources>

@@ -2,9 +2,11 @@ package com.example.simplecalculator.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
+import com.example.simplecalculator.R
 
 // Set of Material typography styles to start with
 val Typography = Typography(
@@ -31,4 +33,12 @@ val Typography = Typography(
         letterSpacing = 0.5.sp
     )
     */
+)
+
+val handjetFontFamily = FontFamily(
+    Font(R.font.handjet_regular, FontWeight.Normal)
+)
+
+val sevenSegmentFont = FontFamily(
+    Font(R.font.seven_segment, FontWeight.Normal)
 )
