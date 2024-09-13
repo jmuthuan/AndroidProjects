@@ -166,6 +166,7 @@ class CalculatorViewModel: ViewModel() {
                 return auxOperation
             }
             return "%.2f".format(subResult.replace(',', '.').toDouble())
+                .replace(',', '.')
         } catch (e: Exception) {
             return "Syntax error"
         }

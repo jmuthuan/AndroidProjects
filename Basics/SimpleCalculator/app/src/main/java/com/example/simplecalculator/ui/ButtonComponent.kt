@@ -74,8 +74,7 @@ fun ButtonComponent(
                     text = symbol,
                     fontFamily = handjetFontFamily,
                     color = Color.White,
-                    fontSize = 32.sp,
-//                    fontWeight = FontWeight.Normal
+                    fontSize = 24.sp
                 )
             }
 

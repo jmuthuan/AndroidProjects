@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
@@ -24,7 +25,7 @@ fun CalculatorScreen(
     ) {
     val calculatorUiState by calculatorViewModel.uiState.collectAsState()
 
-    Box(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 64.dp)) {
+    Box(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 32.dp)) {
         Column(modifier = Modifier
             .fillMaxSize()
             .align(Alignment.BottomCenter)
@@ -34,13 +35,13 @@ fun CalculatorScreen(
                 operation = calculatorUiState.currentOperation
             )
             Spacer(modifier = Modifier
-                .height(96.dp)
+                .height(8.dp)
             )
             InputButtonsComponent(
                 calculatorViewModel = calculatorViewModel,
                 modifier = Modifier
-                    .padding(vertical = 8.dp)
-                    .fillMaxHeight()
+                    .padding(vertical = 24.dp)
+                    .fillMaxWidth()
             )
         }
     }

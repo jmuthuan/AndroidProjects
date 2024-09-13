@@ -1,11 +1,14 @@
 package com.example.simplecalculator.ui
 
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.basicMarquee
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -24,6 +27,7 @@ import com.example.simplecalculator.ui.theme.DisplayShadowColorTop
 import com.example.simplecalculator.ui.theme.SimpleCalculatorTheme
 import com.example.simplecalculator.ui.theme.sevenSegmentFont
 
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun InputDisplayComponent(result: String, operation: String, modifier: Modifier = Modifier) {
     Box(
@@ -43,38 +47,47 @@ fun InputDisplayComponent(result: String, operation: String, modifier: Modifier 
             )
             .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colorScheme.onBackground)
-            .padding(vertical = 32.dp, horizontal = 16.dp)
-            .height(210.dp)
+            .padding(vertical = 16.dp, horizontal = 16.dp)
+//            .height(210.dp)
     ) {
         Column {
             Text(
                 text = result,
                 fontFamily = sevenSegmentFont,
                 fontWeight = FontWeight.Bold,
-                fontSize = 72.sp,
+                fontSize = 48.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Visible,
-                color = Color.White,
+                color = if(result.toDoubleOrNull() != null) Color.Green else Color.Red,
                 style = MaterialTheme.typography.headlineLarge.merge(
                     TextStyle(textAlign = TextAlign.End)
                 ),
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier
+                    .fillMaxWidth()
                     .padding(vertical = 8.dp)
+//                    .horizontalScroll(rememberScrollState())
+                    .basicMarquee(
+                        iterations = Int.MAX_VALUE,
+                        velocity = 100.dp,
+                        initialDelayMillis = 250
+                    )
             )
 
             Text(
                 text = operation,
                 fontFamily = sevenSegmentFont,
                 fontWeight = FontWeight.Black,
-                fontSize = 48.sp,
+                fontSize = 36.sp,
                 maxLines = 1,
                 overflow = TextOverflow.Visible,
-                color = Color.White,
+                color = Color.LightGray,
                 style = MaterialTheme.typography.headlineLarge.merge(
                     TextStyle(textAlign = TextAlign.End)
                 ),
-                modifier = Modifier.fillMaxWidth()
-                    .padding(top = 48.dp, bottom = 8.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp, bottom = 8.dp)
+                    .horizontalScroll(rememberScrollState())
             )
         }
     }
@@ -88,7 +101,6 @@ fun InputDisplayComponentPreview() {
         Box(
             modifier = Modifier
             .padding(16.dp)
-//            .background(Color.Black)
         ) {
             InputDisplayComponent(result = "100", operation = "15+85")
         }

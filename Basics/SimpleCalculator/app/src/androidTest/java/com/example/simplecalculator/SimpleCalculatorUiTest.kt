@@ -5,7 +5,6 @@ import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.example.simplecalculator.ui.CalculatorScreen
 import com.example.simplecalculator.ui.theme.SimpleCalculatorTheme
-import org.junit.Assert
 import org.junit.Rule
 import org.junit.Test
 
@@ -22,25 +21,25 @@ class SimpleCalculatorUiTest {
         }
 
         //operation: "((12+8)*(4+6)+(45-5))"
-        repeat(2){ composeTestRule.onNodeWithText("()").performClick() }
+        repeat(2){ composeTestRule.onNodeWithText("( )").performClick() }
         composeTestRule.onNodeWithText("1").performClick()
         composeTestRule.onNodeWithText("2").performClick()
         composeTestRule.onNodeWithText("+").performClick()
         composeTestRule.onNodeWithText("8").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("x").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("4").performClick()
         composeTestRule.onNodeWithText("+").performClick()
         composeTestRule.onNodeWithText("6").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("+").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("4").performClick()
         composeTestRule.onNodeWithText("5").performClick()
         composeTestRule.onNodeWithText("-").performClick()
         composeTestRule.onNodeWithText("5").performClick()
-        repeat(2){ composeTestRule.onNodeWithText("()").performClick() }
+        repeat(2){ composeTestRule.onNodeWithText("( )").performClick() }
 
         composeTestRule.onNodeWithText("=").performClick()
 
@@ -58,20 +57,20 @@ class SimpleCalculatorUiTest {
         }
 
         //operation: "((12+8)*(4+6)+(45-5"
-        repeat(2){ composeTestRule.onNodeWithText("()").performClick() }
+        repeat(2){ composeTestRule.onNodeWithText("( )").performClick() }
         composeTestRule.onNodeWithText("1").performClick()
         composeTestRule.onNodeWithText("2").performClick()
         composeTestRule.onNodeWithText("+").performClick()
         composeTestRule.onNodeWithText("8").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("x").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("4").performClick()
         composeTestRule.onNodeWithText("+").performClick()
         composeTestRule.onNodeWithText("6").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("+").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("4").performClick()
         composeTestRule.onNodeWithText("5").performClick()
         composeTestRule.onNodeWithText("-").performClick()
@@ -93,8 +92,8 @@ class SimpleCalculatorUiTest {
             }
         }
 
-        composeTestRule.onNodeWithText("()").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("2").performClick()
         composeTestRule.onNodeWithText(".").performClick()
         composeTestRule.onNodeWithText("5").performClick()
@@ -102,9 +101,9 @@ class SimpleCalculatorUiTest {
         composeTestRule.onNodeWithText("0").performClick()
         composeTestRule.onNodeWithText(".").performClick()
         composeTestRule.onNodeWithText("8").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("x").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("1").performClick()
         composeTestRule.onNodeWithText(".").performClick()
         composeTestRule.onNodeWithText("2").performClick()
@@ -112,8 +111,8 @@ class SimpleCalculatorUiTest {
         composeTestRule.onNodeWithText("0").performClick()
         composeTestRule.onNodeWithText(".").performClick()
         composeTestRule.onNodeWithText("3").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
 
         composeTestRule.onNodeWithText("=").performClick()
 
@@ -131,7 +130,7 @@ class SimpleCalculatorUiTest {
             }
         }
 
-        repeat(4) { composeTestRule.onNodeWithText("()").performClick() }
+        repeat(4) { composeTestRule.onNodeWithText("( )").performClick() }
         composeTestRule.onNodeWithText("1").performClick()
         composeTestRule.onNodeWithText("2").performClick()
         composeTestRule.onNodeWithText(".").performClick()
@@ -140,20 +139,20 @@ class SimpleCalculatorUiTest {
         composeTestRule.onNodeWithText("8").performClick()
         composeTestRule.onNodeWithText(".").performClick()
         composeTestRule.onNodeWithText("3").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("x").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("4").performClick()
         composeTestRule.onNodeWithText("+").performClick()
         composeTestRule.onNodeWithText("6").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("+").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("4").performClick()
         composeTestRule.onNodeWithText("5").performClick()
         composeTestRule.onNodeWithText("-").performClick()
         composeTestRule.onNodeWithText("5").performClick()
-        composeTestRule.onNodeWithText("()").performClick()
+        composeTestRule.onNodeWithText("( )").performClick()
         composeTestRule.onNodeWithText("%").performClick()
         composeTestRule.onNodeWithText("x").performClick()
         composeTestRule.onNodeWithText("2").performClick()
