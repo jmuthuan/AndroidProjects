@@ -32,7 +32,9 @@ fun CalculatorScreen(
         ) {
             InputDisplayComponent(
                 result = calculatorUiState.result,
-                operation = calculatorUiState.currentOperation
+                operation = calculatorUiState.currentOperation,
+                fontSizeState = calculatorUiState.currentOperationFontSize,
+                autoResize = { calculatorViewModel.resizeCurrentResultFontSize() }
             )
             Spacer(modifier = Modifier
                 .height(8.dp)

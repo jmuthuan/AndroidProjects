@@ -1,5 +1,6 @@
 package com.example.simplecalculator.ui
 
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -111,8 +112,13 @@ class CalculatorViewModel: ViewModel() {
 
         if (lastChar != null) {
             _uiState.update { currentState ->
+                val auxFontSize = when(_uiState.value.currentOperationFontSize * 1.05 > 48.sp) {
+                    true -> 48.sp
+                    false -> _uiState.value.currentOperationFontSize * 1.05
+                }
                 currentState.copy(
-                    currentOperation = _uiState.value.currentOperation.dropLast(1)
+                    currentOperation = _uiState.value.currentOperation.dropLast(1),
+                    currentOperationFontSize = auxFontSize
                 )
             }
         }
@@ -165,6 +171,8 @@ class CalculatorViewModel: ViewModel() {
             if (auxOperation.contains("Cannot be divided by 0")) {
                 return auxOperation
             }
+            if (subResult.contains('E')) return subResult
+
             return "%.2f".format(subResult.replace(',', '.').toDouble())
                 .replace(',', '.')
         } catch (e: Exception) {
@@ -196,20 +204,20 @@ class CalculatorViewModel: ViewModel() {
     private fun subtract(operation: String): String {
         val result = simplify(operation, '-')
 
-        return "%.4f".format(result[0] - result[1])
+        return formatResult(result[0] - result[1])
     }
 
     private fun add(operation: String): String {
         val result = simplify(operation, '+')
 
-        return "%.4f".format(result[0] + result[1])
+        return formatResult(result[0] + result[1])
     }
 
     private fun divide(operation: String): String {
         val result = simplify(operation, '/')
 
         return if( result[1] != 0.0) {
-            "%.4f".format(result[0] / result[1])
+            formatResult(result[0] / result[1])
         } else {
             auxOperation = "Cannot be divided by 0"
             "0.0"
@@ -220,9 +228,16 @@ class CalculatorViewModel: ViewModel() {
     private fun multiply(operation: String): String {
         val result = simplify(operation, 'x')
 
-        return "%.4f".format(result[0] * result[1])
+        return formatResult(result[0] * result[1])
     }
 
+    private fun formatResult(number: Double): String {
+        if (number.toString().contains('E')) {
+            return number.toString()
+        }
+
+        return "%.4f".format(number)
+    }
     private fun solvePercentages(operation: String): String {
         //case 1: percentage after sum or sub: 15+30%
         //case 2: percentage after multiply/divide: 10x50%
@@ -403,6 +418,14 @@ class CalculatorViewModel: ViewModel() {
                 }
             }
             auxMap = offsetMap.toMutableMap()
+        }
+    }
+
+    fun resizeCurrentResultFontSize() {
+        _uiState.update { currentOperation ->
+            currentOperation.copy(
+                currentOperationFontSize = _uiState.value.currentOperationFontSize * 0.95
+            )
         }
     }
 }
