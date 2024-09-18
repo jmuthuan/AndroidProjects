@@ -17,7 +17,7 @@ class CalculatorViewModelTest {
 
         viewModel.calculateResult()
 
-        assertEquals("150,00", viewModel.uiState.value.result)
+        assertEquals("150.00", viewModel.uiState.value.result)
     }
 
     @Test
@@ -27,7 +27,7 @@ class CalculatorViewModelTest {
 
         viewModel.calculateResult()
 
-        assertEquals("120,00", viewModel.uiState.value.result)
+        assertEquals("120.00", viewModel.uiState.value.result)
     }
 
     @Test
@@ -37,7 +37,7 @@ class CalculatorViewModelTest {
 
         viewModel.calculateResult()
 
-        assertEquals("18,00", viewModel.uiState.value.result)
+        assertEquals("18.00", viewModel.uiState.value.result)
 
     }
 
@@ -48,7 +48,7 @@ class CalculatorViewModelTest {
 
         viewModel.calculateResult()
 
-        assertEquals("4,00", viewModel.uiState.value.result)
+        assertEquals("4.00", viewModel.uiState.value.result)
     }
 
     @Test
@@ -68,14 +68,14 @@ class CalculatorViewModelTest {
 
         viewModel.calculateResult()
 
-        assertEquals("11,00", viewModel.uiState.value.result)
+        assertEquals("11.00", viewModel.uiState.value.result)
 
         val currentCalculatorUiState2 = viewModel.uiState.value
         currentCalculatorUiState2.currentOperation = "10+35%"
 
         viewModel.calculateResult()
 
-        assertEquals("13,50", viewModel.uiState.value.result)
+        assertEquals("13.50", viewModel.uiState.value.result)
     }
 
 }
