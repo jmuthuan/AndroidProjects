@@ -23,7 +23,7 @@ val EqualButtonColor = Color(0xAA004000)
 
 //
 val primary = Color(0xFF0B0B0B)
-val secondary = Color(0xFF242424)
+val secondary = Color(0xFF404040)
 val tertiary = Color(0xFF5D5F5F)
 val error = Color(0xFFBA1A1A)
 val onBackground = Color(0xFF1C1B1B)

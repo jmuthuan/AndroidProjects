@@ -26,6 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.simplecalculator.ui.theme.DisplayShadowColorBottom
 import com.example.simplecalculator.ui.theme.DisplayShadowColorTop
 import com.example.simplecalculator.ui.theme.SimpleCalculatorTheme
+import com.example.simplecalculator.ui.theme.secondary
 import com.example.simplecalculator.ui.theme.sevenSegmentFont
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -54,7 +55,7 @@ fun InputDisplayComponent(
                 blurRadius = 15.dp
             )
             .clip(MaterialTheme.shapes.large)
-            .background(MaterialTheme.colorScheme.onBackground)
+            .background(secondary)
             .padding(vertical = 16.dp, horizontal = 16.dp)
             .height(screenHeightDp / 6)
     ) {

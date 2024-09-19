@@ -1,13 +1,8 @@
 package com.example.simplecalculator.ui
 
-import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDpAsState
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.repeatable
-import androidx.compose.animation.core.snap
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -25,7 +20,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -41,7 +36,7 @@ fun ButtonComponent(
     modifier: Modifier = Modifier,
     color: Color,
     symbol: String? = null,
-    image: Unit? = null,
+    image: Pair<Painter, String>? = null,
     onClick: () -> Unit
 ) {
     val mutableInteractionSource = remember {
@@ -95,8 +90,9 @@ fun ButtonComponent(
                 ) {
                     if (symbol == null) {
                         Image(
-                            painter = painterResource(id = R.drawable.baseline_backspace_24),
-                            contentDescription = "erase last operation",
+                            painter =
+                                image?.first ?: painterResource(id = R.drawable.baseline_image_24),
+                            contentDescription = image?.second,
                             modifier = Modifier.size(24.dp)
                         )
                     } else {
@@ -104,11 +100,9 @@ fun ButtonComponent(
                             text = symbol,
                             fontFamily = handjetFontFamily,
                             color = Color.White,
-                            fontSize = 24.sp,
-//                            modifier = Modifier.absoluteOffset { IntOffset(32, 0) }
+                            fontSize = 28.sp
                         )
                     }
-
                 }
             }
 }
