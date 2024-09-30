@@ -19,6 +19,12 @@ interface NotesDao {
     @Delete
     suspend fun delete(notes: Notes)
 
-    @Query("SELECT * FROM notes WHERE id = :id")
-    suspend fun getNote(id: Int): Flow<Notes>
+    @Query("SELECT * FROM notes WHERE idMain = :id")
+    fun getNote(id: Int): Flow<Notes>
+
+    @Query("DELETE FROM notes WHERE idMain = :id")
+    suspend fun deleteNoteId(id: Int)
+
+    @Query("UPDATE notes SET notes = :note WHERE idMain = :id")
+    suspend fun updateNote(note: String, id: Int)
 }

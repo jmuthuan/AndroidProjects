@@ -1,33 +1,130 @@
-package com.example.mynotks.ui
+package com.example.mynotks.ui.home
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.mynotks.R
+import com.example.mynotks.data.Notks
+import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.notes.NotesShortComponent
 import com.example.mynotks.ui.theme.MyNotksTheme
 
+
+/**
+ * Entry route for Home screen
+ */
+object HomeDestination: NavigationDestination{
+    override val route = "home"
+    override val titleRes = R.string.title_res
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainBackground() {
-    Box(
-        modifier = Modifier.fillMaxSize()
+fun MainBackground(
+    navigateToNoteDetails: (Int) -> Unit,
+    navigateToEntryNotes: () -> Unit,
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
+) {
+    val homeUiState by viewModel.homeUiState.collectAsState()
+    val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
+
+    Scaffold(
+        modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+//        bottomBar = {
+//
+//        },
+         floatingActionButton = {
+             FloatingActionButton(
+                 onClick = { navigateToEntryNotes() },
+                 shape = MaterialTheme.shapes.medium,
+                 modifier = Modifier.padding(20.dp)
+             ) {
+                 Icon(
+                     imageVector = Icons.Default.Add,
+                     contentDescription = "Add Note or List"
+                 )
+             }
+         }
+    ) { innerPadding ->
+        HomeBody(
+            notksList = homeUiState.notksList,
+            onClickNotes = navigateToNoteDetails,
+            modifier = Modifier
+                .padding(innerPadding)
+                .fillMaxSize()
+        )
+    }
+}
+
+@Composable
+fun HomeBody(
+    notksList: List<Notks>, onClickNotes: (Int)-> Unit, modifier: Modifier = Modifier
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        modifier = modifier//.height(500.dp)
     ) {
-        ExitAlwaysBottomAppBar()
+        if (notksList.isEmpty()) {
+            Text(
+                text = "Oops! You haven't added any notes or lists",
+                textAlign = TextAlign.Center,
+                style = MaterialTheme.typography.titleMedium
+            )
+        } else {
+            NotesList(
+                noteList = notksList,
+                onClickNotes = onClickNotes,
+                modifier = Modifier.padding(horizontal = 8.dp))
+        }
+    }
+}
+
+@Composable
+fun NotesList(
+    noteList: List<Notks>,
+    onClickNotes: (Int) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    LazyColumn(modifier = modifier) {
+        items(items = noteList, key = {it.id}) {
+            NotesShortComponent(
+                notks = it,
+                onClickNotks = onClickNotes ,
+                modifier = Modifier
+                    .padding(8.dp)
+                    .clickable { /*TODO*/ }
+            )
+        }
     }
 
 }
@@ -86,6 +183,6 @@ fun ExitAlwaysBottomAppBar() {
 @Composable
 fun MainBackgroundPreview() {
     MyNotksTheme {
-        MainBackground()
+        MainBackground({}, {})
     }
 }

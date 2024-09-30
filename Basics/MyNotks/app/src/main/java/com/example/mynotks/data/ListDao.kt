@@ -21,5 +21,5 @@ interface ListDao {
     suspend fun delete(listItems: ListItems)
 
     @Query("SELECT * FROM list WHERE idMain = :idMain")
-    suspend fun getAllListItemsStream(idMain: Int): Flow<List<ListItems>>
+    fun getAllListItemsStream(idMain: Int): Flow<List<ListItems>>
 }

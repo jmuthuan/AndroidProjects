@@ -8,7 +8,7 @@ import androidx.room.PrimaryKey
 data class Notks(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val type: TypesNotks,
-    val backgroundColor: Color = Color(0xFFADADAD),
+    val backgroundColor: String = Color(0xFFADADAD).toString(),
     val title: String
 )
 

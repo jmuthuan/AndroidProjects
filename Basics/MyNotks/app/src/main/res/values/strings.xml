@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MyNotks</string>
+    <string name="title_res">Notks Test Title</string>
 </resources>
