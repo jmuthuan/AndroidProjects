@@ -1,6 +1,5 @@
 package com.example.mynotks.ui.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -29,15 +28,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.data.Notks
+import com.example.mynotks.data.TypesNotks
 import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.lists.ListsShort
 import com.example.mynotks.ui.navigation.NavigationDestination
-import com.example.mynotks.ui.notes.NotesShortComponent
-import com.example.mynotks.ui.theme.MyNotksTheme
+import com.example.mynotks.ui.notes.NotesShort
 
 
 /**
@@ -52,6 +51,7 @@ object HomeDestination: NavigationDestination{
 @Composable
 fun MainBackground(
     navigateToNoteDetails: (Int) -> Unit,
+    navigateToListDetails: (Int) -> Unit,
     navigateToEntryNotes: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -79,6 +79,7 @@ fun MainBackground(
         HomeBody(
             notksList = homeUiState.notksList,
             onClickNotes = navigateToNoteDetails,
+            onClickList = navigateToListDetails,
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
@@ -88,7 +89,10 @@ fun MainBackground(
 
 @Composable
 fun HomeBody(
-    notksList: List<Notks>, onClickNotes: (Int)-> Unit, modifier: Modifier = Modifier
+    notksList: List<Notks>,
+    onClickNotes: (Int)-> Unit,
+    onClickList: (Int) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -101,29 +105,41 @@ fun HomeBody(
                 style = MaterialTheme.typography.titleMedium
             )
         } else {
-            NotesList(
+            NotesAndLists(
                 noteList = notksList,
                 onClickNotes = onClickNotes,
+                onClickList =  onClickList,
                 modifier = Modifier.padding(horizontal = 8.dp))
         }
     }
 }
 
 @Composable
-fun NotesList(
+fun NotesAndLists(
     noteList: List<Notks>,
     onClickNotes: (Int) -> Unit,
+    onClickList: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
     LazyColumn(modifier = modifier) {
         items(items = noteList, key = {it.id}) {
-            NotesShortComponent(
-                notks = it,
-                onClickNotks = onClickNotes ,
-                modifier = Modifier
-                    .padding(8.dp)
-                    .clickable { /*TODO*/ }
-            )
+            if(it.type == TypesNotks.NOTE) {
+                NotesShort(
+                    notks = it,
+                    onClickNotks = onClickNotes ,
+                    modifier = Modifier
+                        .padding(8.dp)
+
+                )
+            } else {
+                ListsShort(
+                    notks = it,
+                    onClickList = onClickList,
+                    modifier = Modifier
+                        .padding(8.dp)
+                )
+            }
+
         }
     }
 
@@ -179,10 +195,10 @@ fun ExitAlwaysBottomAppBar() {
     
 }
 
-@Preview
-@Composable
-fun MainBackgroundPreview() {
-    MyNotksTheme {
-        MainBackground({}, {})
-    }
-}
+//@Preview
+//@Composable
+//fun MainBackgroundPreview() {
+//    MyNotksTheme {
+//        MainBackground({}, {}, {})
+//    }
+//}

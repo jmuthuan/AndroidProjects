@@ -7,6 +7,8 @@ import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.example.mynotks.MyNotksApplication
 import com.example.mynotks.ui.home.HomeViewModel
+import com.example.mynotks.ui.lists.ListDetailsViewModel
+import com.example.mynotks.ui.lists.ListUpdateViewModel
 import com.example.mynotks.ui.notes.NoteDetailsViewModel
 import com.example.mynotks.ui.notes.NoteUpdateViewModel
 import com.example.mynotks.ui.notes.NotesEntryViewModel
@@ -44,6 +46,22 @@ object AppViewModelProvider {
                 this.createSavedStateHandle(),
                 myNotksApplication().container.notksRepository,
                 myNotksApplication().container.notesRepository
+            )
+        }
+
+        initializer {
+            ListDetailsViewModel(
+                this.createSavedStateHandle(),
+                myNotksApplication().container.notksRepository,
+                myNotksApplication().container.listItems
+            )
+        }
+
+        initializer {
+            ListUpdateViewModel(
+                this.createSavedStateHandle(),
+                myNotksApplication().container.notksRepository,
+                myNotksApplication().container.listItems
             )
         }
     }

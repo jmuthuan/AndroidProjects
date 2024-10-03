@@ -14,4 +14,11 @@ class OfflineListItemsRepository(private val listItemsDao: ListDao): ListItemsRe
     override suspend fun getAllListItemsStream(idMain: Int): Flow<List<ListItems>> =
         listItemsDao.getAllListItemsStream(idMain)
 
+    override suspend fun deleteListId(idMain: Int) = listItemsDao.deleteListId(idMain)
+
+    override suspend fun updateTask(idTask: Int, task: String, checked: Boolean) =
+        listItemsDao.updateTask(idTask, task, checked)
+
+    override suspend fun deleteTask(id: Int) = listItemsDao.deleteTask(id)
+
 }

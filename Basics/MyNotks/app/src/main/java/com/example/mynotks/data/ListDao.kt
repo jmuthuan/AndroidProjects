@@ -22,4 +22,16 @@ interface ListDao {
 
     @Query("SELECT * FROM list WHERE idMain = :idMain")
     fun getAllListItemsStream(idMain: Int): Flow<List<ListItems>>
+
+    @Query("DELETE FROM list WHERE idMain = :idMain")
+    suspend fun deleteListId(idMain: Int)
+
+    @Query("DELETE FROM list WHERE id = :id")
+    suspend fun deleteTask(id: Int)
+
+    @Query("UPDATE list SET item = :task, checked = :checked WHERE id = :idTask")
+    suspend fun updateTask(idTask: Int, task: String, checked: Boolean)
+
+//    @Query("INSERT INTO list(item, checked, idMain) VALUES (:item, :checked, :idMain")
+//    suspend fun
 }

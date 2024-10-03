@@ -17,6 +17,7 @@ interface NotksRepository {
     suspend fun deleteNotks(notks: Notks)
 
     suspend fun deleteNotksId(id: Int)
+
     suspend fun getLastId(): Int
 
     fun getNotks(id: Int): Flow<Notks>

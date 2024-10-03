@@ -15,4 +15,10 @@ interface ListItemsRepository {
     suspend fun delete(listItems: ListItems)
 
     suspend fun getAllListItemsStream(idMain: Int): Flow<List<ListItems>>
+
+    suspend fun deleteListId(idMain: Int)
+
+    suspend fun updateTask(idTask: Int, task: String, checked: Boolean)
+
+    suspend fun deleteTask(id: Int)
 }

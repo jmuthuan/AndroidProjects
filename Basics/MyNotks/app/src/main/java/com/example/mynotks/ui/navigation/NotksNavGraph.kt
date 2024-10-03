@@ -7,6 +7,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.mynotks.ui.home.HomeDestination
 import com.example.mynotks.ui.home.MainBackground
+import com.example.mynotks.ui.lists.ListUpdate
+import com.example.mynotks.ui.lists.ListUpdateDestination
+import com.example.mynotks.ui.lists.ListsDetail
+import com.example.mynotks.ui.lists.ListsDetailDestination
 import com.example.mynotks.ui.notes.NoteUpdate
 import com.example.mynotks.ui.notes.NotesDetail
 import com.example.mynotks.ui.notes.NotesDetailDestination
@@ -33,7 +37,10 @@ fun MyNotksNavHost(
                 navigateToEntryNotes = {
                     navController.navigate("${NotesEntryDestination.route}")},
                 navigateToNoteDetails = {
-                    navController.navigate( "${NotesDetailDestination.route}/${it}")}
+                    navController.navigate( "${NotesDetailDestination.route}/${it}")},
+                navigateToListDetails = {
+                    navController.navigate("${ListsDetailDestination.route}/${it}")
+                }
             )
         }
         composable(route = NotesDetailDestination.routeWithArgs) {
@@ -55,6 +62,25 @@ fun MyNotksNavHost(
 
         composable(route = NotesUpdateDestination.routeWithArgs) {
             NoteUpdate(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() },
+                navigateToStart = {
+                    navController.popBackStack(HomeDestination.route, false)
+                }
+            )
+        }
+
+        composable(route = ListsDetailDestination.routeWithArgs) {
+            ListsDetail(
+                navigateBack = { navController.popBackStack() },
+                navigateToUpdateScreen = { navController.navigate(
+                    route = "${ListUpdateDestination.route}/${it}")
+                },
+                onNavigateUp = { navController.navigateUp() })
+        }
+
+        composable(route = ListUpdateDestination.routeWithArgs) {
+            ListUpdate(
                 navigateBack = { navController.popBackStack() },
                 onNavigateUp = { navController.navigateUp() },
                 navigateToStart = {
