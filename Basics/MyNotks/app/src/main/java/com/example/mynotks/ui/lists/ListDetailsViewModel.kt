@@ -1,6 +1,5 @@
 package com.example.mynotks.ui.lists
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -40,6 +39,30 @@ class ListDetailsViewModel(
     suspend fun deleteList(mainId: Int) {
         notksRepository.deleteNotksId(mainId)
         listItemsRepository.deleteListId(mainId)
+    }
+
+    suspend fun updateChecked(taskId: Int, checked: Boolean) {
+        val aux = listDetailsUiState.tasks.toMutableList()
+
+        aux.set(
+            index = aux.indexOfFirst { it.id == taskId},
+            element = ListItems(
+                id = taskId,
+                item = aux.first { it.id == taskId }.item,
+                checked = checked,
+                idMain = aux.first { it.id == taskId }.idMain
+            )
+        )
+        listDetailsUiState = listDetailsUiState.copy(
+            tasks = aux
+        )
+        aux.forEach {
+            listItemsRepository.updateTask(
+                idTask = it.id,
+                task = it.item,
+                checked = it.checked
+            )
+        }
     }
 }
 

@@ -2,15 +2,10 @@ package com.example.mynotks.ui.notes
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.BottomAppBarDefaults
 import androidx.compose.material3.Card
@@ -26,7 +21,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
@@ -37,7 +34,7 @@ import kotlinx.coroutines.launch
 object NotesUpdateDestination: NavigationDestination {
     override val route = "notes_update"
     override val titleRes = R.string.title_res
-    const val noteIdArg = "noteId"
+    private const val noteIdArg = "noteId"
     val routeWithArgs = "${route}/{$noteIdArg}"
 }
 
@@ -77,7 +74,7 @@ fun NoteUpdate(
                         Icon(Icons.Filled.Close, contentDescription = "close icon")
                     }
                 },
-                scrollBehavior = scrollBehavior
+//                scrollBehavior = scrollBehavior
             )
         }
     ) { innerPadding ->
@@ -88,10 +85,10 @@ fun NoteUpdate(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
-                .height(300.dp)
+                .fillMaxSize()
                 .padding(innerPadding)
+//                .height(300.dp)
+//                .verticalScroll(rememberScrollState())
         ) {
             OutlinedTextField(
                 value = uiState.title,
@@ -109,10 +106,11 @@ fun NoteUpdate(
                 label = {
                     Text(text = "Write your note here")
                 },
-                minLines = 4,
+                minLines = 10,
                 modifier = Modifier
-                    .fillMaxSize()
                     .padding(8.dp)
+                    .fillMaxSize(),
+//                textStyle = TextStyle(fontSize = 32.sp)
             )
         }
     }

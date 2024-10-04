@@ -3,7 +3,6 @@ package com.example.mynotks.ui.lists
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -35,7 +34,7 @@ fun ListsShort(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .height(150.dp)
+//            .height(150.dp)
             .clickable {
                 onClickList(notks.id)
             }

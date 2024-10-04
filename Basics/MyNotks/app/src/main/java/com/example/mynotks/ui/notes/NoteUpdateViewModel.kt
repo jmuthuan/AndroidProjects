@@ -6,9 +6,6 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.mynotks.data.Notes
-import com.example.mynotks.data.Notks
-import com.example.mynotks.data.TypesNotks
 import com.example.mynotks.data.repository.NotesRepository
 import com.example.mynotks.data.repository.NotksRepository
 import kotlinx.coroutines.flow.first
@@ -47,6 +44,7 @@ class NoteUpdateViewModel(
     fun updateNote(note: String) {
         updateUiState = NoteUpdateUiState(updateUiState.title, note, updateUiState.idMain)
     }
+
 }
 
 data class NoteUpdateUiState(

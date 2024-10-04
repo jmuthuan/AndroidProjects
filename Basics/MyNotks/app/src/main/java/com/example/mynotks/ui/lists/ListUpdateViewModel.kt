@@ -51,50 +51,45 @@ class ListUpdateViewModel(
         )
     }
 
-    fun updateTask(task: String, taskId: Int) {
+    suspend fun updateTask(taskUpdate: String, taskId: Int) {
         val aux = listUpdateUiState.tasks.toMutableList()
 
+        val newTask = Task(
+            task = taskUpdate,
+            checked = aux.first { it.id == taskId }.checked,
+            id = taskId
+        )
         aux.set(
             index = aux.indexOfFirst { it.id == taskId },
-            element = Task(
-                task = task,
-                checked = aux.first { it.id == taskId }.checked,
-                id = taskId
-            )
+            element = newTask
         )
         listUpdateUiState = listUpdateUiState.copy(
             tasks = aux
         )
+
+        listItemsRepository.updateTask(
+            idTask = newTask.id,
+            task = newTask.task,
+            checked = newTask.checked)
     }
 
     suspend fun addEmptyTask() {
         if (listUpdateUiState.tasks.firstOrNull { it.task == "" } == null) {
+
             listItemsRepository.insert(
                 ListItems(item = "", checked = false, idMain = listUpdateUiState.idMain)
             )
 
             val tasks = loadTasks()
+
             listUpdateUiState = listUpdateUiState.copy(
                 tasks = tasks
             )
+
+
         }
         /* TODO -> add Toast to notify the user that
             can't add a task because one is already empty */
-    }
-
-    suspend fun addTask(id:Int, task: String, checked: Boolean, idMain: Int) {
-        listItemsRepository.insert(
-            ListItems(
-                id = id,
-                item = task,
-                checked = checked,
-                idMain = idMain
-            )
-        )
-        val tasks = loadTasks()
-        listUpdateUiState = listUpdateUiState.copy(
-            tasks = tasks
-        )
     }
 
     fun updateChecked(taskId: Int, checked: Boolean) {

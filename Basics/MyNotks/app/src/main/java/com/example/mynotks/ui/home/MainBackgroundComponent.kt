@@ -1,10 +1,17 @@
 package com.example.mynotks.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
+import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
+import androidx.compose.foundation.lazy.staggeredgrid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
@@ -64,16 +71,21 @@ fun MainBackground(
 //
 //        },
          floatingActionButton = {
-             FloatingActionButton(
-                 onClick = { navigateToEntryNotes() },
-                 shape = MaterialTheme.shapes.medium,
-                 modifier = Modifier.padding(20.dp)
-             ) {
-                 Icon(
-                     imageVector = Icons.Default.Add,
-                     contentDescription = "Add Note or List"
-                 )
-             }
+             MultiFloatingActionButton(
+//                 fabIcon = ,
+//                 items = ,
+                 onClickAddNote = navigateToEntryNotes,
+                 onClickAddList = { /*TODO*/ })
+//             FloatingActionButton(
+//                 onClick = { navigateToEntryNotes() },
+//                 shape = MaterialTheme.shapes.medium,
+//                 modifier = Modifier.padding(20.dp)
+//             ) {
+//                 Icon(
+//                     imageVector = Icons.Default.Add,
+//                     contentDescription = "Add Note or List"
+//                 )
+//             }
          }
     ) { innerPadding ->
         HomeBody(
@@ -121,29 +133,54 @@ fun NotesAndLists(
     onClickList: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    LazyColumn(modifier = modifier) {
-        items(items = noteList, key = {it.id}) {
-            if(it.type == TypesNotks.NOTE) {
-                NotesShort(
-                    notks = it,
-                    onClickNotks = onClickNotes ,
-                    modifier = Modifier
-                        .padding(8.dp)
+    LazyVerticalStaggeredGrid(
+        columns = StaggeredGridCells.Fixed(2),
+        verticalItemSpacing = 4.dp,
+//        verticalArrangement = Arrangement.spacedBy(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        content = {
+            items(noteList) {
+                if (it.type == TypesNotks.NOTE) {
+                    NotesShort(
+                        notks = it,
+                        onClickNotks = onClickNotes,
+                        modifier = Modifier
+                            .padding(8.dp)
 
-                )
-            } else {
-                ListsShort(
-                    notks = it,
-                    onClickList = onClickList,
-                    modifier = Modifier
-                        .padding(8.dp)
-                )
-            }
-
-        }
+                    )
+                } else {
+                    ListsShort(
+                        notks = it,
+                        onClickList = onClickList,
+                        modifier = Modifier
+                            .padding(8.dp)
+                        )
+                    }
+                }
+            },
+            modifier = Modifier.fillMaxSize())
+//            items(items = noteList, key = {it.id}) {
+//                if(it.type == TypesNotks.NOTE) {
+//                    NotesShort(
+//                        notks = it,
+//                        onClickNotks = onClickNotes ,
+//                        modifier = Modifier
+//                            .padding(8.dp)
+//
+//                    )
+//                } else {
+//                    ListsShort(
+//                        notks = it,
+//                        onClickList = onClickList,
+//                        modifier = Modifier
+//                            .padding(8.dp)
+//                    )
+//                }
+//
+//            }
     }
 
-}
+
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -194,11 +231,3 @@ fun ExitAlwaysBottomAppBar() {
     }
     
 }
-
-//@Preview
-//@Composable
-//fun MainBackgroundPreview() {
-//    MyNotksTheme {
-//        MainBackground({}, {}, {})
-//    }
-//}

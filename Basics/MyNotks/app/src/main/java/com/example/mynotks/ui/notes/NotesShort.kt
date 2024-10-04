@@ -2,7 +2,6 @@ package com.example.mynotks.ui.notes
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -36,7 +35,6 @@ fun NotesShort(
         ),
         modifier = modifier
             .fillMaxWidth()
-            .height(150.dp)
             .clickable { onClickNotks(notks.id) }
     ) {
         Text(
@@ -56,11 +54,3 @@ fun NotesShort(
         )
     }
 }
-
-//@Preview
-//@Composable
-//fun NotesShortComponentPreview() {
-//    MyNotksTheme {
-//        NotesShortComponent()
-//    }
-//}

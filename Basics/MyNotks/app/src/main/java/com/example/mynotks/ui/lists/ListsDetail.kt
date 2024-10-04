@@ -1,13 +1,11 @@
 package com.example.mynotks.ui.lists
 
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material.icons.filled.Edit
@@ -56,7 +54,6 @@ fun ListsDetail(
     val coroutineScope = rememberCoroutineScope()
     val id = viewModel.getListMainId()
 
-//    var checked by remember { mutableStateOf(false) }
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
 
     Scaffold(
@@ -95,9 +92,7 @@ fun ListsDetail(
                 containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
-                .height(400.dp)//TODO check height for maxHeigh possible
+                .fillMaxSize()
                 .padding(innerPadding)
         ) {
             Text(
@@ -110,14 +105,24 @@ fun ListsDetail(
             LazyColumn {
                 items(uiState.tasks) { tasks ->
                     Row(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier
+                            .fillMaxWidth(),
+//                            .height(32.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(
                             checked = tasks.checked,
-                            onCheckedChange = { }
+                            onCheckedChange = {
+                                coroutineScope.launch {
+                                    viewModel.updateChecked(tasks.id, it)
+                                }
+                            },
+                            modifier = modifier
                         )
-                        Text(text = tasks.item)
+                        Text(
+                            text = tasks.item,
+                            modifier = modifier
+                        )
                     }
                 }
             }

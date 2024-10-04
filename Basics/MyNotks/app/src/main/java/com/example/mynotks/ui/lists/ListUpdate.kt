@@ -87,8 +87,17 @@ fun ListUpdate(
                         Icon(Icons.Filled.Close, contentDescription = "close icon")
                     }
                 },
-                scrollBehavior = scrollBehavior
+//                scrollBehavior = scrollBehavior
             )
+        },
+        floatingActionButton = {
+            FloatingActionButton(onClick = {
+                coroutineScope.launch {
+                    viewModel.addEmptyTask()
+                }
+            }) {
+                Icon(imageVector = Icons.Filled.Add, contentDescription = "add button")
+            }
         }
     ) { innerPadding ->
         Card(
@@ -101,7 +110,7 @@ fun ListUpdate(
                 modifier = modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
-                    .height(800.dp)//TODO check height for maxHeight possible
+                    .height(1000.dp)//TODO check height for maxHeight possible
                     .padding(innerPadding)
             ) {
                 OutlinedTextField(
@@ -123,7 +132,9 @@ fun ListUpdate(
                             TextField(
                                 value = tasks.task,
                                 onValueChange = {
-                                    viewModel.updateTask(it, tasks.id)
+                                    coroutineScope.launch {
+                                        viewModel.updateTask(it, tasks.id)
+                                    }
                                 },
                                 leadingIcon = {
                                     Checkbox(
@@ -148,24 +159,18 @@ fun ListUpdate(
                                     }
                                 },
                                 modifier = Modifier
-                                    .fillMaxWidth(0.7f)
+                                    .fillMaxWidth()
+                                    .padding(4.dp)
                                     .onFocusChanged {
                                         if(!it.isFocused) {
                                             coroutineScope.launch {
-                                                viewModel.addTask(tasks.task, tasks.checked)
+                                                viewModel.updateTask(tasks.task, tasks.id)
                                         }
                                     }
                                 }
                             )
                         }
                     }
-                }
-                FloatingActionButton(onClick = {
-                    coroutineScope.launch {
-                        viewModel.addEmptyTask()
-                    }
-                }) {
-                    Icon(imageVector = Icons.Filled.Add, contentDescription = "add button")
                 }
             }
         }
