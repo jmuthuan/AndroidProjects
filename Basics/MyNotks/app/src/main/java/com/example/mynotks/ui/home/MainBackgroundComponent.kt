@@ -59,6 +59,7 @@ object HomeDestination: NavigationDestination{
 fun MainBackground(
     navigateToNoteDetails: (Int) -> Unit,
     navigateToListDetails: (Int) -> Unit,
+    navigateToEntryList: () -> Unit,
     navigateToEntryNotes: () -> Unit,
     viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
@@ -67,25 +68,13 @@ fun MainBackground(
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
-//        bottomBar = {
-//
-//        },
-         floatingActionButton = {
+        floatingActionButton = {
              MultiFloatingActionButton(
 //                 fabIcon = ,
 //                 items = ,
                  onClickAddNote = navigateToEntryNotes,
-                 onClickAddList = { /*TODO*/ })
-//             FloatingActionButton(
-//                 onClick = { navigateToEntryNotes() },
-//                 shape = MaterialTheme.shapes.medium,
-//                 modifier = Modifier.padding(20.dp)
-//             ) {
-//                 Icon(
-//                     imageVector = Icons.Default.Add,
-//                     contentDescription = "Add Note or List"
-//                 )
-//             }
+                 onClickAddList = navigateToEntryList
+             )
          }
     ) { innerPadding ->
         HomeBody(
@@ -159,29 +148,11 @@ fun NotesAndLists(
                 }
             },
             modifier = Modifier.fillMaxSize())
-//            items(items = noteList, key = {it.id}) {
-//                if(it.type == TypesNotks.NOTE) {
-//                    NotesShort(
-//                        notks = it,
-//                        onClickNotks = onClickNotes ,
-//                        modifier = Modifier
-//                            .padding(8.dp)
-//
-//                    )
-//                } else {
-//                    ListsShort(
-//                        notks = it,
-//                        onClickList = onClickList,
-//                        modifier = Modifier
-//                            .padding(8.dp)
-//                    )
-//                }
-//
-//            }
     }
 
 
 
+/*
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ExitAlwaysBottomAppBar() {
@@ -192,17 +163,25 @@ fun ExitAlwaysBottomAppBar() {
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { */
+/*TODO*//*
+ }) {
                         Icon(Icons.Filled.Check, contentDescription = "check icon")
                     }
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { */
+/*TODO*//*
+ }) {
                         Icon(Icons.Filled.Edit, contentDescription = "edit icon")
                     }
                 },
-                /*TODO animate FAB - If a FAB is present,
-                it detaches from the bar and remains on screen.*/
+                */
+/*TODO animate FAB - If a FAB is present,
+                it detaches from the bar and remains on screen.*//*
+
                 floatingActionButton = {
-                    IconButton(onClick = { /*TODO*/ }) {
+                    IconButton(onClick = { */
+/*TODO*//*
+ }) {
                         Icon(Icons.Filled.AddCircle, contentDescription = "add icon")
                     }
                 },
@@ -230,4 +209,4 @@ fun ExitAlwaysBottomAppBar() {
 
     }
     
-}
+}*/

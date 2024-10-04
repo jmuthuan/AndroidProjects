@@ -74,6 +74,7 @@ class ListUpdateViewModel(
     }
 
     suspend fun addEmptyTask() {
+        //Check that last task isn't empty
         if (listUpdateUiState.tasks.firstOrNull { it.task == "" } == null) {
 
             listItemsRepository.insert(

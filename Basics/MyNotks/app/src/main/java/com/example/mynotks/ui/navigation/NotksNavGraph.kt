@@ -7,6 +7,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.example.mynotks.ui.home.HomeDestination
 import com.example.mynotks.ui.home.MainBackground
+import com.example.mynotks.ui.lists.ListEntry
+import com.example.mynotks.ui.lists.ListEntryNavigation
 import com.example.mynotks.ui.lists.ListUpdate
 import com.example.mynotks.ui.lists.ListUpdateDestination
 import com.example.mynotks.ui.lists.ListsDetail
@@ -38,6 +40,8 @@ fun MyNotksNavHost(
                     navController.navigate("${NotesEntryDestination.route}")},
                 navigateToNoteDetails = {
                     navController.navigate( "${NotesDetailDestination.route}/${it}")},
+                navigateToEntryList = {
+                    navController.navigate( "${ListEntryNavigation.route}")},
                 navigateToListDetails = {
                     navController.navigate("${ListsDetailDestination.route}/${it}")
                 }
@@ -67,6 +71,13 @@ fun MyNotksNavHost(
                 navigateToStart = {
                     navController.popBackStack(HomeDestination.route, false)
                 }
+            )
+        }
+
+        composable(route = ListEntryNavigation.route) {
+            ListEntry(
+                navigateBack = { navController.popBackStack() },
+                onNavigateUp = { navController.navigateUp() }
             )
         }
 
