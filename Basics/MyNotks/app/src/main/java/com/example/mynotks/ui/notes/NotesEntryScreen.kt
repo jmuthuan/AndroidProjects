@@ -1,10 +1,9 @@
 package com.example.mynotks.ui.notes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -20,11 +19,7 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,9 +27,12 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.ColorPicker
 import com.example.mynotks.ui.NotksTopAppBar
+import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.theme.MyNotksTheme
+import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
 object NotesEntryDestination: NavigationDestination {
@@ -45,19 +43,24 @@ object NotesEntryDestination: NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NotesEntryScreen(
-//    title: String = "",
-//    note: String = "",
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
     viewModel: NotesEntryViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    var title by remember {
-        mutableStateOf("")
-    }
 
-    var note by remember {
-        mutableStateOf("")
-    }
+    val uiState = viewModel.notesUiState
+
+//    var title by remember {
+//        mutableStateOf("")
+//    }
+//
+//    var note by remember {
+//        mutableStateOf("")
+//    }
+
+//    var color by remember {
+//        mutableStateOf()
+//    }
 
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
@@ -75,7 +78,7 @@ fun NotesEntryScreen(
                     IconButton(
                         onClick = {
                             coroutineScope.launch {
-                                viewModel.saveNote(title, note)
+                                viewModel.saveNote()
                                 navigateBack()
                             }
                     }) {
@@ -84,8 +87,10 @@ fun NotesEntryScreen(
                     IconButton(onClick = { navigateBack() }) {
                         Icon(Icons.Filled.Close, contentDescription = "close icon")
                     }
-                },
-//                scrollBehavior = scrollBehavior
+                    ColorPicker(
+                        colors = colors,
+                        onColorSelected = { viewModel.setBackgroundColor(it) })
+                }
             )
         }
     ) { innerPadding ->
@@ -98,12 +103,11 @@ fun NotesEntryScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-//                .verticalScroll(rememberScrollState())
-//                .height(300.dp)
+                .background(uiState.backgroundColor.toColor())
         ) {
             OutlinedTextField(
-                value = title,
-                onValueChange = { title = it },
+                value = uiState.title,
+                onValueChange = { viewModel.setTitle(it) },
                 label = {
                     Text(text = "Note title")
                 },
@@ -112,8 +116,8 @@ fun NotesEntryScreen(
                     .padding(8.dp)
             )
             OutlinedTextField(
-                value = note,
-                onValueChange = { note = it },
+                value = uiState.note,
+                onValueChange = { viewModel.setNote(it) },
                 label = {
                     Text(text = "Write your note here")
                 },

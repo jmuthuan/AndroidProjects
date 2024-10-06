@@ -14,6 +14,8 @@ interface NotksRepository {
 
     suspend fun updateTitle(title: String, id: Int)
 
+    suspend fun updateBackgroundColor(color: String, id: Int)
+
     suspend fun deleteNotks(notks: Notks)
 
     suspend fun deleteNotksId(id: Int)

@@ -15,7 +15,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +31,7 @@ import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.theme.MyNotksTheme
+import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
 object NotesDetailDestination: NavigationDestination {
@@ -85,11 +85,12 @@ fun NotesDetail(
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 32.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant),
+                containerColor = uiState.backgroundColor.toColor()),//MaterialTheme.colorScheme.surfaceVariant),
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
                 .padding(innerPadding)
+                .padding(horizontal = 16.dp)
         ) {
             Text(
                 text = uiState.title,

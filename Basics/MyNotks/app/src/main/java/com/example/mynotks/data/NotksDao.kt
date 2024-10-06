@@ -33,4 +33,7 @@ interface NotksDao {
 
     @Query("UPDATE main SET title = :title WHERE id = :id")
     suspend fun updateTitle(title: String, id: Int)
+
+    @Query("UPDATE main SET backgroundColor = :color WHERE id = :id")
+    suspend fun updateBackgroundColor(color: String, id: Int)
 }

@@ -13,7 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -21,14 +20,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.ColorPicker
 import com.example.mynotks.ui.NotksTopAppBar
+import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
 object NotesUpdateDestination: NavigationDestination {
@@ -46,7 +46,7 @@ fun NoteUpdate(
     navigateToStart: () -> Unit,
     viewModel: NoteUpdateViewModel = viewModel(factory = AppViewModelProvider.Factory)
 ) {
-    var uiState = viewModel.updateUiState
+    val uiState = viewModel.updateUiState
 
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
@@ -73,8 +73,11 @@ fun NoteUpdate(
                     IconButton(onClick = { navigateBack() }) {
                         Icon(Icons.Filled.Close, contentDescription = "close icon")
                     }
-                },
-//                scrollBehavior = scrollBehavior
+                    ColorPicker(
+                        colors = colors,
+                        onColorSelected = { viewModel.setBackgroundColor(it)}
+                    )
+                }
             )
         }
     ) { innerPadding ->
@@ -82,11 +85,12 @@ fun NoteUpdate(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 32.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
+                .padding(horizontal = 16.dp)
 //                .height(300.dp)
 //                .verticalScroll(rememberScrollState())
         ) {

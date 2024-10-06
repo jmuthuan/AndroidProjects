@@ -37,7 +37,9 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.ColorPicker
 import com.example.mynotks.ui.NotksTopAppBar
+import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
 import kotlinx.coroutines.launch
 
@@ -86,6 +88,7 @@ fun ListUpdate(
                     IconButton(onClick = { navigateBack() }) {
                         Icon(Icons.Filled.Close, contentDescription = "close icon")
                     }
+                    ColorPicker(colors = colors, onColorSelected = {})
                 },
 //                scrollBehavior = scrollBehavior
             )

@@ -20,4 +20,7 @@ class OfflineNotksRepository(private val notksDao: NotksDao): NotksRepository {
 
     override suspend fun updateTitle(title: String, id: Int) =
         notksDao.updateTitle(title, id)
+
+    override suspend fun updateBackgroundColor(color: String, id: Int) =
+        notksDao.updateBackgroundColor(color, id)
 }
