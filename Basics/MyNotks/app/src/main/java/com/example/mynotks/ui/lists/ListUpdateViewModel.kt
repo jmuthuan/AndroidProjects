@@ -3,12 +3,15 @@ package com.example.mynotks.ui.lists
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.mynotks.data.ListItems
 import com.example.mynotks.data.repository.ListItemsRepository
 import com.example.mynotks.data.repository.NotksRepository
+import com.example.mynotks.ui.toColor
+import com.example.mynotks.ui.toHexString
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 
@@ -27,11 +30,13 @@ class ListUpdateViewModel(
     init {
         viewModelScope.launch {
             val tasks = loadTasks()
+            val notk = notksRepository.getNotks(listId).first()
 
             listUpdateUiState = ListUpdateUiState(
-                title = notksRepository.getNotks(listId).first().title,
+                title = notk.title,
                 tasks = tasks,
-                idMain = listId
+                idMain = listId,
+                backgroundColor = notk.backgroundColor
             )
         }
     }
@@ -121,6 +126,10 @@ class ListUpdateViewModel(
 
     suspend fun saveUpdateTaskList() {
         notksRepository.updateTitle(title = listUpdateUiState.title, id = listUpdateUiState.idMain)
+        notksRepository.updateBackgroundColor(
+            color = listUpdateUiState.backgroundColor,
+            id = listUpdateUiState.idMain
+        )
         listUpdateUiState.tasks.forEach {
             listItemsRepository.updateTask(
                 idTask = it.id,
@@ -129,14 +138,20 @@ class ListUpdateViewModel(
             )//TODO -> check and delete tasks deleted before
         }
     }
-}
 
+    fun setBackgroundColor(color: Color) {
+        listUpdateUiState = listUpdateUiState.copy(
+            backgroundColor = color.toHexString()
+        )
+    }
+}
 
 
 data class ListUpdateUiState(
     var title: String = "",
     var tasks: MutableList<Task> = mutableListOf(),
-    val idMain: Int = 0
+    val idMain: Int = 0,
+    var backgroundColor: String = Color(0xFFFFFFFF).toHexString()
 )
 
 data class Task(

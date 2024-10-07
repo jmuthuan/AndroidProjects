@@ -14,13 +14,14 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -98,12 +99,11 @@ fun NotesEntryScreen(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 32.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .background(uiState.backgroundColor.toColor())
+                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
             OutlinedTextField(
                 value = uiState.title,
@@ -111,6 +111,10 @@ fun NotesEntryScreen(
                 label = {
                     Text(text = "Note title")
                 },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -122,6 +126,10 @@ fun NotesEntryScreen(
                     Text(text = "Write your note here")
                 },
                 minLines = 10,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(8.dp)

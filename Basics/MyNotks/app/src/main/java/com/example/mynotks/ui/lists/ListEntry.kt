@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.lists
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -22,15 +23,16 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -40,6 +42,7 @@ import com.example.mynotks.ui.ColorPicker
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
 
@@ -58,19 +61,11 @@ fun ListEntry(
     viewModel: ListEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
 ) {
-
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
 
     val uiState = viewModel.listEntryUiState
 
-//    var title by remember {
-//        mutableStateOf("")
-//    }
-//
-//    var tasks by remember {
-//        mutableStateOf( mutableListOf("") )
-//    }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -96,7 +91,7 @@ fun ListEntry(
                     IconButton(onClick = { navigateBack() }) {
                         Icon(Icons.Filled.Close, contentDescription = "close icon")
                     }
-                    ColorPicker(colors = colors, onColorSelected = {})
+                    ColorPicker(colors = colors, onColorSelected = { viewModel.setBackgroundColor(it) })
                 }
 //                scrollBehavior = scrollBehavior
             )
@@ -114,13 +109,16 @@ fun ListEntry(
                 defaultElevation = 32.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = modifier
                 .verticalScroll(rememberScrollState())
                 .fillMaxWidth()
                 .height(1000.dp)//TODO check height for maxHeight possible
-                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
+                .clickable{
+                    viewModel.addEmptyTask()
+                },
         ) {
             OutlinedTextField(
                 value = uiState.title,
@@ -128,6 +126,10 @@ fun ListEntry(
                 label = {
                     Text(text = "List title")
                 },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -139,23 +141,27 @@ fun ListEntry(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextField(
-                            value = task.task,//task.task,
+                            value = task.task,
                             onValueChange = {
                                 viewModel.updateTask(
                                     task = it,
-                                    checked = false,
                                     index = uiState.tasks.indexOf(task)
                                 )
-                                            },
+                            },
                             leadingIcon = {
                                 Checkbox(
-                                    checked = false/*task.checked*/,
-                                    onCheckedChange = { /*task.checked = it*/ }
+                                    checked = task.checked,
+                                    onCheckedChange = {
+                                        viewModel.updateChecked(
+                                            checked = it,
+                                            index = uiState.tasks.indexOf(task)
+                                        )
+                                    }
                                 )
                             },
                             trailingIcon = {
                                 IconButton(
-                                    onClick = { /*tasks.removeAt(tasks.indexOf(task))*/ },
+                                    onClick = { viewModel.removeTask(uiState.tasks.indexOf(task)) },
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.Clear,
@@ -163,6 +169,10 @@ fun ListEntry(
                                     )
                                 }
                             },
+                            colors = TextFieldDefaults.colors(
+                                focusedContainerColor = Color.LightGray,
+                                unfocusedContainerColor = uiState.backgroundColor.toColor()
+                            ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(4.dp)

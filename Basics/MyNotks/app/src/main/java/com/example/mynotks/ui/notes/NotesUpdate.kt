@@ -16,9 +16,11 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -89,10 +91,7 @@ fun NoteUpdate(
             ),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
-//                .height(300.dp)
-//                .verticalScroll(rememberScrollState())
+                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
             OutlinedTextField(
                 value = uiState.title,
@@ -100,6 +99,10 @@ fun NoteUpdate(
                 label = {
                     Text(text = "Note title")
                 },
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -111,6 +114,10 @@ fun NoteUpdate(
                     Text(text = "Write your note here")
                 },
                 minLines = 10,
+                colors = TextFieldDefaults.colors(
+                    focusedContainerColor = Color.LightGray,
+                    unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxSize(),

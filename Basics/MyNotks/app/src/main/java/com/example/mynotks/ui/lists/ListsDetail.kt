@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.lists
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,11 +20,13 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,6 +35,7 @@ import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
 object ListsDetailDestination: NavigationDestination {
@@ -89,11 +93,11 @@ fun ListsDetail(
                 defaultElevation = 32.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant
+                containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
             ),
             modifier = modifier
                 .fillMaxSize()
-                .padding(innerPadding)
+                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
             Text(
                 text = uiState.title,
@@ -106,8 +110,8 @@ fun ListsDetail(
                 items(uiState.tasks) { tasks ->
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth(),
-//                            .height(32.dp),
+                            .fillMaxWidth()
+                            .padding(vertical = 4.dp),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(

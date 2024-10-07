@@ -3,12 +3,14 @@ package com.example.mynotks.ui.lists
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import com.example.mynotks.data.ListItems
 import com.example.mynotks.data.Notks
 import com.example.mynotks.data.TypesNotks
 import com.example.mynotks.data.repository.ListItemsRepository
 import com.example.mynotks.data.repository.NotksRepository
+import com.example.mynotks.ui.toHexString
 
 class ListEntryViewModel(
     private val notksRepository: NotksRepository,
@@ -25,7 +27,7 @@ class ListEntryViewModel(
             Notks(
                 title = listEntryUiState.title,
                 type = TypesNotks.LIST,
-//                backgroundColor = "",
+                backgroundColor = listEntryUiState.backgroundColor,
             )
         )
         val lastId = notksRepository.getLastId()
@@ -54,7 +56,7 @@ class ListEntryViewModel(
         }
     }
 
-    fun updateTask(task: String, checked: Boolean, index: Int) {
+    fun updateTask(task: String, index: Int) {
         val aux = listEntryUiState.tasks.toMutableList()
 
         aux.set(
@@ -71,14 +73,44 @@ class ListEntryViewModel(
             title = title
         )
     }
+
+    fun updateChecked(checked: Boolean, index: Int) {
+        val aux = listEntryUiState.tasks.toMutableList()
+
+        aux.set(
+            index = index,
+            element = NewTask(aux[index].task, checked)
+        )
+        listEntryUiState = listEntryUiState.copy(
+            tasks = aux
+        )
+    }
+
+
+    fun removeTask(index: Int) {
+        val aux = listEntryUiState.tasks.toMutableList()
+
+        aux.removeAt(index)
+
+        listEntryUiState = listEntryUiState.copy(
+            tasks = aux
+        )
+    }
+
+    fun setBackgroundColor(color: Color) {
+        listEntryUiState = listEntryUiState.copy(
+            backgroundColor = color.toHexString()
+        )
+    }
 }
 
 data class ListEntryUiState(
     var title: String = "",
-    var tasks: MutableList<NewTask> = mutableListOf(NewTask())
+    var tasks: MutableList<NewTask> = mutableListOf(NewTask()),
+    var backgroundColor: String = Color(0xFFFFFFFF).toHexString()
 )
 
 data class NewTask(
     val task: String = "",
-    val checked: Boolean = false
+    var checked: Boolean = false
 )

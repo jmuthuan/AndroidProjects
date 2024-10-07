@@ -89,8 +89,7 @@ fun NotesDetail(
             modifier = Modifier
                 .fillMaxSize()
                 .verticalScroll(rememberScrollState())
-                .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
             Text(
                 text = uiState.title,

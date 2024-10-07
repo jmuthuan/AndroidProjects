@@ -129,6 +129,7 @@ fun NotesAndLists(
                     ListsShort(
                         notks = it,
                         onClickList = onClickList,
+                        backgroundColor = it.backgroundColor.toColor(),
                         modifier = Modifier
                             .padding(8.dp)
                         )

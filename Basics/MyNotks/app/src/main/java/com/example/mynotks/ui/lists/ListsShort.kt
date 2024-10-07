@@ -12,6 +12,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -23,6 +24,7 @@ import com.example.mynotks.ui.theme.MyNotksTheme
 fun ListsShort(
     notks: Notks,
     onClickList: (Int) -> Unit,
+    backgroundColor: Color = Color.LightGray,
     modifier: Modifier = Modifier
 ) {
     Card(
@@ -30,11 +32,10 @@ fun ListsShort(
             defaultElevation = 32.dp
         ),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceVariant
+            containerColor = backgroundColor//MaterialTheme.colorScheme.surfaceVariant
         ),
         modifier = modifier
             .fillMaxWidth()
-//            .height(150.dp)
             .clickable {
                 onClickList(notks.id)
             }
