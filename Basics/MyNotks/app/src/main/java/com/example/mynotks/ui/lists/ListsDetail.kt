@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.lists
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -74,7 +75,10 @@ fun ListsDetail(
                     IconButton(
                         onClick = { navigateToUpdateScreen(id) },
                     ) {
-                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit Button")
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
+                            contentDescription = "Edit Button",
+                            tint = Color.White)
                     }
                     IconButton(onClick = {
                         coroutineScope.launch {
@@ -82,9 +86,13 @@ fun ListsDetail(
                             navigateBack()
                         }
                     }) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete Button")
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = "Delete Button",
+                            tint = Color.White)
                     }
-                }
+                },
+                containerColor = MaterialTheme.colorScheme.primary
             )
         }
     ) { innerPadding ->
@@ -97,6 +105,7 @@ fun ListsDetail(
             ),
             modifier = modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.onBackground)
                 .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
             Text(

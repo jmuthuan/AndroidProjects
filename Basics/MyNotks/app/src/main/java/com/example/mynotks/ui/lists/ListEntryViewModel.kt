@@ -10,7 +10,9 @@ import com.example.mynotks.data.Notks
 import com.example.mynotks.data.TypesNotks
 import com.example.mynotks.data.repository.ListItemsRepository
 import com.example.mynotks.data.repository.NotksRepository
+import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.toHexString
+import kotlin.random.Random
 
 class ListEntryViewModel(
     private val notksRepository: NotksRepository,
@@ -98,16 +100,19 @@ class ListEntryViewModel(
     }
 
     fun setBackgroundColor(color: Color) {
+        Math.random()
         listEntryUiState = listEntryUiState.copy(
             backgroundColor = color.toHexString()
         )
     }
+
 }
 
 data class ListEntryUiState(
     var title: String = "",
     var tasks: MutableList<NewTask> = mutableListOf(NewTask()),
-    var backgroundColor: String = Color(0xFFFFFFFF).toHexString()
+    var backgroundColor: String =
+        colors[Random.nextInt(from = 0, until = colors.size - 1)].toHexString() //Color(0xFFFFFFFF).toHexString()
 )
 
 data class NewTask(

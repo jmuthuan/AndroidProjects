@@ -26,8 +26,7 @@ import com.example.mynotks.R
 import com.example.mynotks.data.Notks
 import com.example.mynotks.data.TypesNotks
 import com.example.mynotks.ui.AppViewModelProvider
-import com.example.mynotks.ui.ColorPicker
-import com.example.mynotks.ui.colors
+import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.lists.ListsShort
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.notes.NotesShort
@@ -56,10 +55,15 @@ fun MainBackground(
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        topBar = {
+                 NotksTopAppBar(
+                     title = "Notks App",
+                     canNavigateBack = false,
+                     navigateUp = {}
+                 )
+        },
         floatingActionButton = {
              MultiFloatingActionButton(
-//                 fabIcon = ,
-//                 items = ,
                  onClickAddNote = navigateToEntryNotes,
                  onClickAddList = navigateToEntryList
              )
@@ -72,6 +76,7 @@ fun MainBackground(
             modifier = Modifier
                 .padding(innerPadding)
                 .fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.onBackground)
         )
     }
 }

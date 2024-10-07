@@ -1,8 +1,10 @@
 package com.example.mynotks.ui.notes
 
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -14,13 +16,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mynotks.data.Notks
+import com.example.mynotks.ui.shadow
 
-
-//object NotesShortDestination: NavigationDestination {
-//    override val route = "notes_short"
-//    override val titleRes = R.string.title_res
-//
-//}
 
 @Composable
 fun NotesShort(
@@ -37,7 +34,15 @@ fun NotesShort(
         ),
         modifier = modifier
             .fillMaxWidth()
+            .padding(8.dp)
             .clickable { onClickNotks(notks.id) }
+            .border(1.dp, MaterialTheme.colorScheme.onBackground, RoundedCornerShape(12.dp))
+            .shadow(
+                color = backgroundColor,
+                offsetX = 4.dp,
+                offsetY = 4.dp,
+                blurRadius = 8.dp
+            )
     ) {
         Text(
             text = notks.title,

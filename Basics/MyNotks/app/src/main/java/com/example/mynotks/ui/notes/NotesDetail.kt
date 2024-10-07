@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.notes
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -15,11 +16,13 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -69,7 +72,10 @@ fun NotesDetail(
                     IconButton(
                         onClick = { navigateToUpdateScreen(id) },
                         ) {
-                        Icon(imageVector = Icons.Filled.Edit, contentDescription = "Edit Button")
+                        Icon(
+                            imageVector = Icons.Filled.Edit,
+                            contentDescription = "Edit Button",
+                            tint = Color.White)
                     }
                     IconButton(onClick = {
                         coroutineScope.launch {
@@ -77,9 +83,13 @@ fun NotesDetail(
                             navigateBack()
                         }
                     }) {
-                        Icon(imageVector = Icons.Filled.Delete, contentDescription = "Delete Button")
+                        Icon(
+                            imageVector = Icons.Filled.Delete,
+                            contentDescription = "Delete Button",
+                            tint = Color.White)
                     }
-                })
+                },
+                containerColor = MaterialTheme.colorScheme.primary)
         }
     ) { innerPadding ->
         Card(
@@ -88,13 +98,14 @@ fun NotesDetail(
                 containerColor = uiState.backgroundColor.toColor()),//MaterialTheme.colorScheme.surfaceVariant),
             modifier = Modifier
                 .fillMaxSize()
+                .background(MaterialTheme.colorScheme.onBackground)
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
             Text(
                 text = uiState.title,
                 modifier = Modifier
-                    .padding(8.dp)
+                    .padding(16.dp)
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
                 fontSize = 32.sp

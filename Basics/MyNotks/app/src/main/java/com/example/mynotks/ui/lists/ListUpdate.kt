@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.lists
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -23,6 +24,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -86,26 +88,37 @@ fun ListUpdate(
                                 navigateToStart()
                             }
                         }) {
-                        Icon(Icons.Filled.Check, contentDescription = "check icon")
+                        Icon(
+                            Icons.Filled.Check,
+                            contentDescription = "check icon",
+                            tint = Color.White)
                     }
                     IconButton(onClick = { navigateBack() }) {
-                        Icon(Icons.Filled.Close, contentDescription = "close icon")
+                        Icon(
+                            Icons.Filled.Close,
+                            contentDescription = "close icon",
+                            tint = Color.White)
                     }
                     ColorPicker(
                         colors = colors,
                         onColorSelected = { viewModel.setBackgroundColor(it)}
                     )
                 },
-//                scrollBehavior = scrollBehavior
+                containerColor = MaterialTheme.colorScheme.primary
             )
         },
         floatingActionButton = {
-            FloatingActionButton(onClick = {
-                coroutineScope.launch {
-                    viewModel.addEmptyTask()
-                }
-            }) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "add button")
+            FloatingActionButton(
+                onClick = {
+                    coroutineScope.launch {
+                        viewModel.addEmptyTask()
+                    }
+                },
+                containerColor = MaterialTheme.colorScheme.tertiary
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = "add button")
             }
         }
     ) { innerPadding ->
@@ -119,6 +132,7 @@ fun ListUpdate(
                 modifier = modifier
                     .verticalScroll(rememberScrollState())
                     .fillMaxWidth()
+                    .background(MaterialTheme.colorScheme.onBackground)
                     .height(1000.dp)//TODO check height for maxHeight possible
                     .padding(
                         horizontal = 16.dp,

@@ -42,13 +42,13 @@ import androidx.compose.ui.unit.dp
 import com.example.mynotks.R
 
 
-@Composable
+/*@Composable
 @Preview
 fun FloatingButton(){
     FloatingActionButton(
         onClick = {},
         shape = MaterialTheme.shapes.medium,
-        containerColor = Color.Blue,
+        containerColor = MaterialTheme.colorScheme.tertiary,
         elevation = FloatingActionButtonDefaults.elevation(
             defaultElevation = 8.dp
         )
@@ -59,16 +59,16 @@ fun FloatingButton(){
             tint = Color.White
         )
     }
-}
+}*/
 
-@Preview
-@Composable
-fun ViewMultiFloatingButton(){
-    MultiFloatingActionButton(
-        onClickAddList = {},
-        onClickAddNote = {}
-    )
-}
+//@Preview
+//@Composable
+//fun ViewMultiFloatingButton(){
+//    MultiFloatingActionButton(
+//        onClickAddList = {},
+//        onClickAddNote = {}
+//    )
+//}
 
 
 enum class MultiFabState {
@@ -155,7 +155,7 @@ fun MultiFloatingActionButton(
                 }
                 FloatingActionButton(
                     shape = MaterialTheme.shapes.medium,
-                    containerColor = Color.Blue,
+                    containerColor = MaterialTheme.colorScheme.tertiary,
                     onClick = {
                         stateChange()
                     },
@@ -202,7 +202,7 @@ fun SmallFloatingActionButtonRow(
         SmallFloatingActionButton(
             shape = MaterialTheme.shapes.small,
             onClick = { item.onFabItemClicked() },
-            containerColor = Color.Blue,
+            containerColor = MaterialTheme.colorScheme.tertiary,
             contentColor = Color.White
         ) {
             Icon(
