@@ -19,8 +19,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.data.Notks
@@ -30,6 +33,8 @@ import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.lists.ListsShort
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.notes.NotesShort
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.toColor
 
 
@@ -96,7 +101,12 @@ fun HomeBody(
             Text(
                 text = "Oops! You haven't added any notes or lists",
                 textAlign = TextAlign.Center,
-                style = MaterialTheme.typography.titleMedium
+                style = TextStyle(
+                    fontSize = 32.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Bold,
+                    color = onBackgroundLight
+                ),
             )
         } else {
             NotesAndLists(
@@ -118,7 +128,6 @@ fun NotesAndLists(
     LazyVerticalStaggeredGrid(
         columns = StaggeredGridCells.Fixed(2),
         verticalItemSpacing = 4.dp,
-//        verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         content = {
             items(noteList) {

@@ -1,6 +1,7 @@
 package com.example.mynotks.ui.lists
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -27,23 +29,33 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.ColorPicker
+import com.example.mynotks.ui.NotksSnackbar
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.shadow
+import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -53,13 +65,11 @@ object ListEntryNavigation: NavigationDestination {
     override val titleRes = R.string.title_res
 }
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ListEntry(
     navigateBack: () -> Unit,
     onNavigateUp: () -> Unit,
-//    navigateToStart: () -> Unit,
     viewModel: ListEntryViewModel = viewModel(factory = AppViewModelProvider.Factory),
     modifier: Modifier = Modifier
 ) {
@@ -67,10 +77,15 @@ fun ListEntry(
     val coroutineScope = rememberCoroutineScope()
 
     val uiState = viewModel.listEntryUiState
-
+    val snackbarHostState = remember { SnackbarHostState() }
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = {
+           SnackbarHost(snackbarHostState) {
+                NotksSnackbar("Can't save an empty list!")
+           }
+        },
         topBar = {
             NotksTopAppBar(
                 title = "List Entry",
@@ -81,11 +96,19 @@ fun ListEntry(
         bottomBar = {
             BottomAppBar(
                 actions = {
+                    val context = LocalContext.current
                     IconButton(
                         onClick = {
-                            coroutineScope.launch {
-                                viewModel.saveList()
-                                navigateBack()
+                            //Check that there's no empty list
+                            if(uiState.title == "" && uiState.tasks.all { it.task == "" } ) {
+                                coroutineScope.launch {
+                                   snackbarHostState.showSnackbar("")
+                                }
+                            } else {
+                                coroutineScope.launch {
+                                    viewModel.saveList()
+                                    navigateBack()
+                                }
                             }
                         }) {
                         Icon(
@@ -111,7 +134,20 @@ fun ListEntry(
                 onClick = {
                     viewModel.addEmptyTask()
                 },
-                containerColor = MaterialTheme.colorScheme.tertiary
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .border(
+                        1.dp,
+                        MaterialTheme.colorScheme.onBackground,
+                        RoundedCornerShape(12.dp)
+                    )
+                    .shadow(
+                        color = MaterialTheme.colorScheme.tertiary,
+                        offsetX = 4.dp,
+                        offsetY = 4.dp,
+                        blurRadius = 4.dp
+                    )
                 ) {
                 Icon(imageVector = Icons.Filled.Add, contentDescription = "add button")
             }
@@ -130,7 +166,7 @@ fun ListEntry(
                 .background(MaterialTheme.colorScheme.onBackground)
                 .height(1000.dp)//TODO check height for maxHeight possible
                 .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
-                .clickable{
+                .clickable {
                     viewModel.addEmptyTask()
                 },
         ) {
@@ -143,6 +179,11 @@ fun ListEntry(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.LightGray,
                     unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
+                textStyle = TextStyle(
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Bold,
+                    fontSize = 32.sp
                 ),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -189,16 +230,14 @@ fun ListEntry(
                                 focusedContainerColor = Color.LightGray,
                                 unfocusedContainerColor = uiState.backgroundColor.toColor()
                             ),
+                            textStyle = TextStyle(
+                                fontFamily = nanumFontfamily,
+                                fontWeight = FontWeight.Normal,
+                                fontSize = 24.sp
+                            ),
                             modifier = Modifier
                                 .fillMaxWidth()
                                 .padding(8.dp)
-//                                .onFocusChanged {
-//                                    if(!it.isFocused) {
-//                                        coroutineScope.launch {
-//                                            viewModel.updateTask(task.task, task.id)
-//                                        }
-//                                    }
-//                                }
                         )
                     }
                 }

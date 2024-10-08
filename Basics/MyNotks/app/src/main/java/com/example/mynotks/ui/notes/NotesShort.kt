@@ -12,11 +12,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mynotks.data.Notks
 import com.example.mynotks.ui.shadow
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 
 
 @Composable
@@ -50,13 +54,23 @@ fun NotesShort(
                 .padding(8.dp)
                 .fillMaxWidth(),
             textAlign = TextAlign.Center,
-            fontSize = 32.sp
+            style = TextStyle(
+                fontSize = 32.sp,
+                fontFamily = nanumFontfamily,
+                fontWeight = FontWeight.Bold,
+                color = onBackgroundLight
+            )
         )
         Text(
-            text = "(your notes):  ${notks.id}",
+            text = "(Click to read...)",
             modifier = Modifier
                 .padding(8.dp),
-            fontSize = 16.sp,
+            style = TextStyle(
+                fontSize = 24.sp,
+                fontFamily = nanumFontfamily,
+                fontWeight = FontWeight.Normal,
+                color = onBackgroundLight
+            ),
             textAlign = TextAlign.Center
         )
     }

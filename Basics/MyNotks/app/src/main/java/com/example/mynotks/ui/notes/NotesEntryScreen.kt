@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.notes
 
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -17,23 +18,33 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.ColorPicker
+import com.example.mynotks.ui.NotksSnackbar
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.theme.MyNotksTheme
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -54,8 +65,15 @@ fun NotesEntryScreen(
 
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) {
+                NotksSnackbar("Can't save an empty note!")
+            }
+        },
         topBar = {
             NotksTopAppBar(
                 title = "Note Entry",
@@ -65,11 +83,17 @@ fun NotesEntryScreen(
         bottomBar = {
             BottomAppBar(
                 actions = {
+                    val context = LocalContext.current
                     IconButton(
                         onClick = {
+                            //Check that there's no empty note
                             coroutineScope.launch {
-                                viewModel.saveNote()
-                                navigateBack()
+                                if(uiState.title == "" && uiState.note == "" ) {
+                                    snackbarHostState.showSnackbar("")
+                                } else {
+                                    viewModel.saveNote()
+                                    navigateBack()
+                                }
                             }
                     }) {
                         Icon(
@@ -112,6 +136,12 @@ fun NotesEntryScreen(
                     focusedContainerColor = Color.LightGray,
                     unfocusedContainerColor = uiState.backgroundColor.toColor()
                 ),
+                textStyle = TextStyle(
+                    fontSize = 32.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Bold,
+                    color = onBackgroundLight
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -126,6 +156,12 @@ fun NotesEntryScreen(
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.LightGray,
                     unfocusedContainerColor = uiState.backgroundColor.toColor()
+                ),
+                textStyle = TextStyle(
+                    fontSize = 24.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Normal,
+                    color = onBackgroundLight
                 ),
                 modifier = Modifier
                     .fillMaxSize()

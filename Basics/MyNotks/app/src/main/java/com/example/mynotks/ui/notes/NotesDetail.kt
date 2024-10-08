@@ -24,6 +24,8 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,6 +36,8 @@ import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.theme.MyNotksTheme
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -108,14 +112,24 @@ fun NotesDetail(
                     .padding(16.dp)
                     .fillMaxWidth(),
                 textAlign = TextAlign.Center,
-                fontSize = 32.sp
+                style = TextStyle(
+                    fontSize = 32.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Bold,
+                    color = onBackgroundLight
+                ),
             )
             Text(
                 text = uiState.note,
                 modifier = Modifier
                     .padding(8.dp),
-                fontSize = 16.sp,
-                textAlign = TextAlign.Start
+                textAlign = TextAlign.Start,
+                style = TextStyle(
+                    fontSize = 24.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Normal,
+                    color = onBackgroundLight
+                )
             )
         }
     }

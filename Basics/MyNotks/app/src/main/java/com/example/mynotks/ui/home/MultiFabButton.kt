@@ -8,6 +8,7 @@ import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.core.updateTransition
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
@@ -19,6 +20,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
@@ -40,6 +42,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mynotks.R
+import com.example.mynotks.ui.shadow
 
 
 /*@Composable
@@ -135,8 +138,8 @@ fun MultiFloatingActionButton(
                 currentState = MultiFabState.COLLAPSED
             } else Modifier.fillMaxSize()
 
-    Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
-        Box(
+//    Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
+        Box (
             modifier = Modifier
                 .fillMaxWidth(),
 //                .height(400.dp),
@@ -159,7 +162,17 @@ fun MultiFloatingActionButton(
                     onClick = {
                         stateChange()
                     },
-                    modifier = Modifier.padding(top = 16.dp)
+                    modifier = Modifier
+                        .padding(top = 16.dp)
+                        .border(1.dp,
+                            MaterialTheme.colorScheme.onBackground,
+                            RoundedCornerShape(12.dp))
+                        .shadow(
+                            color = MaterialTheme.colorScheme.tertiary,
+                            offsetX = 4.dp,
+                            offsetY = 4.dp,
+                            blurRadius = 4.dp
+                        )
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_add_24),
@@ -173,7 +186,7 @@ fun MultiFloatingActionButton(
         }
     }
 
-}
+//}
 
 
 @Composable

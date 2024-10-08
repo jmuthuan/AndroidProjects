@@ -1,6 +1,7 @@
 package com.example.mynotks.ui.lists
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
@@ -37,7 +39,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
@@ -45,6 +50,9 @@ import com.example.mynotks.ui.ColorPicker
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.shadow
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -114,7 +122,19 @@ fun ListUpdate(
                         viewModel.addEmptyTask()
                     }
                 },
-                containerColor = MaterialTheme.colorScheme.tertiary
+                containerColor = MaterialTheme.colorScheme.tertiary,
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .border(1.dp,
+                        MaterialTheme.colorScheme.onBackground,
+                        RoundedCornerShape(12.dp)
+                    )
+                    .shadow(
+                        color = MaterialTheme.colorScheme.tertiary,
+                        offsetX = 4.dp,
+                        offsetY = 4.dp,
+                        blurRadius = 4.dp
+                    )
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
@@ -153,6 +173,12 @@ fun ListUpdate(
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.LightGray,
                         unfocusedContainerColor = uiState.backgroundColor.toColor()
+                    ),
+                    textStyle = TextStyle(
+                        fontFamily = nanumFontfamily,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 32.sp,
+                        color = onBackgroundLight
                     ),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -196,6 +222,12 @@ fun ListUpdate(
                                 colors = TextFieldDefaults.colors(
                                     unfocusedContainerColor = uiState.backgroundColor.toColor(),
                                     focusedContainerColor = Color.LightGray),
+                                textStyle = TextStyle(
+                                    fontFamily = nanumFontfamily,
+                                    fontWeight = FontWeight.Normal,
+                                    fontSize = 24.sp,
+                                    color = onBackgroundLight
+                                ),
                                 modifier = Modifier
                                     .fillMaxWidth()
                                     .padding(4.dp)

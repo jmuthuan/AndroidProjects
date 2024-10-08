@@ -29,13 +29,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -113,7 +117,11 @@ fun ListsDetail(
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(),
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
+                fontFamily = nanumFontfamily,
+                fontWeight = FontWeight.Bold,
+                fontSize = 32.sp,
+                color = onBackgroundLight
             )
             LazyColumn {
                 items(uiState.tasks) { tasks ->
@@ -134,6 +142,11 @@ fun ListsDetail(
                         )
                         Text(
                             text = tasks.item,
+                            textAlign = TextAlign.Center,
+                            fontFamily = nanumFontfamily,
+                            fontWeight = FontWeight.Normal,
+                            fontSize = 24.sp,
+                            color = onBackgroundLight,
                             modifier = modifier
                         )
                     }

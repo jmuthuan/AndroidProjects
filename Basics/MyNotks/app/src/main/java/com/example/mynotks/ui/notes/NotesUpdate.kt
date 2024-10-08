@@ -24,7 +24,10 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
@@ -32,6 +35,8 @@ import com.example.mynotks.ui.ColorPicker
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -113,6 +118,12 @@ fun NoteUpdate(
                     focusedContainerColor = Color.LightGray,
                     unfocusedContainerColor = uiState.backgroundColor.toColor()
                 ),
+                textStyle = TextStyle(
+                    fontSize = 32.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Bold,
+                    color = onBackgroundLight
+                ),
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(8.dp)
@@ -128,10 +139,15 @@ fun NoteUpdate(
                     focusedContainerColor = Color.LightGray,
                     unfocusedContainerColor = uiState.backgroundColor.toColor()
                 ),
+                textStyle = TextStyle(
+                    fontSize = 24.sp,
+                    fontFamily = nanumFontfamily,
+                    fontWeight = FontWeight.Normal,
+                    color = onBackgroundLight
+                ),
                 modifier = Modifier
                     .padding(8.dp)
-                    .fillMaxSize(),
-//                textStyle = TextStyle(fontSize = 32.sp)
+                    .fillMaxSize()
             )
         }
     }
