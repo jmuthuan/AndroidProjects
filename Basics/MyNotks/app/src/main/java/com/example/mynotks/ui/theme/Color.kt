@@ -15,14 +15,23 @@ val primaryLight = Color(0xFF515B92)
 val onPrimaryLight = Color(0xFFFFFFFF)
 val secondaryLight = Color(0xFF006874)
 val onSecondaryLight = Color(0xFFFFFFFF)
-
 val tertiaryLight = Color(0xFF006874)
 val onTertiaryLight = Color(0xFFFFFFFF)
-
 val backgroundLight = Color(0xFFFBF8FF)
 val onBackgroundLight = Color(0xFF1B1B21)
 val surfaceLight = Color(0xFFFBF8FF)
 val onSurfaceLight = Color(0xFF1B1B21)
+
+//val errorLight = Color(0xFFBA1A1A)
+//val onErrorLight = Color(0xFFFFFFFF)
+//val errorContainerLight = Color(0xFFFFDAD6)
+//val onErrorContainerLight = Color(0xFF410002)
+
+//val alertDialogContainer = Color(0xFFFFB4AB)
+//val onErrorDark = Color(0xFF690005)
+val confirmDeleteContainer = Color(0xFF690005)//Color(0xFF93000A)
+val alertDialogTitle = Color(0xFFB8C448)
+//val onErrorContainerDark = Color(0xFFFFDAD6)
 
 
 val primaryDark = Color(0xFFBAC3FF)

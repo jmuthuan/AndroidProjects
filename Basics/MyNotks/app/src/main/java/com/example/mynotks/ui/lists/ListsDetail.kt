@@ -1,7 +1,6 @@
 package com.example.mynotks.ui.lists
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -21,9 +20,10 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ShapeDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.DeleteAlertDialog
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.theme.nanumFontfamily
@@ -65,6 +66,8 @@ fun ListsDetail(
 
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
 
+    val shouldShowDialog = remember { mutableStateOf(false)}
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -84,11 +87,9 @@ fun ListsDetail(
                             contentDescription = "Edit Button",
                             tint = Color.White)
                     }
-                    IconButton(onClick = {
-                        coroutineScope.launch {
-                            viewModel.deleteList(id)
-                            navigateBack()
-                        }
+                    IconButton(
+                        onClick = {
+                            shouldShowDialog.value = true
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
@@ -112,6 +113,17 @@ fun ListsDetail(
                 .background(MaterialTheme.colorScheme.onBackground)
                 .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
+            if (shouldShowDialog.value) {
+                DeleteAlertDialog(
+                    shouldShowDialog = shouldShowDialog,
+                    onConfirm = {
+                        coroutineScope.launch {
+                            viewModel.deleteList(id)
+                            navigateBack()
+                        }
+                    }
+                )
+            }
             Text(
                 text = uiState.title,
                 modifier = Modifier

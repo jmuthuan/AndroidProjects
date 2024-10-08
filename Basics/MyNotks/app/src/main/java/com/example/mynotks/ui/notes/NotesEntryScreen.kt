@@ -1,6 +1,5 @@
 package com.example.mynotks.ui.notes
 
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -28,7 +27,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -83,7 +81,6 @@ fun NotesEntryScreen(
         bottomBar = {
             BottomAppBar(
                 actions = {
-                    val context = LocalContext.current
                     IconButton(
                         onClick = {
                             //Check that there's no empty note

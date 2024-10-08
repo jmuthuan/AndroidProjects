@@ -20,6 +20,8 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,6 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
+import com.example.mynotks.ui.DeleteAlertDialog
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.theme.MyNotksTheme
@@ -61,6 +64,8 @@ fun NotesDetail(
     val coroutineScope = rememberCoroutineScope()
     val id = viewModel.getNoteId()
 
+    val shouldShowDialog = remember { mutableStateOf(false) }
+
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
@@ -82,10 +87,7 @@ fun NotesDetail(
                             tint = Color.White)
                     }
                     IconButton(onClick = {
-                        coroutineScope.launch {
-                            viewModel.deleteNoteId(id)
-                            navigateBack()
-                        }
+                        shouldShowDialog.value = true
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
@@ -106,6 +108,18 @@ fun NotesDetail(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
         ) {
+            if (shouldShowDialog.value) {
+                DeleteAlertDialog(
+                    shouldShowDialog = shouldShowDialog,
+                    onConfirm = {
+                        coroutineScope.launch {
+                            viewModel.deleteNoteId(id)
+                            navigateBack()
+                        }
+                    }
+                )
+            }
+
             Text(
                 text = uiState.title,
                 modifier = Modifier

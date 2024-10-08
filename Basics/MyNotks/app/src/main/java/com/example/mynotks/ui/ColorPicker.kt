@@ -53,47 +53,14 @@ fun ColorPicker(colors: List<Color>, onColorSelected: (Color) -> Unit) {
     Box(
         modifier = Modifier
             .padding(horizontal = 8.dp)
-//            .fillMaxWidth(0.8f)
-//            .clip(RoundedCornerShape(20))
-//            .border(
-//                2.dp,
-//                MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
-//                RoundedCornerShape(20)
-//            )
             .clickable {
                 colorPickerOpen = true
             }
     ) {
         Icon(
             painter = painterResource(id = R.drawable.twotone_palette_24),
-            contentDescription = null,
-//            tint = currentlySelected
+            contentDescription = null
         )
-//        Row(
-//            modifier = Modifier
-//                .fillMaxWidth()
-//                .padding(16.dp),
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            verticalAlignment = Alignment.CenterVertically
-//        ) {
-//            Text(
-//                text = "Select colour",
-//            )
-//            Canvas(
-//                modifier = Modifier
-//                    .size(30.dp)
-//                    .clip(RoundedCornerShape(20))
-//                    .border(
-//                        1.dp,
-//                        MaterialTheme.colorScheme.onBackground.copy(alpha = 0.75f),
-//                        RoundedCornerShape(20)
-//                    )
-//                    .background(currentlySelected)
-//                    .clickable {
-//                        colorPickerOpen = true
-//                    }
-//            ) {}
-//        }
     }
 
     if (colorPickerOpen) {
