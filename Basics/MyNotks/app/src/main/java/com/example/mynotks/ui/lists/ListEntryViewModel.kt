@@ -35,13 +35,15 @@ class ListEntryViewModel(
         val lastId = notksRepository.getLastId()
 
         listEntryUiState.tasks.forEach {
-            listItemsRepository.insert(
-                ListItems(
-                    item = it.task,
-                    checked = it.checked,
-                    idMain = lastId
+            if (it.task != ""){//check that it's no empty task
+                listItemsRepository.insert(
+                    ListItems(
+                        item = it.task,
+                        checked = it.checked,
+                        idMain = lastId
+                    )
                 )
-            )
+            }
         }
     }
 

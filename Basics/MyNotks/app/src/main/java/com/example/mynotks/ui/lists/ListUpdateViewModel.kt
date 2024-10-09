@@ -123,11 +123,15 @@ class ListUpdateViewModel(
             id = listUpdateUiState.idMain
         )
         listUpdateUiState.tasks.forEach {
-            listItemsRepository.updateTask(
-                idTask = it.id,
-                task = it.task,
-                checked = it.checked
-            )//TODO -> check and delete tasks deleted before
+            if (it.task != "") {//check that it's no empty task
+                listItemsRepository.updateTask(
+                    idTask = it.id,
+                    task = it.task,
+                    checked = it.checked
+                )
+            } else { //delete empty task from repository
+                listItemsRepository.deleteTask(it.id)
+            }
         }
     }
 
