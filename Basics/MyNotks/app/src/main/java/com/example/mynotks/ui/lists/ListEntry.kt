@@ -40,6 +40,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -86,7 +87,7 @@ fun ListEntry(
         },
         topBar = {
             NotksTopAppBar(
-                title = "List Entry",
+                title = stringResource(id = R.string.top_bar_list_entry),
                 canNavigateBack = true,
                 navigateUp = onNavigateUp
             )
@@ -112,13 +113,13 @@ fun ListEntry(
                         }) {
                         Icon(
                             Icons.Filled.Check,
-                            contentDescription = "check icon",
+                            contentDescription = stringResource(id = R.string.check_icon),
                             tint = Color.White)
                     }
                     IconButton(onClick = { navigateBack() }) {
                         Icon(
                             Icons.Filled.Close,
-                            contentDescription = "close icon",
+                            contentDescription = stringResource(id = R.string.cancel_icon),
                             tint = Color.White)
                     }
                     ColorPicker(
@@ -157,7 +158,10 @@ fun ListEntry(
                         blurRadius = 4.dp
                     )
                 ) {
-                Icon(imageVector = Icons.Filled.Add, contentDescription = "add button")
+                Icon(
+                    imageVector = Icons.Filled.Add,
+                    contentDescription = stringResource(id = R.string.add_icon_description)
+                )
             }
         }
     ) { innerPadding ->
@@ -174,16 +178,18 @@ fun ListEntry(
                 .padding(horizontal = 16.dp)
                 .padding(
                     top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp
+                )
                 .clickable {
                     //Check that there's already no empty task
-                    if(uiState.tasks.firstOrNull {it.task == "" } == null) {
+                    if (uiState.tasks.firstOrNull { it.task == "" } == null) {
                         viewModel.addEmptyTask()
                     } else {
                         coroutineScope.launch {
                             snackbarHostState.showSnackbar(
                                 message = "There's already an empty task!",
-                                duration = SnackbarDuration.Short)
+                                duration = SnackbarDuration.Short
+                            )
                         }
                     }
                 },
@@ -239,7 +245,7 @@ fun ListEntry(
                                 ) {
                                     Icon(
                                         imageVector = Icons.Filled.Clear,
-                                        contentDescription = "delete icon"
+                                        contentDescription = stringResource(id = R.string.delete_icon_description)
                                     )
                                 }
                             },

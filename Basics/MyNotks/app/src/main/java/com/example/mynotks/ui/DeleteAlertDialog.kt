@@ -10,11 +10,13 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mynotks.R
 import com.example.mynotks.ui.theme.alertDialogTitle
 import com.example.mynotks.ui.theme.confirmDeleteContainer
 import com.example.mynotks.ui.theme.nanumFontfamily
@@ -38,7 +40,7 @@ fun DeleteAlertDialog(
                 ),
             title = {
                     Text(
-                        text = "Warning!!",
+                        text = stringResource(id = R.string.warning),
                         style = TextStyle(
                             fontSize = 48.sp,
                             fontFamily = nanumFontfamily,
@@ -51,7 +53,7 @@ fun DeleteAlertDialog(
             },
             text = {
                    Text(
-                       text = "Please confirm to delete",
+                       text = stringResource(id = R.string.confirm_message),
                        style = TextStyle(
                            fontSize = 32.sp,
                            fontFamily = nanumFontfamily,
@@ -74,7 +76,7 @@ fun DeleteAlertDialog(
                                 modifier = Modifier.padding(end = 32.dp)
                             ) {
                                 Text(
-                                    text = "Cancel",
+                                    text = stringResource(id = R.string.cancel),
                                     style = TextStyle(
                                         fontSize = 24.sp,
                                         fontFamily = nanumFontfamily,
@@ -95,7 +97,7 @@ fun DeleteAlertDialog(
                     )
                 ) {
                     Text(
-                        text = "Confirm",
+                        text = stringResource(id = R.string.confirm),
                         style = TextStyle(
                             fontSize = 24.sp,
                             fontFamily = nanumFontfamily,

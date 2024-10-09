@@ -27,6 +27,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -74,7 +75,7 @@ fun NotesEntryScreen(
         },
         topBar = {
             NotksTopAppBar(
-                title = "Note Entry",
+                title = stringResource(id = R.string.top_bar_note_entry),
                 canNavigateBack = true,
                 navigateUp = onNavigateUp )
         },
@@ -95,13 +96,13 @@ fun NotesEntryScreen(
                     }) {
                         Icon(
                             Icons.Filled.Check,
-                            contentDescription = "check icon",
+                            contentDescription = stringResource(id = R.string.check_icon),
                             tint = Color.White)
                     }
                     IconButton(onClick = { navigateBack() }) {
                         Icon(
                             Icons.Filled.Close,
-                            contentDescription = "close icon",
+                            contentDescription = stringResource(id = R.string.cancel_icon),
                             tint = Color.White)
                     }
                     ColorPicker(
@@ -116,7 +117,7 @@ fun NotesEntryScreen(
             elevation = CardDefaults.cardElevation(
                 defaultElevation = 32.dp),
             colors = CardDefaults.cardColors(
-                containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
+                containerColor = uiState.backgroundColor.toColor()
             ),
             modifier = Modifier
                 .fillMaxSize()
@@ -124,13 +125,14 @@ fun NotesEntryScreen(
                 .padding(horizontal = 16.dp)
                 .padding(
                     top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp
+                )
         ) {
             OutlinedTextField(
                 value = uiState.title,
                 onValueChange = { viewModel.setTitle(it) },
                 label = {
-                    Text(text = "Note title")
+                    Text(text = stringResource(id = R.string.placeholder_note_title))
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.LightGray,
@@ -150,7 +152,7 @@ fun NotesEntryScreen(
                 value = uiState.note,
                 onValueChange = { viewModel.setNote(it) },
                 label = {
-                    Text(text = "Write your note here")
+                    Text(text = stringResource(id = R.string.placeholder_note_body))
                 },
                 minLines = 10,
                 colors = TextFieldDefaults.colors(

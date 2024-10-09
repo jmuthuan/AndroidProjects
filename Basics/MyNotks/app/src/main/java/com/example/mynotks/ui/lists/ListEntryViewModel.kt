@@ -47,7 +47,6 @@ class ListEntryViewModel(
 
     fun addEmptyTask() {
         //Check that there's no empty task
-//        if(listEntryUiState.tasks.firstOrNull { it.task == "" } == null) {
             val aux = listEntryUiState.tasks.toMutableList()
 
             aux.add( NewTask(task = "", checked = false))
@@ -55,7 +54,6 @@ class ListEntryViewModel(
             listEntryUiState = listEntryUiState.copy(
                 tasks = aux
             )
-//        }
     }
 
     fun updateTask(task: String, index: Int) {
@@ -112,7 +110,7 @@ data class ListEntryUiState(
     var title: String = "",
     var tasks: MutableList<NewTask> = mutableListOf(NewTask()),
     var backgroundColor: String =
-        colors[Random.nextInt(from = 0, until = colors.size - 1)].toHexString() //Color(0xFFFFFFFF).toHexString()
+        colors[Random.nextInt(from = 0, until = colors.size - 1)].toHexString()
 )
 
 data class NewTask(

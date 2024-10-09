@@ -64,7 +64,6 @@ class NoteUpdateViewModel(
             backgroundColor = color.toHexString()
         )
     }
-
 }
 
 data class NoteUpdateUiState(

@@ -4,14 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -43,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -88,7 +87,7 @@ fun ListUpdate(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NotksTopAppBar(
-                title = "List Update",
+                title = stringResource(id = R.string.top_bar_list_update),
                 canNavigateBack = true,
                 navigateUp = onNavigateUp
             )
@@ -110,13 +109,13 @@ fun ListUpdate(
                         }) {
                         Icon(
                             Icons.Filled.Check,
-                            contentDescription = "check icon",
+                            contentDescription = stringResource(id = R.string.check_icon),
                             tint = Color.White)
                     }
                     IconButton(onClick = { navigateBack() }) {
                         Icon(
                             Icons.Filled.Close,
-                            contentDescription = "close icon",
+                            contentDescription = stringResource(id = R.string.cancel_icon),
                             tint = Color.White)
                     }
                     ColorPicker(
@@ -158,7 +157,8 @@ fun ListUpdate(
             ) {
                 Icon(
                     imageVector = Icons.Filled.Add,
-                    contentDescription = "add button")
+                    contentDescription = stringResource(id = R.string.add_icon_description)
+                )
             }
         }
     ) { innerPadding ->
@@ -167,13 +167,11 @@ fun ListUpdate(
                     defaultElevation = 32.dp
                 ),
                 colors = CardDefaults.cardColors(
-                    containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
+                    containerColor = uiState.backgroundColor.toColor()
                 ),
                 modifier = modifier
-                    .verticalScroll(rememberScrollState())
-                    .fillMaxWidth()
+                    .fillMaxSize()
                     .background(MaterialTheme.colorScheme.onBackground)
-                    .height(1000.dp)//TODO check height for maxHeight possible
                     .padding(horizontal = 16.dp)
                     .padding(
                         top = innerPadding.calculateTopPadding() + 8.dp,
@@ -187,7 +185,8 @@ fun ListUpdate(
                             } else {
                                 snackbarHostState.showSnackbar(
                                     message = "There's already an empty task!",
-                                    duration = SnackbarDuration.Short)
+                                    duration = SnackbarDuration.Short
+                                )
                             }
                         }
                     },
@@ -196,7 +195,7 @@ fun ListUpdate(
                     value = uiState.title,
                     onValueChange = { viewModel.updateTitle(it) },
                     label = {
-                        Text(text = "List title")
+                        Text(text = stringResource(id = R.string.placeholder_list_title))
                     },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.LightGray,
@@ -243,7 +242,7 @@ fun ListUpdate(
                                     ) {
                                         Icon(
                                             imageVector = Icons.Filled.Clear,
-                                            contentDescription = "delete icon"
+                                            contentDescription = stringResource(id = R.string.delete_icon_description)
                                         )
                                     }
                                 },

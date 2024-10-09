@@ -79,8 +79,6 @@ class ListUpdateViewModel(
 
     suspend fun addEmptyTask() {
         //Check that last task isn't empty
-        //if (listUpdateUiState.tasks.firstOrNull { it.task == "" } == null) {
-
             listItemsRepository.insert(
                 ListItems(item = "", checked = false, idMain = listUpdateUiState.idMain)
             )
@@ -90,7 +88,6 @@ class ListUpdateViewModel(
             listUpdateUiState = listUpdateUiState.copy(
                 tasks = tasks
             )
-        //}
     }
 
     fun updateChecked(taskId: Int, checked: Boolean) {

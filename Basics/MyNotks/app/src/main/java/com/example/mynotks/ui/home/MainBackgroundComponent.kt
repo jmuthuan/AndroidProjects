@@ -21,6 +21,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -102,7 +103,7 @@ fun HomeBody(
     ) {
         if (notksList.isEmpty()) {
             Text(
-                text = "Oops! You haven't added any notes or lists",
+                text = stringResource(id = R.string.empty_home_message),
                 textAlign = TextAlign.Center,
                 style = TextStyle(
                     fontSize = 32.sp,

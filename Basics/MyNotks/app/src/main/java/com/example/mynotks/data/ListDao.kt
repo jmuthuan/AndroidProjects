@@ -32,6 +32,4 @@ interface ListDao {
     @Query("UPDATE list SET item = :task, checked = :checked WHERE id = :idTask")
     suspend fun updateTask(idTask: Int, task: String, checked: Boolean)
 
-//    @Query("INSERT INTO list(item, checked, idMain) VALUES (:item, :checked, :idMain")
-//    suspend fun
 }

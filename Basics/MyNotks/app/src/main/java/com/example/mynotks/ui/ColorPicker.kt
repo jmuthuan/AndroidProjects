@@ -155,7 +155,7 @@ fun ColorDialogPreview() {
     MyNotksTheme {
         ColorDialog(
             colorList = colors,
-            onDismiss = { /*TODO*/ },
+            onDismiss = { },
             currentlySelected = colors[3],
             onColorSelected = {}
         )

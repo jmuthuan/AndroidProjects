@@ -1,4 +1,39 @@
 <resources>
     <string name="app_name">MyNotks</string>
     <string name="title_res">Notks Test Title</string>
+
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="warning">Warning!!</string>
+
+    <string name="confirm_message">Please confirm to delete</string>
+    <string name="snackbar_empty_message">"Empty Snackbar message"</string>
+
+    <string name="arrow_back">arrow back</string>
+    <string name="empty_home_message">Oops! You haven\'t added any notes or lists</string>
+
+    <string name="mini_fab_list_label">new list</string>
+    <string name="mini_fab_note_label">new note</string>
+    <string name="fab_home_description">floating button to add new note or list</string>
+
+    <string name="generic_task">Task</string>
+    <string name="generic_note">(Click to read…)</string>
+
+    <string name="top_bar_list_entry">List Entry</string>
+    <string name="top_bar_list_detail">List Details</string>
+    <string name="top_bar_list_update">List Update</string>
+
+    <string name="top_bar_note_entry">Note Entry</string>
+    <string name="top_bar_note_detail">Note Details</string>
+    <string name="top_bar_note_update">Note Update</string>
+
+    <string name="check_icon">check button</string>
+    <string name="cancel_icon">cancel button</string>
+    <string name="add_icon_description">add button</string>
+    <string name="delete_icon_description">delete button</string>
+    <string name="edit_icon_description">edit button</string>
+
+    <string name="placeholder_list_title">List Title</string>
+    <string name="placeholder_note_title">Note Title</string>
+    <string name="placeholder_note_body">Write your note here!</string>
 </resources>

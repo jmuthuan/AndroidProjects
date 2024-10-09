@@ -8,16 +8,18 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mynotks.R
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
 
 @Composable
 fun NotksSnackbar(
-    message: String = "Empty Snackbar message",
+    message: String = stringResource(id = R.string.snackbar_empty_message),
     containerColor: Color = MaterialTheme.colorScheme.onBackground,
 ) {
     Snackbar(

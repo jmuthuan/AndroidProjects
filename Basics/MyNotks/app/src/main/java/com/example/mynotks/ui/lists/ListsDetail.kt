@@ -29,6 +29,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -72,7 +73,7 @@ fun ListsDetail(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             NotksTopAppBar(
-                title = "List Details",
+                title = stringResource(id = R.string.top_bar_list_detail),
                 canNavigateBack = true,
                 navigateUp = onNavigateUp)
         },
@@ -84,7 +85,7 @@ fun ListsDetail(
                     ) {
                         Icon(
                             imageVector = Icons.Filled.Edit,
-                            contentDescription = "Edit Button",
+                            contentDescription = stringResource(id = R.string.edit_icon_description),
                             tint = Color.White)
                     }
                     IconButton(
@@ -93,7 +94,7 @@ fun ListsDetail(
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete Button",
+                            contentDescription = stringResource(id = R.string.delete_icon_description),
                             tint = Color.White)
                     }
                 },
@@ -114,7 +115,8 @@ fun ListsDetail(
                 .padding(horizontal = 16.dp)
                 .padding(
                     top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp
+                )
         ) {
             if (shouldShowDialog.value) {
                 DeleteAlertDialog(

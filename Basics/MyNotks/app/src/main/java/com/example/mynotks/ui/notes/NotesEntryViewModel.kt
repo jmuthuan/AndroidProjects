@@ -36,10 +36,6 @@ class NotesEntryViewModel(
         notesRepository.insertNotes(Notes(notes = notesUiState.note, idMain = lastId))
     }
 
-//    suspend fun getNoteTitle(id: Int) {
-//        notksRepository.getAllNotksStream()
-//    }
-
     fun setBackgroundColor(color: Color) {
         notesUiState = notesUiState.copy(
             backgroundColor = color.toHexString()
@@ -64,5 +60,5 @@ data class NotesUiState(
     var note: String = "",
     private val idMain: Int = 0,
     var backgroundColor: String =
-        colors[Random.nextInt(from = 0, until = colors.size - 1)].toHexString()//Color(0xFFFFFFFF).toHexString()
+        colors[Random.nextInt(from = 0, until = colors.size - 1)].toHexString()
 )

@@ -1,8 +1,5 @@
 package com.example.mynotks.data
 
-import androidx.compose.ui.tooling.preview.datasource.LoremIpsum
-import java.util.Random
-
 data class NotesData(
     val notesId: Int,
     var title: String,

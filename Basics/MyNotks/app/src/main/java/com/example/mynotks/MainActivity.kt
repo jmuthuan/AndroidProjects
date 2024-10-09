@@ -23,12 +23,3 @@ class MainActivity : ComponentActivity() {
         }
     }
 }
-
-
-//@Preview(showBackground = true)
-//@Composable
-//fun MyNotksPreview() {
-//    MyNotksTheme {
-//        TasksComponent()
-//    }
-//}

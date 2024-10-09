@@ -39,39 +39,11 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mynotks.R
 import com.example.mynotks.ui.shadow
-
-
-/*@Composable
-@Preview
-fun FloatingButton(){
-    FloatingActionButton(
-        onClick = {},
-        shape = MaterialTheme.shapes.medium,
-        containerColor = MaterialTheme.colorScheme.tertiary,
-        elevation = FloatingActionButtonDefaults.elevation(
-            defaultElevation = 8.dp
-        )
-    ) {
-        Icon(
-            painter = painterResource(R.drawable.baseline_add_24),
-            contentDescription = null,
-            tint = Color.White
-        )
-    }
-}*/
-
-//@Preview
-//@Composable
-//fun ViewMultiFloatingButton(){
-//    MultiFloatingActionButton(
-//        onClickAddList = {},
-//        onClickAddNote = {}
-//    )
-//}
 
 
 enum class MultiFabState {
@@ -111,17 +83,18 @@ fun MultiFloatingActionButton(
     ) { state ->
         if (state == MultiFabState.EXPANDED) 45f else 0f
     }
+
     val isEnable = currentState == MultiFabState.EXPANDED
 
     val miniFabs = arrayListOf(
         FabItem(
             icon =  painterResource(id = R.drawable.baseline_notes_24),
-            label = "",
+            label = stringResource(id = R.string.mini_fab_note_label),
             onFabItemClicked = onClickAddNote
         ),
         FabItem(
             icon =  painterResource(id = R.drawable.baseline_checklist_24),
-            label = "",
+            label = stringResource(id = R.string.mini_fab_list_label),
             onFabItemClicked = onClickAddList
         )
     )
@@ -138,11 +111,9 @@ fun MultiFloatingActionButton(
                 currentState = MultiFabState.COLLAPSED
             } else Modifier.fillMaxSize()
 
-//    Box(modifier = modifier, contentAlignment = Alignment.BottomEnd) {
         Box (
             modifier = Modifier
                 .fillMaxWidth(),
-//                .height(400.dp),
             contentAlignment = Alignment.BottomEnd
         ) {
             Column(
@@ -164,9 +135,11 @@ fun MultiFloatingActionButton(
                     },
                     modifier = Modifier
                         .padding(top = 16.dp)
-                        .border(1.dp,
+                        .border(
+                            1.dp,
                             MaterialTheme.colorScheme.onBackground,
-                            RoundedCornerShape(12.dp))
+                            RoundedCornerShape(12.dp)
+                        )
                         .shadow(
                             color = MaterialTheme.colorScheme.tertiary,
                             offsetX = 4.dp,
@@ -176,17 +149,14 @@ fun MultiFloatingActionButton(
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.baseline_add_24),
-                        contentDescription = null,
+                        contentDescription = stringResource(id = R.string.fab_home_description),
                         tint = Color.White,
                         modifier = Modifier.rotate(rotation)
                     )
                 }
             }
-
         }
     }
-
-//}
 
 
 @Composable

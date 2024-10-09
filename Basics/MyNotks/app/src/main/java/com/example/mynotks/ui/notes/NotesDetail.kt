@@ -26,6 +26,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -38,7 +39,6 @@ import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.DeleteAlertDialog
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
-import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.MyNotksTheme
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
@@ -72,7 +72,7 @@ fun NotesDetail(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
                  NotksTopAppBar(
-                     title = "Note Details",
+                     title = stringResource(id = R.string.top_bar_note_detail),
                      canNavigateBack = true,
                      navigateUp = onNavigateUp)
         },
@@ -84,7 +84,7 @@ fun NotesDetail(
                         ) {
                         Icon(
                             imageVector = Icons.Filled.Edit,
-                            contentDescription = "Edit Button",
+                            contentDescription = stringResource(id = R.string.edit_icon_description),
                             tint = Color.White)
                     }
                     IconButton(onClick = {
@@ -92,7 +92,7 @@ fun NotesDetail(
                     }) {
                         Icon(
                             imageVector = Icons.Filled.Delete,
-                            contentDescription = "Delete Button",
+                            contentDescription = stringResource(id = R.string.delete_icon_description),
                             tint = Color.White)
                     }
                 },
@@ -102,7 +102,7 @@ fun NotesDetail(
         Card(
             elevation = CardDefaults.cardElevation(defaultElevation = 32.dp),
             colors = CardDefaults.cardColors(
-                containerColor = uiState.backgroundColor.toColor()),//MaterialTheme.colorScheme.surfaceVariant),
+                containerColor = uiState.backgroundColor.toColor()),
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.onBackground)
@@ -110,7 +110,8 @@ fun NotesDetail(
                 .padding(horizontal = 16.dp)
                 .padding(
                     top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp
+                )
         ) {
             if (shouldShowDialog.value) {
                 DeleteAlertDialog(

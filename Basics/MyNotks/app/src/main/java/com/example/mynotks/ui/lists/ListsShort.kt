@@ -15,17 +15,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.mynotks.R
 import com.example.mynotks.data.Notks
 import com.example.mynotks.data.TypesNotks
+import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.MyNotksTheme
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
+import com.example.mynotks.ui.toHexString
 
 @Composable
 fun ListsShort(
@@ -76,7 +80,7 @@ fun ListsShort(
                     onCheckedChange = null
                 )
                 Text(
-                    text = "Task ...",
+                    text = stringResource(id = R.string.generic_task),
                     textAlign = TextAlign.Center,
                     fontFamily = nanumFontfamily,
                     fontWeight = FontWeight.Normal,
@@ -95,7 +99,10 @@ fun ListsShort(
 fun ListsShortPreview() {
     MyNotksTheme {
         ListsShort(
-            Notks(0, TypesNotks.LIST, title = "List First Test"),
+            Notks(0,
+                TypesNotks.LIST,
+                colors[0].toHexString(),
+                title = "List First Test"),
             {})
     }
 }
