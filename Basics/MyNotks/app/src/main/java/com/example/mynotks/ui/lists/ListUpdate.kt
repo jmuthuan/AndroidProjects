@@ -29,10 +29,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -47,6 +51,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.mynotks.R
 import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.ColorPicker
+import com.example.mynotks.ui.NotksSnackbar
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
@@ -77,6 +82,8 @@ fun ListUpdate(
     val scrollBehavior = BottomAppBarDefaults.exitAlwaysScrollBehavior()
     val coroutineScope = rememberCoroutineScope()
 
+    val snackbarHostState = remember { SnackbarHostState() }
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -85,6 +92,11 @@ fun ListUpdate(
                 canNavigateBack = true,
                 navigateUp = onNavigateUp
             )
+        },
+        snackbarHost = {
+            SnackbarHost(snackbarHostState) {data ->
+                NotksSnackbar(data.visuals.message)
+            }
         },
         bottomBar = {
             BottomAppBar(
@@ -119,13 +131,21 @@ fun ListUpdate(
             FloatingActionButton(
                 onClick = {
                     coroutineScope.launch {
-                        viewModel.addEmptyTask()
+                        //Check that there's already no empty task
+                        if (uiState.tasks.firstOrNull { it.task == "" } == null) {
+                            viewModel.addEmptyTask()
+                        } else {
+                            snackbarHostState.showSnackbar(
+                                message = "There's already an empty task!",
+                                duration = SnackbarDuration.Short)
+                        }
                     }
                 },
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier
                     .padding(end = 8.dp)
-                    .border(1.dp,
+                    .border(
+                        1.dp,
                         MaterialTheme.colorScheme.onBackground,
                         RoundedCornerShape(12.dp)
                     )
@@ -154,13 +174,21 @@ fun ListUpdate(
                     .fillMaxWidth()
                     .background(MaterialTheme.colorScheme.onBackground)
                     .height(1000.dp)//TODO check height for maxHeight possible
+                    .padding(horizontal = 16.dp)
                     .padding(
-                        horizontal = 16.dp,
-                        vertical = innerPadding.calculateTopPadding() + 8.dp
+                        top = innerPadding.calculateTopPadding() + 8.dp,
+                        bottom = innerPadding.calculateBottomPadding() + 8.dp
                     )
-                    .clickable{
+                    .clickable {
                         coroutineScope.launch {
-                            viewModel.addEmptyTask()
+                            //Check that there's already no empty task
+                            if (uiState.tasks.firstOrNull { it.task == "" } == null) {
+                                viewModel.addEmptyTask()
+                            } else {
+                                snackbarHostState.showSnackbar(
+                                    message = "There's already an empty task!",
+                                    duration = SnackbarDuration.Short)
+                            }
                         }
                     },
             ) {
@@ -230,7 +258,7 @@ fun ListUpdate(
                                 ),
                                 modifier = Modifier
                                     .fillMaxWidth()
-                                    .padding(4.dp)
+                                    .padding(horizontal = 4.dp)
                                     .onFocusChanged {
                                         if (!it.isFocused) {
                                             coroutineScope.launch {

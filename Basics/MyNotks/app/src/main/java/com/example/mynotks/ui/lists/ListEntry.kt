@@ -4,14 +4,12 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Check
@@ -29,6 +27,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -81,8 +80,8 @@ fun ListEntry(
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         snackbarHost = {
-           SnackbarHost(snackbarHostState) {
-                NotksSnackbar("Can't save an empty list!")
+           SnackbarHost(snackbarHostState) {data ->
+                NotksSnackbar(data.visuals.message)
            }
         },
         topBar = {
@@ -100,7 +99,9 @@ fun ListEntry(
                             //Check that there's no empty list
                             if(uiState.title == "" && uiState.tasks.all { it.task == "" } ) {
                                 coroutineScope.launch {
-                                   snackbarHostState.showSnackbar("")
+                                   snackbarHostState.showSnackbar(
+                                       message = "Can't save an empty list!",
+                                       duration = SnackbarDuration.Short)
                                 }
                             } else {
                                 coroutineScope.launch {
@@ -130,7 +131,16 @@ fun ListEntry(
         floatingActionButton = {
             FloatingActionButton(
                 onClick = {
-                    viewModel.addEmptyTask()
+                    //Check that there's already no empty task
+                    if(uiState.tasks.firstOrNull {it.task == "" } == null) {
+                        viewModel.addEmptyTask()
+                    } else {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "There's already an empty task!",
+                                duration = SnackbarDuration.Short)
+                        }
+                    }
                 },
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 modifier = Modifier
@@ -156,16 +166,26 @@ fun ListEntry(
                 defaultElevation = 32.dp
             ),
             colors = CardDefaults.cardColors(
-                containerColor = uiState.backgroundColor.toColor()//MaterialTheme.colorScheme.surfaceVariant
+                containerColor = uiState.backgroundColor.toColor()
             ),
             modifier = modifier
-                .verticalScroll(rememberScrollState())
-                .fillMaxWidth()
+                .fillMaxSize()
                 .background(MaterialTheme.colorScheme.onBackground)
-                .height(1000.dp)//TODO check height for maxHeight possible
-                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
+                .padding(horizontal = 16.dp)
+                .padding(
+                    top = innerPadding.calculateTopPadding() + 8.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
                 .clickable {
-                    viewModel.addEmptyTask()
+                    //Check that there's already no empty task
+                    if(uiState.tasks.firstOrNull {it.task == "" } == null) {
+                        viewModel.addEmptyTask()
+                    } else {
+                        coroutineScope.launch {
+                            snackbarHostState.showSnackbar(
+                                message = "There's already an empty task!",
+                                duration = SnackbarDuration.Short)
+                        }
+                    }
                 },
         ) {
             OutlinedTextField(
@@ -191,8 +211,7 @@ fun ListEntry(
                 items( uiState.tasks ) { task ->
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         TextField(
@@ -235,7 +254,7 @@ fun ListEntry(
                             ),
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(8.dp)
+                                .padding(horizontal = 4.dp)
                         )
                     }
                 }

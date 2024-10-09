@@ -38,6 +38,7 @@ import com.example.mynotks.ui.AppViewModelProvider
 import com.example.mynotks.ui.DeleteAlertDialog
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.MyNotksTheme
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
@@ -73,7 +74,7 @@ fun NotesDetail(
                  NotksTopAppBar(
                      title = "Note Details",
                      canNavigateBack = true,
-                     navigateUp = onNavigateUp )
+                     navigateUp = onNavigateUp)
         },
         bottomBar = {
             BottomAppBar(
@@ -106,7 +107,10 @@ fun NotesDetail(
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.onBackground)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
+                .padding(horizontal = 16.dp)
+                .padding(
+                    top = innerPadding.calculateTopPadding() + 8.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
         ) {
             if (shouldShowDialog.value) {
                 DeleteAlertDialog(

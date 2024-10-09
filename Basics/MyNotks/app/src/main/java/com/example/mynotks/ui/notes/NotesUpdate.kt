@@ -106,7 +106,10 @@ fun NoteUpdate(
             modifier = Modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.onBackground)
-                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
+                .padding(horizontal = 16.dp)
+                .padding(
+                    top = innerPadding.calculateTopPadding() + 8.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
         ) {
             OutlinedTextField(
                 value = uiState.title,

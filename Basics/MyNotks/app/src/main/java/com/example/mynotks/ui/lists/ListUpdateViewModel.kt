@@ -10,7 +10,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.mynotks.data.ListItems
 import com.example.mynotks.data.repository.ListItemsRepository
 import com.example.mynotks.data.repository.NotksRepository
-import com.example.mynotks.ui.toColor
 import com.example.mynotks.ui.toHexString
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
@@ -80,7 +79,7 @@ class ListUpdateViewModel(
 
     suspend fun addEmptyTask() {
         //Check that last task isn't empty
-        if (listUpdateUiState.tasks.firstOrNull { it.task == "" } == null) {
+        //if (listUpdateUiState.tasks.firstOrNull { it.task == "" } == null) {
 
             listItemsRepository.insert(
                 ListItems(item = "", checked = false, idMain = listUpdateUiState.idMain)
@@ -91,11 +90,7 @@ class ListUpdateViewModel(
             listUpdateUiState = listUpdateUiState.copy(
                 tasks = tasks
             )
-
-
-        }
-        /* TODO -> add Toast to notify the user that
-            can't add a task because one is already empty */
+        //}
     }
 
     fun updateChecked(taskId: Int, checked: Boolean) {

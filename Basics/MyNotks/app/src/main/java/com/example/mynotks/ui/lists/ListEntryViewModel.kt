@@ -46,8 +46,8 @@ class ListEntryViewModel(
     }
 
     fun addEmptyTask() {
-        //Check that last task isn't empty
-        if(listEntryUiState.tasks.firstOrNull { it.task == "" } == null) {
+        //Check that there's no empty task
+//        if(listEntryUiState.tasks.firstOrNull { it.task == "" } == null) {
             val aux = listEntryUiState.tasks.toMutableList()
 
             aux.add( NewTask(task = "", checked = false))
@@ -55,7 +55,7 @@ class ListEntryViewModel(
             listEntryUiState = listEntryUiState.copy(
                 tasks = aux
             )
-        }
+//        }
     }
 
     fun updateTask(task: String, index: Int) {

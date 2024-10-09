@@ -111,7 +111,10 @@ fun ListsDetail(
             modifier = modifier
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.onBackground)
-                .padding(horizontal = 16.dp, vertical = innerPadding.calculateTopPadding() + 8.dp)
+                .padding(horizontal = 16.dp)
+                .padding(
+                    top = innerPadding.calculateTopPadding() + 8.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 8.dp)
         ) {
             if (shouldShowDialog.value) {
                 DeleteAlertDialog(
@@ -139,8 +142,7 @@ fun ListsDetail(
                 items(uiState.tasks) { tasks ->
                     Row(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 4.dp),
+                            .fillMaxWidth(),
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Checkbox(
@@ -166,9 +168,4 @@ fun ListsDetail(
             }
         }
     }
-
-
-
-
-
 }
