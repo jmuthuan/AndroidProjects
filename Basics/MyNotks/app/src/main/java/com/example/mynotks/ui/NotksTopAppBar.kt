@@ -1,5 +1,7 @@
 package com.example.mynotks.ui
 
+import androidx.compose.foundation.background
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -12,12 +14,15 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.mynotks.R
 import com.example.mynotks.ui.theme.luckiestFontFamily
+import com.example.mynotks.ui.theme.primaryDark
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -38,7 +43,14 @@ fun NotksTopAppBar(
                 textAlign = TextAlign.Center
             )
         },
-        modifier = modifier,
+        modifier = Modifier
+            .shadow(
+                color = primaryDark,
+                offsetY = 4.dp,
+                blurRadius = 8.dp
+            )
+            .background(MaterialTheme.colorScheme.onBackground)
+            .clip(RoundedCornerShape(bottomStart = 8.dp, bottomEnd = 8.dp)),
         scrollBehavior = scrollBehavior,
         navigationIcon = {
             if (canNavigateBack) {

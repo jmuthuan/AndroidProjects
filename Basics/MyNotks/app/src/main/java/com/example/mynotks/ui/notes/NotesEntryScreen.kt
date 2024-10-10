@@ -4,6 +4,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
@@ -25,6 +26,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -41,9 +43,11 @@ import com.example.mynotks.ui.NotksSnackbar
 import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
+import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.MyNotksTheme
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
+import com.example.mynotks.ui.theme.primaryDark
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -109,7 +113,15 @@ fun NotesEntryScreen(
                         colors = colors,
                         onColorSelected = { viewModel.setBackgroundColor(it) })
                 },
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .shadow(
+                        color = primaryDark,
+                        offsetY = (-2).dp,
+                        blurRadius = 4.dp
+                    )
+                    .background(MaterialTheme.colorScheme.onBackground)
+                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)),
             )
         }
     ) { innerPadding ->
@@ -124,8 +136,8 @@ fun NotesEntryScreen(
                 .background(MaterialTheme.colorScheme.onBackground)
                 .padding(horizontal = 16.dp)
                 .padding(
-                    top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 8.dp
+                    top = innerPadding.calculateTopPadding() + 16.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 16.dp
                 )
         ) {
             OutlinedTextField(

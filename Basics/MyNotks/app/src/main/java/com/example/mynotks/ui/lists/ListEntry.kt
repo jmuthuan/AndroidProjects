@@ -38,6 +38,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.res.stringResource
@@ -55,6 +56,7 @@ import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.nanumFontfamily
+import com.example.mynotks.ui.theme.primaryDark
 import com.example.mynotks.ui.toColor
 import kotlinx.coroutines.launch
 
@@ -114,19 +116,30 @@ fun ListEntry(
                         Icon(
                             Icons.Filled.Check,
                             contentDescription = stringResource(id = R.string.check_icon),
-                            tint = Color.White)
+                            tint = Color.White
+                        )
                     }
                     IconButton(onClick = { navigateBack() }) {
                         Icon(
                             Icons.Filled.Close,
                             contentDescription = stringResource(id = R.string.cancel_icon),
-                            tint = Color.White)
+                            tint = Color.White
+                            )
                     }
                     ColorPicker(
                         colors = colors,
-                        onColorSelected = { viewModel.setBackgroundColor(it) })
+                        onColorSelected = { viewModel.setBackgroundColor(it) }
+                    )
                 },
-                containerColor = MaterialTheme.colorScheme.primary
+                containerColor = MaterialTheme.colorScheme.primary,
+                modifier = Modifier
+                    .shadow(
+                        color = primaryDark,
+                        offsetY = (-2).dp,
+                        blurRadius = 4.dp
+                    )
+                    .background(MaterialTheme.colorScheme.onBackground)
+                    .clip(RoundedCornerShape(topStart = 8.dp, topEnd = 8.dp)),
             )
         },
         floatingActionButton = {
@@ -177,8 +190,8 @@ fun ListEntry(
                 .background(MaterialTheme.colorScheme.onBackground)
                 .padding(horizontal = 16.dp)
                 .padding(
-                    top = innerPadding.calculateTopPadding() + 8.dp,
-                    bottom = innerPadding.calculateBottomPadding() + 8.dp
+                    top = innerPadding.calculateTopPadding() + 16.dp,
+                    bottom = innerPadding.calculateBottomPadding() + 16.dp
                 )
                 .clickable {
                     //Check that there's already no empty task

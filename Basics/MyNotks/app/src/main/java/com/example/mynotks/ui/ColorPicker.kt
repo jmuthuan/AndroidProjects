@@ -44,7 +44,11 @@ val colors = listOf(
 )
 
 @Composable
-fun ColorPicker(colors: List<Color>, onColorSelected: (Color) -> Unit) {
+fun ColorPicker(
+    colors: List<Color>,
+    onColorSelected: (Color) -> Unit,
+    modifier: Modifier = Modifier
+) {
     var colorPickerOpen by rememberSaveable { mutableStateOf(false) }
     var currentlySelected by rememberSaveable(saver = colourSaver()) {
         mutableStateOf(colors[0])

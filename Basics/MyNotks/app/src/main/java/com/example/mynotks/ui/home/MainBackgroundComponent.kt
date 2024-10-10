@@ -16,8 +16,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -36,9 +34,10 @@ import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.lists.ListsShort
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.notes.NotesShort
+import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.backgroundLight
 import com.example.mynotks.ui.theme.nanumFontfamily
-import com.example.mynotks.ui.theme.onBackgroundLight
+import com.example.mynotks.ui.theme.primaryDark
 import com.example.mynotks.ui.toColor
 
 

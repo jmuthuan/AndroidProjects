@@ -3,8 +3,10 @@ package com.example.mynotks
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
+import androidx.compose.ui.Modifier
 import com.example.mynotks.ui.theme.MyNotksTheme
 
 class MainActivity : ComponentActivity() {
@@ -14,7 +16,7 @@ class MainActivity : ComponentActivity() {
             MyNotksTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
-//                    modifier = Modifier.fillMaxSize(),
+                    modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
                      NotksApp()
