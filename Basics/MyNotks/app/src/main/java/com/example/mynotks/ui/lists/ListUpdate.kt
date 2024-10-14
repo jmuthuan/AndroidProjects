@@ -210,7 +210,10 @@ fun ListUpdate(
                     value = uiState.title,
                     onValueChange = { viewModel.updateTitle(it) },
                     label = {
-                        Text(text = stringResource(id = R.string.placeholder_list_title))
+                        Text(
+                            text = stringResource(id = R.string.placeholder_list_title),
+                            color = MaterialTheme.colorScheme.onBackground
+                            )
                     },
                     colors = TextFieldDefaults.colors(
                         focusedContainerColor = Color.LightGray,
@@ -240,7 +243,10 @@ fun ListUpdate(
                                     }
                                 },
                                 placeholder = {
-                                    Text(text = stringResource(id = R.string.placeholder_list_task))
+                                    Text(
+                                        text = stringResource(id = R.string.placeholder_list_task),
+                                        color = MaterialTheme.colorScheme.onBackground
+                                        )
                                 },
                                 leadingIcon = {
                                     Checkbox(

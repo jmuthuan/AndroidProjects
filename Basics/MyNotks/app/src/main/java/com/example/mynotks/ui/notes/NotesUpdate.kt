@@ -131,7 +131,10 @@ fun NoteUpdate(
                 value = uiState.title,
                 onValueChange = { viewModel.updateTitle(it) },
                 label = {
-                    Text(text = stringResource(id = R.string.placeholder_note_title))
+                    Text(
+                        text = stringResource(id = R.string.placeholder_note_title),
+                        color = MaterialTheme.colorScheme.onBackground
+                        )
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.LightGray,
@@ -151,7 +154,10 @@ fun NoteUpdate(
                 value = uiState.note,
                 onValueChange = { viewModel.updateNote(it) },
                 label = {
-                    Text(text = stringResource(id = R.string.placeholder_note_body))
+                    Text(
+                        text = stringResource(id = R.string.placeholder_note_body),
+                        color = MaterialTheme.colorScheme.onBackground
+                        )
                 },
                 minLines = 10,
                 colors = TextFieldDefaults.colors(

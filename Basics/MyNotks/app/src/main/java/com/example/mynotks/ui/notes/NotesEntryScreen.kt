@@ -146,7 +146,10 @@ fun NotesEntryScreen(
                 value = uiState.title,
                 onValueChange = { viewModel.setTitle(it) },
                 label = {
-                    Text(text = stringResource(id = R.string.placeholder_note_title))
+                    Text(
+                        text = stringResource(id = R.string.placeholder_note_title),
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.LightGray,
@@ -166,7 +169,10 @@ fun NotesEntryScreen(
                 value = uiState.note,
                 onValueChange = { viewModel.setNote(it) },
                 label = {
-                    Text(text = stringResource(id = R.string.placeholder_note_body))
+                    Text(
+                        text = stringResource(id = R.string.placeholder_note_body),
+                        color = MaterialTheme.colorScheme.onBackground
+                        )
                 },
                 minLines = 10,
                 colors = TextFieldDefaults.colors(
