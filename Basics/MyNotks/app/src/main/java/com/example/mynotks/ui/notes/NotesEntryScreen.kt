@@ -89,13 +89,15 @@ fun NotesEntryScreen(
                     IconButton(
                         onClick = {
                             //Check that there's no empty note
-                            coroutineScope.launch {
-                                if(uiState.title == "" && uiState.note == "" ) {
+                            if(uiState.title == "" && uiState.note == "" ) {
+                                coroutineScope.launch {
                                     snackbarHostState.showSnackbar("")
-                                } else {
-                                    viewModel.saveNote()
-                                    navigateBack()
                                 }
+                            } else {
+                                coroutineScope.launch {
+                                    viewModel.saveNote()
+                                }
+                                navigateBack()
                             }
                     }) {
                         Icon(

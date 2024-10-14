@@ -36,4 +36,7 @@
     <string name="placeholder_list_title">List Title</string>
     <string name="placeholder_note_title">Note Title</string>
     <string name="placeholder_note_body">Write your note here!</string>
+    <string name="placeholder_list_task">Enter your task here!</string>
+    <string name="color_picker">color picker icon</string>
+    <string name="card_update_tag">card update list</string>
 </resources>

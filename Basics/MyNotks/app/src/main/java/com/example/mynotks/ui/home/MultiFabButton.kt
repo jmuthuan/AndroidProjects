@@ -22,7 +22,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.FloatingActionButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SmallFloatingActionButton
@@ -40,7 +39,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.mynotks.R
 import com.example.mynotks.ui.shadow
@@ -71,6 +69,7 @@ fun MultiFloatingActionButton(
         } else MultiFabState.EXPANDED
         onStateChanged?.invoke(currentState)
     }
+
     val rotation: Float by stateTransition.animateFloat(
         transitionSpec = {
             if (targetState == MultiFabState.EXPANDED) {
@@ -111,7 +110,7 @@ fun MultiFloatingActionButton(
                 currentState = MultiFabState.COLLAPSED
             } else Modifier.fillMaxSize()
 
-        Box (
+        Box(
             modifier = Modifier
                 .fillMaxWidth(),
             contentAlignment = Alignment.BottomEnd

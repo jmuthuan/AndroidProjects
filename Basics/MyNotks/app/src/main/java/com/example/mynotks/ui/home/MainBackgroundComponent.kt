@@ -34,10 +34,8 @@ import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.lists.ListsShort
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.notes.NotesShort
-import com.example.mynotks.ui.shadow
 import com.example.mynotks.ui.theme.backgroundLight
 import com.example.mynotks.ui.theme.nanumFontfamily
-import com.example.mynotks.ui.theme.primaryDark
 import com.example.mynotks.ui.toColor
 
 
@@ -110,6 +108,8 @@ fun HomeBody(
                     fontWeight = FontWeight.Bold,
                     color = backgroundLight
                 ),
+                modifier = Modifier
+                    .padding(horizontal = 16.dp, vertical = 24.dp)
             )
         } else {
             NotesAndLists(

@@ -6,7 +6,10 @@ data class ListsData(
     var listTasks: MutableList<Pair<String, Boolean>>
 )
 
-val tasksTest = ListsData(1, "Example 1", mutableListOf(
+val tasksTest = ListsData(
+    listId = 1,
+    listTitle = "Test Title List",
+    listTasks = mutableListOf(
         Pair("Task 1", false),
         Pair("Task 2", true),
         Pair("Task 3", false),

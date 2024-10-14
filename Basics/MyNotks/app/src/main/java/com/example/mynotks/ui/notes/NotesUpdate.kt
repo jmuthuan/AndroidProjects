@@ -39,6 +39,7 @@ import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.shadow
+import com.example.mynotks.ui.testTint
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.theme.primaryDark
@@ -79,8 +80,8 @@ fun NoteUpdate(
                         onClick = {
                             coroutineScope.launch {
                                 viewModel.saveUpdateNote()
-                                navigateToStart()
                             }
+                                navigateToStart()
                         }) {
                         Icon(
                             Icons.Filled.Check,
@@ -124,6 +125,7 @@ fun NoteUpdate(
                     top = innerPadding.calculateTopPadding() + 16.dp,
                     bottom = innerPadding.calculateBottomPadding() +16.dp
                 )
+                .testTint(uiState.backgroundColor)
         ) {
             OutlinedTextField(
                 value = uiState.title,

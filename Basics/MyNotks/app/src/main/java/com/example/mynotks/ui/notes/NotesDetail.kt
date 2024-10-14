@@ -132,8 +132,8 @@ fun NotesDetail(
                     onConfirm = {
                         coroutineScope.launch {
                             viewModel.deleteNoteId(id)
-                            navigateBack()
                         }
+                        navigateBack()
                     }
                 )
             }

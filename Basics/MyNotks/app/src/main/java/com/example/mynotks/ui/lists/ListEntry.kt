@@ -1,5 +1,6 @@
 package com.example.mynotks.ui.lists
 
+import android.widget.EditText
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -109,8 +110,8 @@ fun ListEntry(
                             } else {
                                 coroutineScope.launch {
                                     viewModel.saveList()
-                                    navigateBack()
                                 }
+                                    navigateBack()
                             }
                         }) {
                         Icon(
@@ -211,7 +212,7 @@ fun ListEntry(
                 value = uiState.title,
                 onValueChange = { viewModel.updateTitle(it) },
                 label = {
-                    Text(text = "List title")
+                    Text(text = stringResource(id = R.string.placeholder_list_title))
                 },
                 colors = TextFieldDefaults.colors(
                     focusedContainerColor = Color.LightGray,
@@ -241,6 +242,9 @@ fun ListEntry(
                                     index = uiState.tasks.indexOf(task)
                                 )
                             },
+                            label = {
+                                Text(text = stringResource(id = R.string.placeholder_list_task))
+                                    },
                             leadingIcon = {
                                 Checkbox(
                                     checked = task.checked,

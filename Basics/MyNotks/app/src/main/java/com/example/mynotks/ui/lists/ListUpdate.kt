@@ -42,7 +42,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -56,6 +58,7 @@ import com.example.mynotks.ui.NotksTopAppBar
 import com.example.mynotks.ui.colors
 import com.example.mynotks.ui.navigation.NavigationDestination
 import com.example.mynotks.ui.shadow
+import com.example.mynotks.ui.testTint
 import com.example.mynotks.ui.theme.nanumFontfamily
 import com.example.mynotks.ui.theme.onBackgroundLight
 import com.example.mynotks.ui.theme.primaryDark
@@ -106,8 +109,8 @@ fun ListUpdate(
                         onClick = {
                             coroutineScope.launch {
                                 viewModel.saveUpdateTaskList()
-                                navigateToStart()
                             }
+                                navigateToStart()
                         }) {
                         Icon(
                             Icons.Filled.Check,
@@ -185,7 +188,7 @@ fun ListUpdate(
                     .padding(horizontal = 16.dp)
                     .padding(
                         top = innerPadding.calculateTopPadding() + 16.dp,
-                        bottom = innerPadding.calculateBottomPadding() +16.dp
+                        bottom = innerPadding.calculateBottomPadding() + 16.dp
                     )
                     .clickable {
                         coroutineScope.launch {
@@ -199,7 +202,9 @@ fun ListUpdate(
                                 )
                             }
                         }
-                    },
+                    }
+                    .testTag(stringResource(id = R.string.card_update_tag))
+                    .testTint(uiState.backgroundColor),
             ) {
                 OutlinedTextField(
                     value = uiState.title,
@@ -233,6 +238,9 @@ fun ListUpdate(
                                     coroutineScope.launch {
                                         viewModel.updateTask(it, tasks.id)
                                     }
+                                },
+                                placeholder = {
+                                    Text(text = stringResource(id = R.string.placeholder_list_task))
                                 },
                                 leadingIcon = {
                                     Checkbox(
@@ -275,6 +283,8 @@ fun ListUpdate(
                                             }
                                         }
                                     }
+                                    .testTag(tasks.task)
+                                    .semantics(mergeDescendants = true) {}
                             )
                         }
                     }

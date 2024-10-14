@@ -136,8 +136,8 @@ fun ListsDetail(
                     onConfirm = {
                         coroutineScope.launch {
                             viewModel.deleteList(id)
-                            navigateBack()
                         }
+                            navigateBack()
                     }
                 )
             }
