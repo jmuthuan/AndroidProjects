@@ -30,17 +30,28 @@ private val DarkColorScheme = darkColorScheme(
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = primaryDark,
-    secondary = secondaryDark,
-    tertiary = tertiaryDark,
-//     Other default colors to override
-    background = backgroundDark,
-    surface = surfaceDark,
-    onPrimary = onPrimaryDark,
-    onSecondary = onSecondaryDark,
-    onTertiary = onTertiaryDark,
-    onBackground = onBackgroundDark,
-    onSurface = onSurfaceDark
+    primary = primaryLight,
+    secondary = secondaryLight,
+    tertiary = tertiaryLight,
+
+    background = backgroundLight,
+    surface = surfaceLight,
+    onPrimary = onPrimaryLight,
+    onSecondary = onSecondaryLight,
+    onTertiary = onTertiaryLight,
+    onBackground = onBackgroundLight,
+    onSurface = onSurfaceLight,
+//    primary = primaryDark,
+//    secondary = secondaryDark,
+//    tertiary = tertiaryDark,
+////     Other default colors to override
+//    background = backgroundDark,
+//    surface = surfaceDark,
+//    onPrimary = onPrimaryDark,
+//    onSecondary = onSecondaryDark,
+//    onTertiary = onTertiaryDark,
+//    onBackground = onBackgroundDark,
+//    onSurface = onSurfaceDark
 )
 
 @Composable
