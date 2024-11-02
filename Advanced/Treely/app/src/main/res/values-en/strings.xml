@@ -1,14 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Treely</string>
-    <string name="home_screen_title">Treely</string>
-    <string name="home_screen_route">home</string>
+
     <string name="person_entry_screen_title">Member Entry</string>
     <string name="arrow_back">arrow navigate back</string>
     <string name="image_entry">person profile picture</string>
     <string name="name_label">Name</string>
+
     <string name="birthday_picker_label">Date of birth</string>
     <string name="birthday_picker_placeholder">MM/DD/YYYY</string>
     <string name="birthday_picker_icon_description">Select date</string>
+
     <string name="date_picker_dialog_ok">OK</string>
     <string name="date_picker_dialog_cancel">Cancel</string>
     <string name="location_label">Current location</string>
