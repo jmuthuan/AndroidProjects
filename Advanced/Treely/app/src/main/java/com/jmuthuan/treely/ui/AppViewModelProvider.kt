@@ -2,12 +2,14 @@ package com.jmuthuan.treely.ui
 
 
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.initializer
 import androidx.lifecycle.viewmodel.viewModelFactory
 import com.jmuthuan.treely.TreelyApplication
 import com.jmuthuan.treely.data.repository.DatabaseRepositoryImpl
 import com.jmuthuan.treely.ui.home.HomeViewModel
+import com.jmuthuan.treely.ui.persons.PersonEditViewModel
 import com.jmuthuan.treely.ui.persons.PersonEntryViewModel
 
 
@@ -27,6 +29,15 @@ object AppViewModelProvider {
                DatabaseRepositoryImpl(
                    treelyApplication().dataConteiner.getDatabase()
                )
+            )
+        }
+
+        initializer {
+            PersonEditViewModel(
+                this.createSavedStateHandle(),
+                DatabaseRepositoryImpl(
+                    treelyApplication().dataConteiner.getDatabase()
+                )
             )
         }
 

@@ -16,6 +16,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -39,13 +40,19 @@ import com.jmuthuan.treely.utils.Gender
 
 @Composable
 fun PersonCardTree(
+    onEditClick: (String) -> Unit,
+    onDetailClick: (String) -> Unit,
+//    onDeleteClick: (String) -> Unit,
     name: String,
     birthday: String,
-    picture: Painter? = null, //TODO check if pass Painter or id to fetch data
+    key: String,
+    shouldShowDialog: MutableState<Boolean>,
+    deletePersonId: MutableState<String>,
+    modifier: Modifier = Modifier,
     gender: Gender = Gender.OTHER,
-    modifier: Modifier = Modifier
+    picture: Painter? = null //TODO check if pass Painter or id to fetch data
 ) {
-    val backgorundCardColor = when(gender) {
+    val backgroundCardColor = when(gender) {
         Gender.MALE -> primaryContainerDarkMediumContrast
         Gender.FEMALE -> tertiaryContainerDarkMediumContrast
         Gender.OTHER -> secondaryContainerDarkMediumContrast
@@ -56,7 +63,7 @@ fun PersonCardTree(
         modifier = Modifier
             .size(width = 240.dp, height = 136.dp),
         colors = CardDefaults.cardColors(
-            containerColor = backgorundCardColor
+            containerColor = backgroundCardColor
         ),
         elevation = CardDefaults.elevatedCardElevation(
             defaultElevation = 16.dp
@@ -113,22 +120,32 @@ fun PersonCardTree(
 
                 Spacer(modifier = Modifier.height(24.dp) )
 
-                Icon(
-                    imageVector = ImageVector.vectorResource(R.drawable.more_horiz),
-                    contentDescription = stringResource(id = R.string.more_horizontal_icon),
-                    modifier = Modifier.clickable {
-                        //TODO show options: show details / delete
-                    }
+                MenuCardTree(
+                    color = backgroundCardColor,
+                    key = key,
+                    shouldShowDialog = shouldShowDialog,
+                    deletePersonId = deletePersonId,
+                    onEditClick = onEditClick,
+                    onDetailsClick = onDetailClick,
+//                    onDeleteClick = onDeleteClick
                 )
+
+//                Icon(
+//                    imageVector = ImageVector.vectorResource(R.drawable.more_horiz),
+//                    contentDescription = stringResource(id = R.string.more_horizontal_icon),
+//                    modifier = Modifier.clickable {
+//                        //TODO show options: show details / delete
+//                    }
+//                )
             }
         }
     }
 }
 
-@Preview(showBackground = true)
-@Composable
-fun PersonCardTreePreview() {
-    TreelyTheme {
-        PersonCardTree("", "")
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun PersonCardTreePreview() {
+//    TreelyTheme {
+//        PersonCardTree("John", "04/12/1958", key = "abc", onEditClick = {})
+//    }
+//}

@@ -30,6 +30,10 @@ class HomeViewModel(
                 _familyData.value = data
             }
         }
-//        val data = databaseRepository.getAllData()
+    }
+
+    fun deleteFamilyMember(personId: String) {
+        databaseRepository.deleteFamilyMember(personId)
+        getAllData()
     }
 }

@@ -138,7 +138,10 @@ fun PersonEntryScreen(
                             .padding(horizontal = 8.dp)
 
                     )
-                    DatePickerFieldToModal(uiState.birthday, {} )
+                    DatePickerFieldToModal(
+                        birthday = uiState.birthday,
+                        enabled = true,
+                        viewModelEntry = viewModel )
 
                     OutlinedTextField(
                         value = uiState.location,

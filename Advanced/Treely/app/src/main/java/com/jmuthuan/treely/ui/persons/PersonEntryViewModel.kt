@@ -7,7 +7,6 @@ import androidx.lifecycle.ViewModel
 import com.jmuthuan.treely.data.repository.DatabaseRepository
 import com.jmuthuan.treely.shared.PersonData
 import com.jmuthuan.treely.utils.Gender
-import java.util.Date
 
 class PersonEntryViewModel(
     private val databaseRepository: DatabaseRepository
@@ -39,7 +38,7 @@ class PersonEntryViewModel(
         )
     }
 
-    fun updateBirthday(date: Date) {
+    fun updateBirthday(date: String) {
         personEntryUiState = personEntryUiState.copy(
             birthday = date
         )

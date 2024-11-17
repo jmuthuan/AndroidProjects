@@ -28,4 +28,14 @@
     <string name="add_person_icon_button">add relative icon button</string>
     <string name="profile_picture">profile picture</string>
     <string name="more_horizontal_icon">more actions horizontal dots icon button</string>
+    <string name="edit_menu">Edit</string>
+    <string name="delete_menu">Delete</string>
+    <string name="person_edit_screen_title">Member Edit</string>
+    <string name="person_detail_screen">Member Details</string>
+    <string name="details_menu">Details</string>
+    <string name="person_details_screen_title">Memeber Details</string>
+    <string name="warning">Warning!!</string>
+    <string name="confirm_message">Please confirm to delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm">Confirm</string>
 </resources>

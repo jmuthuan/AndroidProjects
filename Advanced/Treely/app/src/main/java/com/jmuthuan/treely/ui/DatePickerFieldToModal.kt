@@ -28,6 +28,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.jmuthuan.treely.R
+import com.jmuthuan.treely.ui.persons.PersonEditViewModel
+import com.jmuthuan.treely.ui.persons.PersonEntryViewModel
 import com.jmuthuan.treely.ui.theme.TreelyTheme
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -36,16 +38,19 @@ import java.util.Locale
 
 @Composable
 fun DatePickerFieldToModal(
-    birthday: Date,
-    onBirthdayUpdate: () -> Unit,
-    modifier: Modifier = Modifier
+    birthday: String,
+    enabled: Boolean,
+    modifier: Modifier = Modifier,
+    viewModelEntry: PersonEntryViewModel? = null,
+    viewModelEdit: PersonEditViewModel? = null
 ) {
-    var selectedDate by remember { mutableStateOf<Long?>(null) }
+    var selectedDate by remember { mutableStateOf(birthday) }
     var showModal by remember { mutableStateOf(false) }
 
     OutlinedTextField(
-        value = selectedDate?.let { convertMillisToDate(it) } ?: "",
+        value = selectedDate.ifEmpty { birthday },//?.let { convertMillisToDate(it) } ?: "",
         onValueChange = { },
+        readOnly = !enabled,
         label = { Text(stringResource(id = R.string.birthday_picker_label)) },
         placeholder = { Text(stringResource(id = R.string.birthday_picker_placeholder)) },
         textStyle = MaterialTheme.typography.bodySmall,
@@ -72,9 +77,16 @@ fun DatePickerFieldToModal(
             }
     )
 
-    if (showModal) {
+    if (showModal && enabled) {
         DatePickerModal(
-            onDateSelected = { selectedDate = it },
+            onDateSelected = {
+                selectedDate = it?.let { it1 -> convertMillisToDate(it1) }.toString()
+                if(viewModelEntry != null) {
+                    viewModelEntry.updateBirthday(selectedDate)
+                } else {
+                    viewModelEdit!!.updateBirthday(selectedDate)
+                }
+            },
             onDismiss = { showModal = false }
         )
     }
@@ -119,6 +131,6 @@ private fun convertMillisToDate(millis: Long): String {
 fun DatePickerPreview() {
     TreelyTheme {
 //        DatePickerModalInput()
-        DatePickerFieldToModal(Date(), {})
+//        DatePickerFieldToModal("06/17/1940", {}, PersonEntryViewModel())
     }
 }

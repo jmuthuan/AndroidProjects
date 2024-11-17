@@ -8,6 +8,7 @@ data class PersonData(
     var gender: Gender = Gender.OTHER,
     var photo: String = "", //TODO string resource, or int id for fetching data
     var location: String = "",
-    var birthday: Date = Date(),
-    var extras: String = ""
+    var birthday: String = "",
+    var extras: String = "",
+    var key: String = ""
 )
