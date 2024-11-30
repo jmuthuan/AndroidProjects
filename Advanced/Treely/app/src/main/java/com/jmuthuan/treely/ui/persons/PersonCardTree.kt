@@ -32,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.jmuthuan.treely.R
+import com.jmuthuan.treely.ui.home.HomeViewModel
 import com.jmuthuan.treely.ui.theme.TreelyTheme
 import com.jmuthuan.treely.ui.theme.primaryContainerDarkMediumContrast
 import com.jmuthuan.treely.ui.theme.secondaryContainerDarkMediumContrast
@@ -47,6 +48,7 @@ fun PersonCardTree(
     birthday: String,
     key: String,
     shouldShowDialog: MutableState<Boolean>,
+    viewModel: HomeViewModel,
     deletePersonId: MutableState<String>,
     modifier: Modifier = Modifier,
     gender: Gender = Gender.OTHER,
@@ -81,7 +83,7 @@ fun PersonCardTree(
                     imageVector = ImageVector.vectorResource(R.drawable.person_add),
                     contentDescription = stringResource(R.string.add_person_icon_button),
                     modifier = Modifier.clickable {
-                        //TODO add relative person (show animation with options)
+                        viewModel.addRelatedMember(name, key, backgroundCardColor)
                     }
                 )
                 Spacer(modifier = Modifier.height(24.dp))

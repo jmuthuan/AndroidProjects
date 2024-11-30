@@ -38,4 +38,9 @@
     <string name="confirm_message">Please confirm to delete</string>
     <string name="cancel">Cancel</string>
     <string name="confirm">Confirm</string>
+    <string name="close_dialog">"Close dialog "</string>
+    <string name="add_mother_father">Mother\nFather</string>
+    <string name="add_daughter_son">Daughter\nSon</string>
+    <string name="add_wife_husband">Wife\nHusband\nPartner</string>
+    <string name="add_sister_brother"> Sister\nBrother</string>
 </resources>

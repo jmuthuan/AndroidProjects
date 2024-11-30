@@ -5,6 +5,7 @@ import android.util.Log
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.toObject
 import com.jmuthuan.treely.shared.PersonData
+import com.jmuthuan.treely.ui.persons.RelationshipData
 import com.jmuthuan.treely.utils.Gender
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.channels.awaitClose
@@ -15,16 +16,20 @@ class DatabaseRepositoryImpl(private val db: FirebaseFirestore) : DatabaseReposi
 
 //    private lateinit var data: MutableList<Map<String, Any>>
 
-    override fun addFamilyMember(person: PersonData) {
+    override fun addFamilyMember(person: PersonData, relationshipData: RelationshipData?) {
 
-        val member = hashMapOf(
+        val member = hashMapOf<String, Any?>(
             "name" to person.name,
             "gender" to person.gender,
             "photo" to person.photo,
             "location" to person.location,
             "birthday" to person.birthday,
-            "extras" to person.extras
+            "extras" to person.extras,
         )
+
+        if(relationshipData != null) {
+            member[relationshipData.relationship] = listOf(relationshipData.personId)
+        }
 
         Log.d("MTH", "Add Data Button: ")
 

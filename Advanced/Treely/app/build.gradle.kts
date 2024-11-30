@@ -1,9 +1,12 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
 
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
+
 
 }
 
@@ -42,6 +45,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.4.3"
@@ -67,6 +71,8 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1")
     implementation("androidx.navigation:navigation-compose:2.6.0")
     implementation("androidx.core:core-splashscreen:1.0.1")
+
+//    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.3")
 //    implementation("androidx.navigation:navigation-runtime-ktx:2.8.3")
 
     // Import the Firebase BoM
@@ -74,6 +80,10 @@ dependencies {
     //Add the dependencies for Firebase products you want to use
     // When using the BoM, don't specify versions in Firebase dependencies
     implementation("com.google.firebase:firebase-analytics")
+
+    //Coil library
+    implementation("io.coil-kt:coil-compose:2.6.0")
+//    implementation("io.coil-kt.coil:coil-network-okhttp:2.7.0")
 
     implementation("com.google.firebase:firebase-auth-ktx:21.2.0")/*22.3.1")*/
     implementation("com.google.firebase:firebase-firestore-ktx:25.1.1")
@@ -83,6 +93,7 @@ dependencies {
     // https://firebase.google.com/docs/android/setup#available-libraries
 
     implementation("androidx.startup:startup-runtime:1.2.0")
+    implementation("io.coil-kt:coil:2.7.0")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.2.1")

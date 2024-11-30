@@ -19,7 +19,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -35,6 +34,7 @@ import com.jmuthuan.treely.ui.TreelyTopBar
 import com.jmuthuan.treely.ui.navigation.NavigationDestination
 import com.jmuthuan.treely.ui.persons.DeleteAlertDialog
 import com.jmuthuan.treely.ui.persons.PersonCardTree
+import com.jmuthuan.treely.utils.RelationshipType
 
 
 object HomeDestination: NavigationDestination {
@@ -45,11 +45,12 @@ object HomeDestination: NavigationDestination {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    navigateToEntryPerson: () -> Unit,
-    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
-    modifier: Modifier = Modifier,
+    navigateToEntryPerson: () -> Unit, //key or personId, relationship
     navigateToEditPerson: (String) -> Unit,
-    navigateToDetailPerson: (String) -> Unit
+    navigateToDetailPerson: (String) -> Unit,
+    navigateToEntryRelationship: (String, RelationshipType) -> Unit,
+    modifier: Modifier = Modifier,
+    viewModel: HomeViewModel = viewModel(factory = AppViewModelProvider.Factory),
 ) {
     viewModel.getAllData()
     val family by viewModel.familyData.collectAsState()
@@ -90,6 +91,16 @@ fun HomeScreen(
                 }
             )
         }
+
+        if(viewModel.dialogMemberData.isDialogShown) {
+            RelatedMemberDialog(
+                onDismiss = { viewModel.onDismissDialog() },
+                onConfirm =  navigateToEntryRelationship,
+                name = viewModel.dialogMemberData.name,
+                backgroundColor = viewModel.dialogMemberData.backgroundColor,
+                key = viewModel.dialogMemberData.personId,
+            )
+        }
             LazyColumn(
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
@@ -103,13 +114,14 @@ fun HomeScreen(
                         Log.d("MTH", "$member")
                         PersonCardTree(
                             name = member.name,
-                            birthday = member.birthday.toString(),
+                            birthday = member.birthday,
                             gender = member.gender,
                             key = member.key,
                             onEditClick = navigateToEditPerson,
                             onDetailClick = navigateToDetailPerson,
 //                            onDeleteClick = {},
                             shouldShowDialog = shouldShowDialog,
+                            viewModel =  viewModel,
                             deletePersonId = deletePersonId
 //                        modifier = Modifier.padding(16.dp)
                         )

@@ -1,5 +1,6 @@
 package com.jmuthuan.treely.ui.persons
 
+import android.net.Uri
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -50,9 +51,9 @@ class PersonEditViewModel(
         )
     }
 
-    fun updatePhoto(photo: String) {
+    fun updatePhoto(photo: Uri) {
         editUiState = editUiState.copy(
-            photo = photo
+            photo = photo.toString()
         )
     }
 
