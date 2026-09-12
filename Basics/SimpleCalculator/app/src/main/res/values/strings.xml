@@ -22,4 +22,13 @@
     <string name="parenthesis">( )</string>
     <string name="clear">AC</string>
     <string name="chassis_brand_plate">MODEL RC-100</string>
+    <string name="open_history">view calculation history</string>
+    <string name="history_title">HISTORY</string>
+    <string name="history_empty">No calculations yet</string>
+    <string name="history_clear">CLEAR</string>
+    <string name="history_close">✕</string>
+    <string name="history_clear_confirm_title">Clear history?</string>
+    <string name="history_clear_confirm_message">This will permanently remove all calculations from this session\'s history.</string>
+    <string name="history_clear_confirm_confirm">CONFIRM</string>
+    <string name="history_clear_confirm_cancel">CANCEL</string>
 </resources>

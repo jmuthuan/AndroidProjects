@@ -53,6 +53,15 @@ fun CalculatorScreen(
                     .fillMaxWidth()
             )
         }
+
+        if (calculatorUiState.isHistoryVisible) {
+            HistoryDialog(
+                uiState = calculatorUiState,
+                onEntrySelected = { calculatorViewModel.selectHistoryEntry(it) },
+                onClearRequested = { calculatorViewModel.clearHistory() },
+                onDismiss = { calculatorViewModel.closeHistory() }
+            )
+        }
     }
 
 

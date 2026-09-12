@@ -98,7 +98,19 @@ fun InputButtonsComponent(calculatorViewModel: CalculatorViewModel, modifier: Mo
                 }
             )
 
-            Box(modifier = Modifier.weight(1f))
+            ButtonComponent(
+                color = OperationButtonsColor,
+                modifier = Modifier.weight(1f),
+                image = Pair(
+                    first = painterResource(id = R.drawable.baseline_history_24),
+                    second = stringResource(id = R.string.open_history)
+                    ),
+                onClick = {
+                    vibrationClick(vibrator)
+                    calculatorViewModel.openHistory()
+                }
+            )
+
             Box(modifier = Modifier.weight(1f))
             Box(modifier = Modifier.weight(1f))
         }

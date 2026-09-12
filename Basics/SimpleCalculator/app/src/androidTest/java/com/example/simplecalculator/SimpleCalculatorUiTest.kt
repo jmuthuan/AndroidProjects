@@ -1,6 +1,7 @@
 package com.example.simplecalculator
 
 import androidx.compose.ui.test.junit4.createComposeRule
+import androidx.compose.ui.test.onNodeWithContentDescription
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import com.example.simplecalculator.ui.CalculatorScreen
@@ -180,5 +181,104 @@ class SimpleCalculatorUiTest {
         composeTestRule.onNodeWithText("=").performClick()
 
         composeTestRule.onNodeWithText("-5.00").assertExists("No node with this result")
+    }
+
+    //--- Calculation history log tests ---
+
+    @Test
+    fun calculatorUi_tapHistoryButton_opensHistoryDialog() {
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        composeTestRule.onNodeWithContentDescription("view calculation history").performClick()
+
+        composeTestRule.onNodeWithText("HISTORY").assertExists("History dialog did not open")
+        composeTestRule.onNodeWithText("No calculations yet").assertExists("Empty state not shown")
+    }
+
+    @Test
+    fun calculatorUi_openHistoryAfterCalculation_showsExpressionAndResult() {
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        //operation: "7+2" = "9.00"
+        composeTestRule.onNodeWithText("7").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("2").performClick()
+        composeTestRule.onNodeWithText("=").performClick()
+
+        //clear the display first (history is preserved across AC) so the expression/
+        //result assertions below match exactly one node (the history row), not two
+        composeTestRule.onNodeWithText("AC").performClick()
+
+        composeTestRule.onNodeWithContentDescription("view calculation history").performClick()
+
+        composeTestRule.onNodeWithText("7+2").assertExists("Expected expression missing from history")
+        composeTestRule.onNodeWithText("9.00").assertExists("Expected result missing from history")
+    }
+
+    @Test
+    fun calculatorUi_tapHistoryEntry_loadsItBackAndDismissesDialog() {
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        //operation: "7+2" = "9.00"
+        composeTestRule.onNodeWithText("7").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("2").performClick()
+        composeTestRule.onNodeWithText("=").performClick()
+
+        composeTestRule.onNodeWithText("AC").performClick()
+
+        composeTestRule.onNodeWithContentDescription("view calculation history").performClick()
+        composeTestRule.onNodeWithText("7+2").performClick()
+
+        composeTestRule.onNodeWithText("HISTORY").assertDoesNotExist()
+        composeTestRule.onNodeWithText("7+2").assertExists("Expression was not recalled into the display")
+        composeTestRule.onNodeWithText("9.00").assertExists("Result was not recalled into the display")
+    }
+
+    @Test
+    fun calculatorUi_clearHistory_requiresConfirmation() {
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        //operation: "3+3" = "6.00"
+        composeTestRule.onNodeWithText("3").performClick()
+        composeTestRule.onNodeWithText("+").performClick()
+        composeTestRule.onNodeWithText("3").performClick()
+        composeTestRule.onNodeWithText("=").performClick()
+
+        composeTestRule.onNodeWithText("AC").performClick()
+
+        composeTestRule.onNodeWithContentDescription("view calculation history").performClick()
+        composeTestRule.onNodeWithText("CLEAR").performClick()
+
+        composeTestRule.onNodeWithText("Clear history?").assertExists("Confirmation dialog did not appear")
+
+        //cancel: entry must remain
+        composeTestRule.onNodeWithText("CANCEL").performClick()
+        composeTestRule.onNodeWithText("Clear history?").assertDoesNotExist()
+        composeTestRule.onNodeWithText("3+3").assertExists("Cancel must not clear history")
+
+        //confirm: entry must be removed, history view stays open showing empty state
+        composeTestRule.onNodeWithText("CLEAR").performClick()
+        composeTestRule.onNodeWithText("CONFIRM").performClick()
+
+        composeTestRule.onNodeWithText("HISTORY").assertExists("History dialog should remain open after clearing")
+        composeTestRule.onNodeWithText("No calculations yet").assertExists("History was not cleared")
+        composeTestRule.onNodeWithText("3+3").assertDoesNotExist()
     }
 }

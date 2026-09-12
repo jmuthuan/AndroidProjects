@@ -8,6 +8,10 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 
 class CalculatorViewModel: ViewModel() {
+    companion object {
+        private const val MAX_HISTORY_SIZE = 20
+    }
+
     //Calculator UI state
     // Backing property to avoid state updates from other classes
     private val _uiState = MutableStateFlow(CalculatorUiState())
@@ -19,7 +23,11 @@ class CalculatorViewModel: ViewModel() {
     private var auxOperation = ""
 
     fun clearDisplay() {
-        _uiState.value = CalculatorUiState()
+        // Session-only history must survive clearing the current display/expression
+        // (AC), so it is explicitly carried over instead of being reset along with
+        // every other field.
+        val history = _uiState.value.history
+        _uiState.value = CalculatorUiState(history = history)
         parenthesisCount = 0
         mapParenthesis.clear()
         auxOperation = ""
@@ -108,10 +116,79 @@ class CalculatorViewModel: ViewModel() {
 
     fun calculateResult() {
         val result = resolveCalculation()
+        // Read after resolveCalculation() so any parenthesis auto-closed by
+        // solveParenthesis() is reflected in the captured history expression.
+        val expression = _uiState.value.currentOperation
+
+        _uiState.update { currentState ->
+            val updatedHistory = if (result.toDoubleOrNull() != null) {
+                (listOf(HistoryEntry(expression, result)) + currentState.history)
+                    .take(MAX_HISTORY_SIZE)
+            } else {
+                currentState.history
+            }
+
+            currentState.copy(
+                result = result,
+                history = updatedHistory
+            )
+        }
+    }
+
+    fun openHistory() {
+        _uiState.update { currentState ->
+            currentState.copy(isHistoryVisible = true)
+        }
+    }
+
+    fun closeHistory() {
+        _uiState.update { currentState ->
+            currentState.copy(isHistoryVisible = false)
+        }
+    }
+
+    fun clearHistory() {
+        _uiState.update { currentState ->
+            currentState.copy(history = emptyList())
+        }
+    }
+
+    /**
+     * Re-parses [expression] to rebuild [mapParenthesis]/[parenthesisCount] from
+     * scratch. Required before loading a recalled history entry back into the
+     * display: backspace()/parenthesis() both do exact-match lookups against
+     * mapParenthesis, and those structures are otherwise only ever built
+     * incrementally as the user types, not from an arbitrary pre-existing string.
+     */
+    private fun rebuildParenthesisState(expression: String) {
+        mapParenthesis.clear()
+        val stack = mutableListOf<Pair<Int, Int>>()
+
+        expression.forEachIndexed { index, char ->
+            when (char) {
+                '(' -> stack.add(stack.size to index)
+                ')' -> {
+                    if (stack.isNotEmpty()) {
+                        val (depthAtOpenTime, openIndex) = stack.removeAt(stack.size - 1)
+                        mapParenthesis[arrayOf(depthAtOpenTime, openIndex)] = index
+                    }
+                }
+            }
+        }
+
+        parenthesisCount = stack.size
+        auxOperation = ""
+    }
+
+    fun selectHistoryEntry(entry: HistoryEntry) {
+        rebuildParenthesisState(entry.expression)
 
         _uiState.update { currentState ->
             currentState.copy(
-                result =  result
+                currentOperation = entry.expression,
+                result = entry.result,
+                currentOperationFontSize = 48.sp,
+                isHistoryVisible = false
             )
         }
     }
