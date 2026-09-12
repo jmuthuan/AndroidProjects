@@ -32,7 +32,12 @@ val ChassisNoiseColorLight = Color(0x14FFFFFF)
 
 
 
-//
+// Source values for the single, fixed vintage ColorScheme built in Theme.kt
+// (VintageColorScheme) — never overridden by system dark/light mode or Android
+// dynamic color (Material You). Some of these are also reused directly as raw
+// literals outside of MaterialTheme.colorScheme, e.g. `secondary` is the literal
+// LCD-panel backing fill color in InputDisplayComponent.kt — do not change these
+// values without checking those call sites.
 val primary = Color(0xFF0B0B0B)
 val secondary = Color(0xFF404040)
 val tertiary = Color(0xFF5D5F5F)
