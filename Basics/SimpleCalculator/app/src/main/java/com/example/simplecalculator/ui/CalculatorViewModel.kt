@@ -80,6 +80,32 @@ class CalculatorViewModel: ViewModel() {
         return char in ".0123456789"
     }
 
+    fun toggleSign() {
+        val op = _uiState.value.currentOperation
+        var numStart = op.length
+        while (numStart > 0 && isNumber(op[numStart - 1])) numStart--
+
+        val c1 = op.getOrNull(numStart - 1)
+
+        val newOp = when (c1) {
+            ')', '%' -> return
+            '+' -> op.replaceRange(numStart - 1, numStart, "-")
+            '-' -> {
+                val c0 = if (numStart >= 2) op[numStart - 2] else null
+                val isBinaryOperator = c0 != null && (isNumber(c0) || c0 == ')' || c0 == '%')
+                if (isBinaryOperator) op.replaceRange(numStart - 1, numStart, "+")
+                else op.removeRange(numStart - 1, numStart)
+            }
+            else -> op.substring(0, numStart) + "-" + op.substring(numStart)
+        }
+
+        _uiState.update { currentState ->
+            currentState.copy(
+                currentOperation = newOp
+            )
+        }
+    }
+
     fun calculateResult() {
         val result = resolveCalculation()
 
@@ -330,6 +356,14 @@ class CalculatorViewModel: ViewModel() {
         mapParenthesis = auxMap.toMutableMap()
     }
 
+    private fun operandBoundaryIndex(sub2: String): Int {
+        //skip a leading sign character that belongs to sub2's own operand
+        //(e.g. sub2 == "-3" in "5x-3") before scanning for the next +/-/% boundary
+        val scanStart = if (sub2.isNotEmpty() && sub2[0] in "+-") 1 else 0
+        val relativeIndex = sub2.substring(scanStart).indexOfFirst { it in "+-%" }
+        return if (relativeIndex == -1) -1 else relativeIndex + scanStart
+    }
+
     private fun simplify(operation: String, operator: Char): Array<Double> {
 
         val operatorIndex = operation.indexOf(operator)
@@ -337,12 +371,16 @@ class CalculatorViewModel: ViewModel() {
         var sub1 = operation.substring(0, operatorIndex)
         var sub2 = operation.substring(operatorIndex + 1)
 
+        //when the operation itself starts with `operator` (e.g. calculateSubResult("-3")),
+        //sub1 is empty; default to the leading-zero convention used elsewhere in the file
+        if (sub1.isEmpty()) sub1 = "0"
+
         if(
         operator in "x/"
         && !sub2.all { isNumber(it) }
-        && sub2.indexOfFirst { it in "+-%" } != -1 ) {
+        && operandBoundaryIndex(sub2) != -1 ) {
 
-            val i = sub2.indexOfFirst { it in "+-%" }
+            val i = operandBoundaryIndex(sub2)
             if(sub2[i] == '%') {
                 sub1 = multiply("${sub1}x${sub2.substring(0, i)}/100")
                 val j = sub2.indexOfFirst { it in "+-" }

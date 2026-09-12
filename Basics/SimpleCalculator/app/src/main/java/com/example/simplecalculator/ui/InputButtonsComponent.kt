@@ -89,6 +89,25 @@ fun InputButtonsComponent(calculatorViewModel: CalculatorViewModel, modifier: Mo
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ButtonComponent(
+                color = OperationButtonsColor,
+                symbol = stringResource(id = R.string.sign_toggle),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    vibrationClick(vibrator)
+                    calculatorViewModel.toggleSign()
+                }
+            )
+
+            Box(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier.weight(1f))
+            Box(modifier = Modifier.weight(1f))
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ButtonComponent(
                 color = NumberButtonsColor,
                 symbol = stringResource(id = R.string.seven),
                 modifier = Modifier.weight(1f),

@@ -165,4 +165,20 @@ class SimpleCalculatorUiTest {
         composeTestRule.onNodeWithText("208.94").assertExists("No node with this result")
 
     }
+
+    @Test
+    fun calculatorUi_signToggle_negatesEnteredNumber() {
+        //operation: "5" -> "+/-" -> "-5" -> "=" -> "-5.00"
+        composeTestRule.setContent {
+            SimpleCalculatorTheme {
+                CalculatorScreen()
+            }
+        }
+
+        composeTestRule.onNodeWithText("5").performClick()
+        composeTestRule.onNodeWithText("+/-").performClick()
+        composeTestRule.onNodeWithText("=").performClick()
+
+        composeTestRule.onNodeWithText("-5.00").assertExists("No node with this result")
+    }
 }
