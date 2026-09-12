@@ -1,7 +1,6 @@
 package com.example.simplecalculator.ui
 
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,11 +23,20 @@ fun CalculatorScreen(
     ) {
     val calculatorUiState by calculatorViewModel.uiState.collectAsState()
 
-    Box(modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 64.dp)) {
-        Column(modifier = Modifier
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .skeuomorphicChassisBody()
+            .padding(start = 16.dp, end = 16.dp, top = 64.dp)
+    ) {
+        ChassisPanel(modifier = Modifier
             .fillMaxSize()
             .align(Alignment.BottomCenter)
         ) {
+            ChassisBrandPlate()
+            Spacer(modifier = Modifier
+                .height(8.dp)
+            )
             InputDisplayComponent(
                 result = calculatorUiState.result,
                 operation = calculatorUiState.currentOperation,

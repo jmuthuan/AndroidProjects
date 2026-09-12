@@ -18,6 +18,17 @@ val NumberButtonsColor = Color(0xFF131313)
 val OperationButtonsColor = Color(0xAA003030)
 val EqualButtonColor = Color(0xAA004000)
 
+// Skeuomorphic chassis palette: warm vintage cream/beige molded plastic body,
+// framing a slightly darker/desaturated inset control-panel bezel.
+val ChassisBodyColorLight = Color(0xFFE8DFC8)
+val ChassisBodyColorDark = Color(0xFFC9BE9E)
+val ChassisPanelColorLight = Color(0xFFB7AC8C)
+val ChassisPanelColorDark = Color(0xFF8F846A)
+val ChassisBezelHighlight = Color(0x40FFFFFF)
+val ChassisBezelShadow = Color(0x2E000000)
+val ChassisNoiseColorDark = Color(0x14000000)
+val ChassisNoiseColorLight = Color(0x14FFFFFF)
+
 
 
 

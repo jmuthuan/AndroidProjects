@@ -20,4 +20,5 @@
     <string name="erase"></string>
     <string name="parenthesis">( )</string>
     <string name="clear">AC</string>
+    <string name="chassis_brand_plate">MODEL RC-100</string>
 </resources>
