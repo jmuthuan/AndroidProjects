@@ -9,6 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -19,9 +22,16 @@ import com.example.simplecalculator.ui.theme.SimpleCalculatorTheme
 @Composable
 fun CalculatorScreen(
     modifier: Modifier = Modifier,
-    calculatorViewModel: CalculatorViewModel = viewModel()
+    calculatorViewModel: CalculatorViewModel = viewModel(),
+    settingsViewModel: SettingsViewModel = viewModel()
     ) {
     val calculatorUiState by calculatorViewModel.uiState.collectAsState()
+    val settingsUiState by settingsViewModel.uiState.collectAsState()
+
+    //dialog open/close is pure transient UI state, deliberately not stored in
+    //CalculatorUiState or SettingsUiState; the app is portrait-locked so there is
+    //no rotation-loss concern
+    var isSettingsVisible by remember { mutableStateOf(false) }
 
     Box(
         modifier = Modifier
@@ -51,7 +61,10 @@ fun CalculatorScreen(
                 calculatorViewModel = calculatorViewModel,
                 modifier = Modifier
                     .padding(vertical = 24.dp)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
+                soundEnabled = settingsUiState.soundEnabled,
+                vibrationEnabled = settingsUiState.vibrationEnabled,
+                onSettingsClick = { isSettingsVisible = true }
             )
         }
 
@@ -61,6 +74,15 @@ fun CalculatorScreen(
                 onEntrySelected = { calculatorViewModel.selectHistoryEntry(it) },
                 onClearRequested = { calculatorViewModel.clearHistory() },
                 onDismiss = { calculatorViewModel.closeHistory() }
+            )
+        }
+
+        if (isSettingsVisible) {
+            SettingsDialog(
+                uiState = settingsUiState,
+                onSoundToggle = settingsViewModel::setSoundEnabled,
+                onVibrationToggle = settingsViewModel::setVibrationEnabled,
+                onDismiss = { isSettingsVisible = false }
             )
         }
     }

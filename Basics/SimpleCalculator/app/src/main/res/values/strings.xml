@@ -38,4 +38,9 @@
     <string name="memory_indicator">M</string>
     <string name="result_copied">Result copied</string>
     <string name="copy_result_action">copy result</string>
+    <string name="open_settings">open settings</string>
+    <string name="settings_title">SETTINGS</string>
+    <string name="settings_close">✕</string>
+    <string name="settings_sound_label">Sound</string>
+    <string name="settings_vibration_label">Vibration</string>
 </resources>
