@@ -31,4 +31,9 @@
     <string name="history_clear_confirm_message">This will permanently remove all calculations from this session\'s history.</string>
     <string name="history_clear_confirm_confirm">CONFIRM</string>
     <string name="history_clear_confirm_cancel">CANCEL</string>
+    <string name="memory_add">M+</string>
+    <string name="memory_subtract">M-</string>
+    <string name="memory_recall">MR</string>
+    <string name="memory_clear">MC</string>
+    <string name="memory_indicator">M</string>
 </resources>

@@ -11,10 +11,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -23,6 +25,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.simplecalculator.R
 import com.example.simplecalculator.ui.theme.DisplayShadowColorBottom
 import com.example.simplecalculator.ui.theme.DisplayShadowColorTop
 import com.example.simplecalculator.ui.theme.SimpleCalculatorTheme
@@ -36,6 +39,7 @@ fun InputDisplayComponent(
     operation: String,
     fontSizeState: TextUnit,
     autoResize: () -> Unit,
+    hasMemory: Boolean = false,
     modifier: Modifier = Modifier) {
     val configuration = LocalConfiguration.current
     val screenHeightDp = configuration.screenHeightDp.dp
@@ -96,8 +100,19 @@ fun InputDisplayComponent(
                     .padding(top = 8.dp, bottom = 8.dp)
             )
         }
+
+        if (hasMemory) {
+            Text(
+                text = stringResource(id = R.string.memory_indicator),
+                fontFamily = sevenSegmentFont,
+                fontWeight = FontWeight.Bold,
+                fontSize = 16.sp,
+                color = Color.Green,
+                modifier = Modifier.align(Alignment.TopStart)
+            )
+        }
     }
-    
+
 }
 
 @Preview
@@ -112,7 +127,8 @@ fun InputDisplayComponentPreview() {
                 result = "100",
                 operation = "15+85" ,
                 fontSizeState = 48.sp,
-                autoResize = {}
+                autoResize = {},
+                hasMemory = true
             )
         }
     }

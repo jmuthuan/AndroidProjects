@@ -23,11 +23,13 @@ class CalculatorViewModel: ViewModel() {
     private var auxOperation = ""
 
     fun clearDisplay() {
-        // Session-only history must survive clearing the current display/expression
-        // (AC), so it is explicitly carried over instead of being reset along with
-        // every other field.
+        // Session-only history/memory must survive clearing the current
+        // display/expression (AC), so both are explicitly carried over instead of
+        // being reset along with every other field. Memory is only ever cleared by
+        // an explicit MC (clearMemory()).
         val history = _uiState.value.history
-        _uiState.value = CalculatorUiState(history = history)
+        val memoryValue = _uiState.value.memoryValue
+        _uiState.value = CalculatorUiState(history = history, memoryValue = memoryValue)
         parenthesisCount = 0
         mapParenthesis.clear()
         auxOperation = ""
@@ -151,6 +153,38 @@ class CalculatorViewModel: ViewModel() {
         _uiState.update { currentState ->
             currentState.copy(history = emptyList())
         }
+    }
+
+    /**
+     * Avoids floating-point drift (e.g. repeated 0.1 add/subtract cycles leaving a
+     * non-exact-zero memoryValue that would incorrectly keep the "M" indicator lit).
+     */
+    private fun roundToTwoDecimals(value: Double): Double = Math.round(value * 100) / 100.0
+
+    fun addToMemory() {
+        val current = _uiState.value.result.toDoubleOrNull() ?: return
+        _uiState.update { currentState ->
+            currentState.copy(memoryValue = roundToTwoDecimals(currentState.memoryValue + current))
+        }
+    }
+
+    fun subtractFromMemory() {
+        val current = _uiState.value.result.toDoubleOrNull() ?: return
+        _uiState.update { currentState ->
+            currentState.copy(memoryValue = roundToTwoDecimals(currentState.memoryValue - current))
+        }
+    }
+
+    fun recallMemory() {
+        val formattedMemory = "%.2f".format(_uiState.value.memoryValue).replace(',', '.')
+        val append = if (_uiState.value.currentOperation.lastOrNull() == ')') "x$formattedMemory" else formattedMemory
+        _uiState.update { currentState ->
+            currentState.copy(currentOperation = currentState.currentOperation + append)
+        }
+    }
+
+    fun clearMemory() {
+        _uiState.update { currentState -> currentState.copy(memoryValue = 0.0) }
     }
 
     /**

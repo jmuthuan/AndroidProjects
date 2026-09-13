@@ -120,6 +120,51 @@ fun InputButtonsComponent(calculatorViewModel: CalculatorViewModel, modifier: Mo
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             ButtonComponent(
+                color = OperationButtonsColor,
+                symbol = stringResource(id = R.string.memory_clear),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    vibrationClick(vibrator)
+                    calculatorViewModel.clearMemory()
+                }
+            )
+
+            ButtonComponent(
+                color = OperationButtonsColor,
+                symbol = stringResource(id = R.string.memory_recall),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    vibrationClick(vibrator)
+                    calculatorViewModel.recallMemory()
+                }
+            )
+
+            ButtonComponent(
+                color = OperationButtonsColor,
+                symbol = stringResource(id = R.string.memory_subtract),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    vibrationClick(vibrator)
+                    calculatorViewModel.subtractFromMemory()
+                }
+            )
+
+            ButtonComponent(
+                color = OperationButtonsColor,
+                symbol = stringResource(id = R.string.memory_add),
+                modifier = Modifier.weight(1f),
+                onClick = {
+                    vibrationClick(vibrator)
+                    calculatorViewModel.addToMemory()
+                }
+            )
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ButtonComponent(
                 color = NumberButtonsColor,
                 symbol = stringResource(id = R.string.seven),
                 modifier = Modifier.weight(1f),

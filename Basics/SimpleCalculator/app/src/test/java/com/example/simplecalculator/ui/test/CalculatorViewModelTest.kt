@@ -418,4 +418,158 @@ class CalculatorViewModelTest {
         assertFalse(viewModel.uiState.value.isHistoryVisible)
     }
 
+    //--- Memory functions (M+, M-, MR, MC) tests ---
+
+    @Test
+    fun calculatorViewModel_initialState_memoryValueIsZero() {
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_addToMemoryAfterCalculation_addsDisplayedResultToMemory() {
+        viewModel.uiState.value.currentOperation = "101+49"
+        viewModel.calculateResult()
+
+        viewModel.addToMemory()
+
+        assertEquals(150.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_addToMemoryWithEmptyResult_isNoOp() {
+        //fresh state: result is ""
+        assertEquals("", viewModel.uiState.value.result)
+
+        viewModel.addToMemory()
+
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_subtractFromMemoryWithEmptyResult_isNoOp() {
+        assertEquals("", viewModel.uiState.value.result)
+
+        viewModel.subtractFromMemory()
+
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_addToMemoryWithSyntaxErrorResult_isNoOp() {
+        viewModel.uiState.value.currentOperation = "+"
+        viewModel.calculateResult()
+        assertEquals("Syntax error", viewModel.uiState.value.result)
+
+        viewModel.addToMemory()
+
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_addToMemoryWithDivisionByZeroResult_isNoOp() {
+        viewModel.uiState.value.currentOperation = "15/0"
+        viewModel.calculateResult()
+        assertEquals("Cannot be divided by 0", viewModel.uiState.value.result)
+
+        viewModel.addToMemory()
+
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_subtractFromMemoryAfterCalculation_subtractsDisplayedResultFromMemory() {
+        viewModel.uiState.value.currentOperation = "100+0"
+        viewModel.calculateResult()
+        viewModel.addToMemory()
+        assertEquals(100.0, viewModel.uiState.value.memoryValue, 0.0)
+
+        viewModel.uiState.value.currentOperation = "30+0"
+        viewModel.calculateResult()
+        viewModel.subtractFromMemory()
+
+        assertEquals(70.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_recallMemoryOnEmptyCurrentOperation_setsFormattedMemoryValue() {
+        viewModel.uiState.value.currentOperation = "50+0"
+        viewModel.calculateResult()
+        viewModel.addToMemory()
+        viewModel.clearDisplay()
+
+        viewModel.recallMemory()
+
+        assertEquals("50.00", viewModel.uiState.value.currentOperation)
+    }
+
+    @Test
+    fun calculatorViewModel_recallMemoryAfterOperator_appendsFormattedMemoryValue() {
+        viewModel.uiState.value.currentOperation = "50+0"
+        viewModel.calculateResult()
+        viewModel.addToMemory()
+        viewModel.clearDisplay()
+
+        viewModel.enterNumber('5')
+        viewModel.updateOperation('+')
+        viewModel.recallMemory()
+
+        assertEquals("5+50.00", viewModel.uiState.value.currentOperation)
+    }
+
+    @Test
+    fun calculatorViewModel_recallMemoryAfterCloseParenthesis_insertsImplicitMultiplication() {
+        viewModel.uiState.value.currentOperation = "25+0"
+        viewModel.calculateResult()
+        viewModel.addToMemory()
+        viewModel.clearDisplay()
+
+        viewModel.parenthesis()
+        viewModel.enterNumber('4')
+        viewModel.updateOperation('+')
+        viewModel.enterNumber('6')
+        viewModel.parenthesis()
+        assertEquals("(4+6)", viewModel.uiState.value.currentOperation)
+
+        viewModel.recallMemory()
+
+        assertEquals("(4+6)x25.00", viewModel.uiState.value.currentOperation)
+    }
+
+    @Test
+    fun calculatorViewModel_clearMemory_resetsMemoryValueToZeroRegardlessOfPriorSign() {
+        viewModel.uiState.value.currentOperation = "50+0"
+        viewModel.calculateResult()
+        viewModel.subtractFromMemory()
+        assertEquals(-50.0, viewModel.uiState.value.memoryValue, 0.0)
+
+        viewModel.clearMemory()
+
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
+    @Test
+    fun calculatorViewModel_clearDisplay_doesNotClearMemory() {
+        viewModel.uiState.value.currentOperation = "50+0"
+        viewModel.calculateResult()
+        viewModel.addToMemory()
+
+        viewModel.clearDisplay()
+
+        assertEquals(50.0, viewModel.uiState.value.memoryValue, 0.0)
+        assertEquals("", viewModel.uiState.value.currentOperation)
+    }
+
+    @Test
+    fun calculatorViewModel_repeatedFractionalAddSubtractCycle_memoryValueIsExactlyZero() {
+        viewModel.uiState.value.currentOperation = "0.1+0"
+        viewModel.calculateResult()
+
+        viewModel.addToMemory()
+        viewModel.subtractFromMemory()
+        viewModel.addToMemory()
+        viewModel.subtractFromMemory()
+
+        assertEquals(0.0, viewModel.uiState.value.memoryValue, 0.0)
+    }
+
 }

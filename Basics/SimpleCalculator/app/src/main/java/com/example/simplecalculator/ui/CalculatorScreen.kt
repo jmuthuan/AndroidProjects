@@ -41,7 +41,8 @@ fun CalculatorScreen(
                 result = calculatorUiState.result,
                 operation = calculatorUiState.currentOperation,
                 fontSizeState = calculatorUiState.currentOperationFontSize,
-                autoResize = { calculatorViewModel.resizeCurrentResultFontSize() }
+                autoResize = { calculatorViewModel.resizeCurrentResultFontSize() },
+                hasMemory = calculatorUiState.memoryValue != 0.0
             )
             Spacer(modifier = Modifier
                 .height(32.dp)

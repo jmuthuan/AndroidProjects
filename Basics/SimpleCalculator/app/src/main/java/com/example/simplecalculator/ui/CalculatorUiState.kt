@@ -13,5 +13,6 @@ data class CalculatorUiState(
     val result: String = "",
     val currentOperationFontSize: TextUnit = 48.sp,
     val history: List<HistoryEntry> = emptyList(),
-    val isHistoryVisible: Boolean = false
+    val isHistoryVisible: Boolean = false,
+    val memoryValue: Double = 0.0
 )
