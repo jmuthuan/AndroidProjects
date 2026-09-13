@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Legacy (pre-API26) launcher icon fallback for API 21-25 devices, where the
+  mipmap-anydpi-v26 adaptive-icon wrapper is not read. Self-contained vector
+  flattening the ic_launcher_background + ic_launcher_foreground composition
+  (see drawable/ic_launcher_background.xml, drawable-v24/ic_launcher_foreground.xml)
+  into a single file, same vintage chassis palette/motif. Full-bleed square,
+  no safe-zone constraint needed since legacy icons are not OS-masked.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Background: chassis body two-tone -->
+    <path
+        android:fillColor="#E8DFC8"
+        android:pathData="M0,0h108v54h-108z" />
+    <path
+        android:fillColor="#C9BE9E"
+        android:pathData="M0,54h108v54h-108z" />
+    <!-- Foreground: inset panel border -->
+    <path
+        android:fillColor="#B7AC8C"
+        android:pathData="M22,22h64v64h-64z" />
+    <!-- Foreground: outer plate -->
+    <path
+        android:fillColor="#8F846A"
+        android:pathData="M23,23h62v62h-62z" />
+    <!-- Foreground: LCD display bar -->
+    <path
+        android:fillColor="#131313"
+        android:pathData="M29,29h50v16h-50z" />
+    <!-- Foreground: keypad grid, 3 columns x 2 rows -->
+    <path
+        android:fillColor="#131313"
+        android:pathData="M29,51h14v14h-14z M47,51h14v14h-14z M65,51h14v14h-14z M29,69h14v14h-14z M47,69h14v14h-14z M65,69h14v14h-14z" />
+</vector>
