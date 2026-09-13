@@ -36,4 +36,6 @@
     <string name="memory_recall">MR</string>
     <string name="memory_clear">MC</string>
     <string name="memory_indicator">M</string>
+    <string name="result_copied">Result copied</string>
+    <string name="copy_result_action">copy result</string>
 </resources>
